@@ -20,6 +20,7 @@
 
         @font-face {
             font-family: 'Afont Regular';
+            /* اینها فونت‌های محلی برای پیش‌نمایش در خود ابزار هستند */
             src: local('Tahoma'), local('Arial'), sans-serif;
             font-weight: 400;
         }
@@ -41,7 +42,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             background: var(--card-background);
             padding: 30px;
@@ -124,12 +125,662 @@
         }
 
         .empty-hint { color:#6c757d; padding:12px; border:1px dashed var(--border-color); border-radius:8px; background:#fff; text-align:center; }
+
+        /* استایل‌های مربوط به پیش‌نمایش که باید شبیه به خروجی المنتور باشند */
+        .preview-container .blog-post-widget {
+             /* موقت برای پیش‌نمایش در ابزار */
+             width: 100% !important; 
+             margin: 0 !important; 
+        }
+
+        .preview-container .blog-post-widget .container {
+             box-shadow: none !important; /* حذف shadow برای عدم تداخل با shadow کانتینر ابزار */
+             padding: 20px !important; 
+             border: 1px dashed #ccc;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>ابزار تولیدکننده کد بلاگ Elementor</h1>
+        <p>با وارد کردن اطلاعات زیر، کد HTML نهایی پست بلاگ شما تولید می‌شود. (خروجی دقیقاً منطبق بر استایل‌های پیشرفتهٔ شما خواهد بود.)</p>
+
+        <div class="input-group">
+            <label for="mainTitle">عنوان اصلی بلاگ:</label>
+            <input type="text" id="mainTitle" placeholder="مثلاً: روش مطالعه درس ..." value="روش مطالعه درس علوم و فنون ادبی رشته انسانی">
+
+            <label for="subTitle">زیرعنوان (Subtitle):</label>
+            <input type="text" id="subTitle" placeholder="مثلاً: نکات کلیدی یادگیری" value="چگونه علوم و فنون را اصولی، ماندگار و مفهومی یاد بگیریم">
+        </div>
+
+        <div class="meta-input">
+            <label for="authorName">نام نویسنده:</label>
+            <input type="text" id="authorName" placeholder="مثلاً: علی احمدی" value="امیرمهدی ترکمانی">
+            
+            <label for="publishDate">تاریخ انتشار:</label>
+            <input type="text" id="publishDate" placeholder="مثلاً: ۲۹ شهریور ۱۴۰۲" value="۱ آبان ۱۴۰۴">
+        </div>
+
+        <div class="content-builder">
+            <h2><i class="fas fa-list-alt"></i> ساختار محتوا</h2>
+            <div id="contentItems">
+                <div class="empty-hint" id="emptyHint">هیچ آیتمی اضافه نشده — از دکمه‌های زیر برای افزودن آیتم استفاده کنید.</div>
+            </div>
+            
+            <div class="controls">
+                <label>افزودن آیتم جدید:</label>
+                <button type="button" onclick="addItem('heading')"><i class="fas fa-heading"></i> تیتر (h2)</button>
+                <button type="button" onclick="addItem('paragraph')"><i class="fas fa-paragraph"></i> پاراگراف</button>
+                <button type="button" onclick="addItem('list')"><i class="fas fa-ul"></i> لیست غیرعددی (ul)</button>
+                <button type="button" onclick="addItem('ordered-list')"><i class="fas fa-list-ol"></i> لیست عددی (ol)</button>
+                <button type="button" onclick="addItem('figure')"><i class="fas fa-image"></i> تصویر/شکل (Figure)</button>
+            </div>
+        </div>
+
+        <button id="generateBtn" type="button"><i class="fas fa-cogs"></i> تولید کد Elementor (HTML/CSS)</button>
+
+        <div class="output-section">
+            <h2><i class="fas fa-code"></i> خروجی کد نهایی</h2>
+            <textarea id="output-code" readonly placeholder="کد HTML/CSS تولید شده در این قسمت نمایش داده خواهد شد..."></textarea>
+            <div style="display:flex; gap:10px; margin-top:8px;">
+                <button id="copyBtn" type="button" disabled><i class="fas fa-copy"></i> کپی</button>
+                <button id="downloadBtn" type="button" disabled><i class="fas fa-download"></i> دانلود خروجی (TXT)</button>
+            </div>
+        </div>
+
+        <div class="preview-section">
+            <h2><i class="fas fa-eye"></i> پیش‌نمایش</h2>
+            <div class="preview-container" id="previewContainer">
+                <p>پیش‌نمایش در اینجا نمایش داده خواهد شد...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification" aria-live="polite"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // عناصر
+            const mainTitle = document.getElementById('mainTitle');
+            const subTitle = document.getElementById('subTitle');
+            const authorName = document.getElementById('authorName');
+            const publishDate = document.getElementById('publishDate');
+            const contentItemsContainer = document.getElementById('contentItems');
+            const emptyHint = document.getElementById('emptyHint');
+            const generateBtn = document.getElementById('generateBtn');
+            const outputCode = document.getElementById('output-code');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const notification = document.getElementById('notification');
+            const previewContainer = document.getElementById('previewContainer');
+
+            // ------------ کمک‌کننده‌ها ------------
+            function showNotification(message, isSuccess = true, ms = 3000) {
+                notification.innerHTML = `<i class="fas ${isSuccess ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> <span>${message}</span>`;
+                notification.style.background = isSuccess ? 'linear-gradient(to right, #10b981, #059669)' : 'linear-gradient(to right, #ef4444, #dc2626)';
+                notification.classList.add('show');
+                setTimeout(() => notification.classList.remove('show'), ms);
+            }
+
+            // فرار دادن کاراکترهای HTML تا هنگام نمایش در خروجی از مشکل جلوگیری شود
+            function escapeHtml(str) {
+                if (!str) return '';
+                // فقط برای این ابزار خاص، اجازه می‌دهیم تگ‌های <br> و <strong> از دست escape جان سالم به در ببرند
+                str = String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+                
+                // برگرداندن موارد مجاز برای این ابزار:
+                str = str.replace(/&lt;br&gt;/g, '<br>').replace(/&lt;strong&gt;/g, '<strong>').replace(/&lt;\/strong&gt;/g, '</strong>');
+                
+                return str;
+            }
+
+            // ------------ مدیریت آیتم‌ها ------------
+            window.addItem = function(type, initialValue = '', initialUrl = '', initialAlt = '') {
+                // پاک کردن هشدار "هیچ آیتمی نیست"
+                if (emptyHint) emptyHint.style.display = 'none';
+
+                const item = document.createElement('div');
+                item.className = 'content-builder-item';
+                item.setAttribute('data-type', type);
+
+                let contentHTML = '';
+                let titleText = '';
+
+                switch (type) {
+                    case 'heading':
+                        titleText = 'تیتر جدید (h2)';
+                        contentHTML = `<input type="text" class="content-text" placeholder="متن تیتر (h2)..." value="${initialValue}">`;
+                        break;
+                    case 'paragraph':
+                        titleText = 'پاراگراف جدید';
+                        contentHTML = `<textarea class="content-text" placeholder="متن پاراگراف...">${initialValue}</textarea>`;
+                        break;
+                    case 'list':
+                        titleText = 'لیست غیرعددی (ul)';
+                        contentHTML = `<textarea class="content-text" placeholder="هر آیتم در یک خط جداگانه بنویسید...">${initialValue}</textarea>`;
+                        break;
+                    case 'ordered-list':
+                        titleText = 'لیست عددی (ol)';
+                        contentHTML = `<textarea class="content-text" placeholder="هر آیتم در یک خط جداگانه بنویسید...">${initialValue}</textarea>`;
+                        break;
+                    case 'figure':
+                        titleText = 'تصویر/شکل';
+                        contentHTML = `<input type="text" class="content-url" placeholder="آدرس URL تصویر (src)..." value="${initialUrl}">` +
+                                      `<input type="text" class="content-alt" placeholder="متن جایگزین تصویر (alt)..." value="${initialAlt}">`;
+                        break;
+                    default:
+                        titleText = 'آیتم';
+                        contentHTML = `<textarea class="content-text" placeholder="متن...">${initialValue}</textarea>`;
+                }
+
+                item.innerHTML = `
+                    <h3>${titleText}</h3>
+                    ${contentHTML}
+                    <button type="button" class="remove-btn" title="حذف این آیتم"><i class="fas fa-times"></i> حذف</button>
+                `;
+
+                // اتصال رویداد حذف به دکمه
+                item.querySelector('.remove-btn').addEventListener('click', () => {
+                    item.remove();
+                    // اگر لیست خالی شد، پیام خالی را نشان بده
+                    if (!contentItemsContainer.querySelector('.content-builder-item')) {
+                        if (emptyHint) emptyHint.style.display = 'block';
+                    }
+                    showNotification('آیتم حذف شد.', false, 1500);
+                });
+
+                contentItemsContainer.appendChild(item);
+                // اسکرول به آیتم جدید
+                item.scrollIntoView({behavior: 'smooth', block: 'center'});
+                
+                // از نمایش نوتیفیکیشن برای آیتم‌های پیش‌فرض خودداری کنید
+                if (!initialValue && !initialUrl) {
+                    showNotification(`آیتم «${titleText}» اضافه شد.`, true, 1600);
+                }
+            };
+            
+            // محتوای پیش‌فرض از نمونه JSON شما
+            const defaultContent = [
+                { type: 'paragraph', value: 'درس علوم و فنون ادبی یکی از مهم‌ترین و پایه‌ای‌ترین دروس رشته انسانی است که نقش قابل‌توجهی در موفقیت تحصیلی و به‌ویژه در کنکور دارد. بسیاری از دانش‌آموزان تصور می‌کنند علوم و فنون درس دشواری است، اما واقعیت این است که اگر روش مطالعه آن را بدانید، می‌توانید این درس را به یکی از نمره‌آورترین و جذاب‌ترین دروس خود تبدیل کنید.' },
+                { type: 'paragraph', value: 'در این مطلب، با ساختار درس علوم و فنون آشنا می‌شوید و یاد می‌گیرید چگونه هر بخش را اصولی و ماندگار مطالعه کنید.' },
+                { type: 'figure', url: 'https://radianlearn.ir/image/farsi7867sdf7sdf76s67fsh434.jpg', alt: 'مطالعه علوم و فنون ادبی' },
+                { type: 'heading', value: 'اهمیت درس علوم و فنون ادبی' },
+                { type: 'paragraph', value: 'علوم و فنون ادبی، ترکیبی از دانش تاریخی، زبانی و هنری است. این درس به دانش‌آموز کمک می‌کند تا علاوه بر درک بهتر متون ادبی، قدرت تحلیل و زیبایی‌شناسی زبان فارسی را نیز در خود تقویت کند. هدف از مطالعه علوم و فنون فقط حفظ مطالب نیست؛ بلکه باید بتوانید ساختار شعر، سبک نگارش نویسندگان و شاعران، و زیبایی‌های ادبی زبان فارسی را درک کنید.' },
+                { type: 'heading', value: 'بخش‌های اصلی درس علوم و فنون ادبی' },
+                { type: 'paragraph', value: 'درس علوم و فنون ادبی از سه بخش اصلی تشکیل شده است:' },
+                { type: 'ordered-list', value: 'سبک‌شناسی و تاریخ ادبیات\nعروض و قافیه\nآرایه‌های ادبی' },
+                { type: 'paragraph', value: 'هر یک از این بخش‌ها روش مطالعه مخصوص به خود را دارد که در ادامه توضیح داده می‌شود.' },
+                { type: 'heading', value: '۱. روش مطالعه سبک‌شناسی و تاریخ ادبیات' },
+                { type: 'paragraph', value: 'این بخش دانشی تحلیلی و تاریخی است که نیاز به درک مفاهیم و شناخت دوره‌های مختلف ادبی دارد. اشتباه رایج این است که آن را صرفاً حفظی بدانیم، در حالی که فهم ارتباط میان سبک‌ها اهمیت بیشتری دارد.' },
+                { type: 'list', value: 'سیر زمانی دوره‌ها را بشناسید و علت تغییر سبک‌ها را درک کنید.\nویژگی‌های هر سبک را در جدول مقایسه‌ای یادداشت کنید.\nنویسندگان و شاعران مهم هر دوره را با آثارشان بشناسید.\nخلاصه‌نویسی کنید تا مرور آسان شود.\nاز نمونه شعر و متن برای تشخیص سبک استفاده کنید.' },
+                { type: 'figure', url: 'https://radianlearn.ir/image/farsi8234jh2jk3jkk2j34k324234h.jpg', alt: 'سبک‌شناسی و تاریخ ادبیات' },
+                { type: 'heading', value: '۲. روش مطالعه عروض و قافیه' },
+                { type: 'paragraph', value: 'عروض و قافیه به بررسی وزن و آهنگ شعر می‌پردازد. ممکن است در ابتدا دشوار به نظر برسد اما با تمرین، به‌راحتی می‌توان بر آن مسلط شد.' },
+                { type: 'list', value: 'مفاهیم پایه را دقیق یاد بگیرید: ارکان عروضی و هجاها.\nروزانه چند بیت را تقطیع کنید تا مهارت‌تان بالا برود.\nشعر را با صدای بلند بخوانید تا موسیقی آن را احساس کنید.\nاز جدول‌ها و فلش‌کارت برای حفظ زحافات و ارکان استفاده کنید.\nابتدا اشعار کتاب درسی را تمرین کنید.' },
+                { type: 'heading', value: '۳. روش مطالعه آرایه‌های ادبی' },
+                { type: 'paragraph', value: 'آرایه‌های ادبی بخش هنری و زیباتر علوم و فنون است. این بخش نیاز به درک زبانی و تمرین زیاد دارد.' },
+                { type: 'list', value: 'مفهوم هر آرایه را به زبان ساده برای خود توضیح دهید.\nبرای هر آرایه مثال بنویسید.\nآرایه‌ها را در اشعار معروف پیدا کنید.\nتست و تمرین‌های ترکیبی انجام دهید.\nدفترچه آرایه‌نویسی بسازید و نکات مهم را در آن یادداشت کنید.' },
+                { type: 'heading', value: 'نحوه برنامه‌ریزی برای مطالعه علوم و فنون ادبی' },
+                { type: 'paragraph', value: 'برای تسلط بر علوم و فنون، برنامه‌ریزی منظم ضروری است. پیشنهاد می‌شود هر هفته سه جلسه برای مطالعه این درس داشته باشید:' },
+                { type: 'list', value: '<strong>جلسه اول:</strong> سبک‌شناسی و تاریخ ادبیات – ۴۵ دقیقه\n<strong>جلسه دوم:</strong> تمرین عروض و قافیه – ۶۰ دقیقه\n<strong>جلسه سوم:</strong> آرایه‌های ادبی و تست‌زنی – ۴۵ دقیقه' },
+                { type: 'paragraph', value: 'در پایان هر هفته، یک ساعت مرور و رفع اشکال انجام دهید تا مطالب تثبیت شوند.' },
+                { type: 'figure', url: 'https://radianlearn.ir/image/farsi834526b35im3k45h3gb45.jpg', alt: 'تمرین عروض و قافیه' },
+                { type: 'heading', value: 'مرور و تثبیت مطالب' },
+                { type: 'paragraph', value: 'مرور کلید یادگیری ماندگار است. مرور را در فواصل منظم انجام دهید:' },
+                { type: 'list', value: 'مرور اول: همان روز مطالعه\nمرور دوم: دو تا سه روز بعد\nمرور سوم: یک هفته بعد' },
+                { type: 'paragraph', value: 'خلاصه‌ها و فلش‌کارت‌ها در مرور بسیار مفید هستند و باعث بازیابی سریع اطلاعات در ذهن می‌شوند.' },
+                { type: 'heading', value: 'جمع‌بندی نهایی' },
+                { type: 'paragraph', value: 'درس علوم و فنون ادبی مجموعه‌ای از دانش تاریخی، تحلیلی و زیبایی‌شناسی زبان فارسی است. با درک مفهومی و تمرین مداوم، می‌توانید به تسلط بالا برسید.  \r\n            اگر سبک‌شناسی را با فهم بخوانید، در عروض تمرین کنید و در آرایه‌ها مثال بزنید، این درس برایتان لذت‌بخش و نمره‌آور خواهد بود.  \r\n            یادگیری علوم و فنون یعنی شناخت روح زبان فارسی و درک اندیشه شاعران بزرگ.' }
+            ];
+
+            // بارگذاری محتوای پیش‌فرض
+            function loadDefaultContent() {
+                 if (defaultContent.length > 0) {
+                    if (emptyHint) emptyHint.style.display = 'none';
+                    defaultContent.forEach(item => {
+                        window.addItem(item.type, item.value || '', item.url || '', item.alt || '');
+                    });
+                }
+            }
+
+            // فراخوانی بارگذاری محتوای پیش‌فرض هنگام بارگذاری اولیه
+            loadDefaultContent();
+
+
+            // ------------ تولید کد ------------
+            // استایل‌های داخلی برای ویدجت (برگرفته از نمونه المنتوری شما)
+            const CSS_STYLES = `
+@font-face {
+    font-family: 'Afont Black';
+    src: url('/wp-content/uploads/2025/02/Afont-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Afont Regular';
+    src: url('/wp-content/uploads/2025/02/Afont-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+.blog-post-widget {
+    font-family: 'Afont Regular', sans-serif;
+    color: #212529;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    width: 95%;
+    margin: 2% auto;
+    box-sizing: border-box;
+}
+
+.blog-post-widget .container {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 40px 60px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    position: relative;
+}
+
+.blog-post-widget .title-box {
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    border: 1px solid #e9ecef;
+    padding: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.blog-post-widget h1 {
+    color: #105AC0;
+    font-family: 'Afont Black', sans-serif;
+    font-size: 27px;
+    font-weight: 900;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.blog-post-widget .subtitle {
+    color: #6c757d;
+    font-size: 16px;
+    margin-bottom: 0;
+    line-height: 1.6;
+}
+
+.blog-post-widget h2 {
+    font-family: 'Afont Black', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #343a40;
+    margin: 40px 0 20px 0;
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+    border-right: 5px solid #105AC0;
+    border-left: 5px solid #D0191D;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    line-height: 1.6;
+}
+
+.blog-post-widget p {
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.blog-post-widget figure {
+    margin: 40px 0;
+    text-align: center;
+}
+
+.blog-post-widget img {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-post-widget img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+}
+
+.blog-post-widget .author-date-box {
+    margin-top: 30px;
+    padding: 20px 30px;
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    border: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.blog-post-widget .author-info, .blog-post-widget .date-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.blog-post-widget .author-info strong, .blog-post-widget .date-info strong {
+    font-family: 'Afont Black', sans-serif;
+    color: #495057;
+    font-size: 0.9rem;
+}
+
+.blog-post-widget .author-info span, .blog-post-widget .date-info span {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.blog-post-widget .author-info::before, .blog-post-widget .date-info::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+}
+
+.blog-post-widget .author-info::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23105AC0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E");
+}
+
+.blog-post-widget .date-info::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23D0191D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E");
+}
+
+.blog-post-widget ul,
+.blog-post-widget ol {
+    margin: 15px 0 20px 0;
+    padding: 0;
+    list-style-position: inside;
+}
+
+.blog-post-widget ul {
+    list-style-type: disc; 
+    padding-right: 20px; 
+}
+.blog-post-widget ol {
+    list-style-type: decimal; 
+    padding-right: 25px; 
+}
+
+.blog-post-widget li {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .blog-post-widget {
+        width: 93%;
+        margin: 3% auto;
+    }
+    
+    .blog-post-widget .container {
+        padding: 30px 25px;
+    }
+    
+    .blog-post-widget .title-box {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .blog-post-widget h1 {
+        font-size: 20px;
+        line-height: 1.6;
+    }
+    
+    .blog-post-widget .subtitle {
+        font-size: 14px;
+    }
+    
+    .blog-post-widget h2 {
+        font-size: 17px;
+        padding: 12px 15px;
+    }
+    
+    .blog-post-widget p {
+        font-size: 13px;
+    }
+
+    .blog-post-widget li {
+        font-size: 13px;
+    }
+    
+    .blog-post-widget .author-date-box {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 25px;
+    }
+}
+
+@media (min-width: 769px) {
+    .blog-post-widget .container {
+        display: flex;
+        gap: 30px;
+        padding: 40px 40px; 
+    }
+    
+    .blog-post-widget .content-wrapper {
+        flex: 1;
+        width: 70%;
+    }
+    
+    .blog-post-widget .author-date-box {
+        width: 25%;
+        position: sticky;
+        top: 120px;
+        height: fit-content;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 0;
+        padding: 20px;
+    }
+    
+    .blog-post-widget .content-wrapper .title-box { 
+        margin-top: 0;
+    }
+}
+`.trim();
+
+            // تابع تولید محتوای HTML (رفع باگ)
+            function generateContentHTML() {
+                let contentHTML = '';
+                const items = contentItemsContainer.querySelectorAll('.content-builder-item');
+
+                items.forEach(item => {
+                    const type = item.getAttribute('data-type') || 'paragraph';
+                    
+                    let textValue = '';
+                    let urlValue = '';
+                    let altValue = '';
+
+                    // استخراج مقدار بر اساس نوع آیتم
+                    if (type === 'figure') {
+                        const urlEl = item.querySelector('.content-url');
+                        const altEl = item.querySelector('.content-alt');
+                        urlValue = urlEl ? urlEl.value.trim() : '';
+                        altValue = altEl ? altEl.value.trim() : '';
+                    } else {
+                        const textEl = item.querySelector('.content-text');
+                        textValue = textEl ? textEl.value.trim() : '';
+                    }
+
+                    // تولید HTML بر اساس نوع آیتم
+                    switch (type) {
+                        case 'heading':
+                            if (textValue) contentHTML += `\n            <h2>${escapeHtml(textValue)}</h2>`;
+                            break;
+                        case 'paragraph':
+                            // جایگزین کردن کاراکترهای newline در textarea با <br> در HTML
+                            if (textValue) {
+                                let formattedText = textValue.replace(/\n/g, '<br>');
+                                contentHTML += `\n            <p>${escapeHtml(formattedText)}</p>`;
+                            }
+                            break;
+                        case 'list':
+                        case 'ordered-list':
+                            const tag = type === 'list' ? 'ul' : 'ol';
+                            // خطوط خالی را حذف می‌کند
+                            const lines = textValue.split('\n').map(l => l.trim()).filter(l => l.length > 0); 
+                            if (lines.length) {
+                                let listItems = lines.map(line => `\n                <li>${escapeHtml(line)}</li>`).join('');
+                                contentHTML += `\n            <${tag}>${listItems}\n            </${tag}>`;
+                            }
+                            break;
+                        case 'figure':
+                            if (urlValue) {
+                                contentHTML += `\n            <figure>\n                <img src="${escapeHtml(urlValue)}" alt="${escapeHtml(altValue)}">\n            </figure>`;
+                            }
+                            break;
+                    }
+                });
+
+                return contentHTML.trim();
+            }
+
+            function generateFinalCode() {
+                const title = mainTitle.value.trim();
+                const subtitle = subTitle.value.trim();
+                const author = authorName.value.trim();
+                const date = publishDate.value.trim();
+                const generatedContent = generateContentHTML();
+
+                if (!title) { showNotification('لطفاً عنوان اصلی را وارد کنید.', false); return ''; }
+                if (!author) { showNotification('لطفاً نام نویسنده را وارد کنید.', false); return ''; }
+                if (!generatedContent) { showNotification('لطفاً حداقل یک آیتم محتوا اضافه و مقداردهی کنید.', false); return ''; }
+
+                // محتوا را به صورت HTML امن (تا حد ممکن) تولید می‌کنیم.
+                const widgetContent = `
+<div class="blog-post-widget" dir="rtl">
+    <style>${CSS_STYLES}</style>
+    <div class="container">
+        <div class="content-wrapper">
+            <div class="title-box">
+                <h1>${escapeHtml(title)}</h1>
+                <p class="subtitle">${escapeHtml(subtitle)}</p>
+            </div>
+${generatedContent}
+        </div>
+        <div class="author-date-box">
+            <div class="author-info"><strong>نویسنده:</strong> <span>${escapeHtml(author)}</span></div>
+            <div class="date-info"><strong>تاریخ انتشار:</strong> <span>${escapeHtml(date)}</span></div>
+        </div>
+    </div>
+
+    <script>
+        // این اسکریپت کوچک فقط برای اطمینان از نمایش صحیح پس از بارگیری المنتور در نظر گرفته شده است
+        window.addEventListener('load', function() {
+            const container = document.querySelector('.blog-post-widget .container');
+            if (container) {
+                container.style.opacity = '1';
+            }
+        });
+    </script>
+</div>`.trim();
+
+                return widgetContent;
+            }
+
+            function updatePreview() {
+                const finalCode = generateFinalCode();
+                if (finalCode) {
+                    // برای نمایش صحیح در preview، تگ <style> و <script> را حذف می‌کنیم و فقط محتوای داخل <div> اصلی را می‌آوریم.
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = finalCode;
+                    const styleTag = tempDiv.querySelector('style');
+                    const scriptTag = tempDiv.querySelector('script');
+                    const widgetDiv = tempDiv.querySelector('.blog-post-widget');
+
+                    if (styleTag) styleTag.remove();
+                    if (scriptTag) scriptTag.remove();
+                    
+                    // استایل‌های CSS_STYLES را به پیش‌نمایش اضافه می‌کنیم تا استایل‌ها اعمال شوند
+                    const previewStyle = document.createElement('style');
+                    previewStyle.textContent = CSS_STYLES;
+                    
+                    previewContainer.innerHTML = '';
+                    previewContainer.appendChild(previewStyle);
+                    previewContainer.appendChild(widgetDiv);
+
+                } else {
+                    previewContainer.innerHTML = '<p>پیش‌نمایش در اینجا نمایش داده خواهد شد...</p>';
+                }
+            }
+
+            // ------------ رویدادها ------------
+            generateBtn.addEventListener('click', () => {
+                const finalCode = generateFinalCode();
+                if (finalCode) {
+                    outputCode.value = finalCode;
+                    downloadBtn.disabled = false;
+                    copyBtn.disabled = false;
+                    updatePreview();
+                    showNotification('کد با موفقیت تولید شد! آماده برای کپی یا دانلود.', true);
+                } else {
+                    outputCode.value = '';
+                    downloadBtn.disabled = true;
+                    copyBtn.disabled = true;
+                    previewContainer.innerHTML = '<p>پیش‌نمایش در اینجا نمایش داده خواهد شد...</p>';
+                }
+            });
+
+            downloadBtn.addEventListener('click', () => {
+                const codeToDownload = outputCode.value;
+                if (!codeToDownload) { showNotification('کدی برای دانلود وجود ندارد.', false); return; }
+                const blob = new Blob([codeToDownload], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'blog_post_code.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showNotification('فایل TXT با موفقیت تولید و دانلود شد.', true);
+            });
+
+            copyBtn.addEventListener('click', async () => {
+                const codeToCopy = outputCode.value;
+                if (!codeToCopy) { showNotification('کدی برای کپی وجود ندارد.', false); return; }
+                try {
+                    await navigator.clipboard.writeText(codeToCopy);
+                    showNotification('کد در کلیپ‌بورد کپی شد.', true);
+                } catch (err) {
+                    // fallback برای مرورگرهایی که اجازهٔ clipboard ندارند
+                    outputCode.select();
+                    document.execCommand('copy');
+                    window.getSelection().removeAllRanges();
+                    showNotification('کد کپی شد (روش جایگزین).', true);
+                }
+            });
+
+            // غیرفعال‌سازی دکمه‌های کپی/دانلود در شروع
+            downloadBtn.disabled = true;
+            copyBtn.disabled = true;
+            
+            // تولید کد پیش‌نمایش اولیه
+            generateBtn.click();
+        });
+    </script>
+
+</body>
+</html>
+   <h1>ابزار تولیدکننده کد بلاگ Elementor</h1>
         <p>با وارد کردن اطلاعات زیر، کد HTML نهایی پست بلاگ شما تولید می‌شود.</p>
 
         <div class="input-group">
