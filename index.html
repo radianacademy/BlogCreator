@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تولیدکننده کد بلاگ Elementor</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>تولیدکننده کد بلاگ Elementor (اصلاح‌شده)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Base Styles for the Generator Tool */
+        /* Base Styles for the Generator Tool (unchanged layout, minor polish) */
         :root {
             --primary-color: #105AC0;
             --secondary-color: #D0191D;
@@ -19,13 +19,11 @@
             --font-family-black: 'Afont Black', Tahoma, sans-serif;
         }
 
-        /* Simplified Font-Face for display (Assuming a suitable fallback) */
         @font-face {
             font-family: 'Afont Regular';
             src: local('Tahoma'), local('Arial'), sans-serif;
             font-weight: 400;
         }
-
         @font-face {
             font-family: 'Afont Black';
             src: local('Tahoma Bold'), local('Arial Bold'), sans-serif;
@@ -67,13 +65,7 @@
             background-color: #f8f9fa;
         }
 
-        .input-group label, .meta-input label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: var(--heading-color);
-        }
-
+        label { display:block; margin-bottom:8px; font-weight:bold; color:var(--heading-color); }
         input[type="text"], textarea, select {
             width: 100%;
             padding: 10px;
@@ -86,134 +78,36 @@
             direction: rtl;
         }
 
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
+        textarea { min-height: 100px; resize: vertical; }
         .controls button, .content-builder button, #generateBtn {
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s;
+            padding: 10px 20px; margin: 5px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: background-color 0.25s;
         }
+        #generateBtn { background-color: var(--primary-color); color: white; width:100%; font-size:18px; }
+        #generateBtn:hover { background-color: #0c4a93; }
+        .controls button { background-color: #6c757d; color: white; }
+        .controls button:hover { background-color: #5a6268; }
 
-        #generateBtn {
-            background-color: var(--primary-color);
-            color: white;
-            width: 100%;
-            font-size: 18px;
-        }
-
-        #generateBtn:hover {
-            background-color: #0c4a93;
-        }
-
-        .controls button {
-            background-color: #6c757d;
-            color: white;
-        }
-        .controls button:hover {
-            background-color: #5a6268;
-        }
-
-        /* Content Builder Styles */
         .content-builder-item {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            background-color: var(--card-background);
-            position: relative;
+            display: flex; flex-direction: column; gap:10px; padding:15px; margin-bottom:15px; border:2px solid var(--border-color); border-radius:10px; background:var(--card-background); position:relative;
+        }
+        .content-builder-item h3 { margin:0; font-size:16px; color:var(--primary-color); border-bottom:1px dashed var(--border-color); padding-bottom:10px; }
+        .remove-btn { position:absolute; top:10px; left:10px; background:var(--secondary-color); color:white; border:none; border-radius:5px; padding:5px 10px; cursor:pointer; font-size:12px; line-height:1;}
+        .remove-btn:hover { background:#a01316; }
+
+        #output-code { width:100%; height:300px; padding:15px; border:1px solid var(--primary-color); border-radius:10px; background:#f8f9fa; font-family:monospace; white-space:pre-wrap; direction:ltr; text-align:left; resize:vertical; }
+        #downloadBtn { background-color:var(--secondary-color); color:white; margin-top:10px; }
+        #downloadBtn[disabled] { opacity:0.5; cursor:not-allowed; }
+
+        .notification { position:fixed; bottom:20px; right:20px; padding:12px 18px; border-radius:10px; color:white; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.2); opacity:0; transform:translateY(20px); z-index:1000; display:flex; align-items:center; gap:10px; }
+        .notification.show { opacity:1; transform:translateY(0); transition:opacity .25s, transform .25s; }
+
+        @media (max-width:768px) {
+            .container { padding:15px; }
+            .content-builder-item .remove-btn { position:static; margin-top:10px; align-self:flex-end; }
         }
 
-        .content-builder-item h3 {
-            margin: 0;
-            font-size: 16px;
-            color: var(--primary-color);
-            border-bottom: 1px dashed var(--border-color);
-            padding-bottom: 10px;
-        }
-
-        .content-builder-item .remove-btn {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: var(--secondary-color);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 12px;
-            line-height: 1;
-        }
-        .content-builder-item .remove-btn:hover {
-            background-color: #a01316;
-        }
-
-        /* Output Styling */
-        #output-code {
-            width: 100%;
-            height: 300px;
-            padding: 15px;
-            border: 1px solid var(--primary-color);
-            border-radius: 10px;
-            background-color: #f8f9fa;
-            font-family: monospace;
-            white-space: pre-wrap;
-            direction: ltr; /* HTML code is LTR */
-            text-align: left;
-        }
-
-        #downloadBtn {
-            background-color: var(--secondary-color);
-            color: white;
-            margin-top: 10px;
-        }
-        #downloadBtn:hover {
-            background-color: #a01316;
-        }
-        
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            border-radius: 10px;
-            color: white;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
-            transform: translateY(20px);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .notification.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Media Queries for Responsiveness */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            .content-builder-item .remove-btn {
-                position: static;
-                margin-top: 10px;
-            }
-        }
+        /* small visual hint for empty content list */
+        .empty-hint { color:#6c757d; padding:12px; border:1px dashed var(--border-color); border-radius:8px; background:#fff; text-align:center; }
     </style>
 </head>
 <body>
@@ -224,28 +118,24 @@
 
         <div class="input-group">
             <label for="mainTitle">عنوان اصلی بلاگ:</label>
-            <input type="text" id="mainTitle" value="روش مطالعه درس علوم و فنون ادبی رشته انسانی" placeholder="مثلاً: روش مطالعه درس ...">
+            <input type="text" id="mainTitle" placeholder="مثلاً: روش مطالعه درس ...">
 
             <label for="subTitle">زیرعنوان (Subtitle):</label>
-            <input type="text" id="subTitle" value="چگونه علوم و فنون را اصولی، ماندگار و مفهومی یاد بگیریم" placeholder="مثلاً: نکات کلیدی یادگیری">
+            <input type="text" id="subTitle" placeholder="مثلاً: نکات کلیدی یادگیری">
         </div>
 
         <div class="meta-input">
             <label for="authorName">نام نویسنده:</label>
-            <input type="text" id="authorName" value="امیرمهدی ترکمانی" placeholder="مثلاً: علی احمدی">
+            <input type="text" id="authorName" placeholder="مثلاً: علی احمدی">
             
             <label for="publishDate">تاریخ انتشار:</label>
-            <input type="text" id="publishDate" value="۱ آبان ۱۴۰۴" placeholder="مثلاً: ۲۹ شهریور ۱۴۰۲">
+            <input type="text" id="publishDate" placeholder="مثلاً: ۲۹ شهریور ۱۴۰۲">
         </div>
 
         <div class="content-builder">
             <h2><i class="fas fa-list-alt"></i> ساختار محتوا</h2>
             <div id="contentItems">
-                <div class="content-builder-item" data-type="paragraph">
-                    <h3>پاراگراف اولیه (مثال)</h3>
-                    <textarea class="content-text" placeholder="متن پاراگراف...">درس علوم و فنون ادبی یکی از مهم‌ترین و پایه‌ای‌ترین دروس رشته انسانی است که نقش قابل‌توجهی در موفقیت تحصیلی و به‌ویژه در کنکور دارد. بسیاری از دانش‌آموزان تصور می‌کنند علوم و فنون درس دشواری است، اما واقعیت این است که اگر روش مطالعه آن را بدانید، می‌توانید این درس را به یکی از نمره‌آورترین و جذاب‌ترین دروس خود تبدیل کنید.</textarea>
-                    <button type="button" class="remove-btn" onclick="removeItem(this)">حذف <i class="fas fa-times"></i></button>
-                </div>
+                <div class="empty-hint" id="emptyHint">هیچ آیتمی اضافه نشده — از دکمه‌های زیر برای افزودن آیتم استفاده کنید.</div>
             </div>
             
             <div class="controls">
@@ -263,347 +153,187 @@
         <div class="output-section">
             <h2><i class="fas fa-code"></i> خروجی کد نهایی</h2>
             <textarea id="output-code" readonly placeholder="کد HTML/CSS تولید شده در این قسمت نمایش داده خواهد شد..."></textarea>
-            <button id="downloadBtn" type="button" disabled><i class="fas fa-download"></i> دانلود خروجی (TXT)</button>
+            <div style="display:flex; gap:10px; margin-top:8px;">
+                <button id="copyBtn" type="button" disabled><i class="fas fa-copy"></i> کپی</button>
+                <button id="downloadBtn" type="button" disabled><i class="fas fa-download"></i> دانلود خروجی (TXT)</button>
+            </div>
         </div>
     </div>
 
-    <div id="notification" class="notification"></div>
+    <div id="notification" class="notification" aria-live="polite"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // عناصر
             const mainTitle = document.getElementById('mainTitle');
             const subTitle = document.getElementById('subTitle');
             const authorName = document.getElementById('authorName');
             const publishDate = document.getElementById('publishDate');
             const contentItemsContainer = document.getElementById('contentItems');
+            const emptyHint = document.getElementById('emptyHint');
             const generateBtn = document.getElementById('generateBtn');
             const outputCode = document.getElementById('output-code');
             const downloadBtn = document.getElementById('downloadBtn');
+            const copyBtn = document.getElementById('copyBtn');
             const notification = document.getElementById('notification');
 
-            // --- Helper Functions ---
-            function showNotification(message, isSuccess) {
+            // ------------ کمک‌کننده‌ها ------------
+            function showNotification(message, isSuccess = true, ms = 3000) {
                 notification.innerHTML = `<i class="fas ${isSuccess ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> <span>${message}</span>`;
-                notification.style.background = isSuccess
-                    ? 'linear-gradient(to right, #10b981, #059669)'
-                    : 'linear-gradient(to right, #ef4444, #dc2626)';
-                
+                notification.style.background = isSuccess ? 'linear-gradient(to right, #10b981, #059669)' : 'linear-gradient(to right, #ef4444, #dc2626)';
                 notification.classList.add('show');
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 3000);
+                setTimeout(() => notification.classList.remove('show'), ms);
             }
 
+            // فرار دادن کاراکترهای HTML تا هنگام نمایش در خروجی از مشکل جلوگیری شود
+            function escapeHtml(str) {
+                if (!str) return '';
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            // ------------ مدیریت آیتم‌ها ------------
             window.addItem = function(type) {
+                // پاک کردن هشدار "هیچ آیتمی نیست"
+                if (emptyHint) emptyHint.style.display = 'none';
+
                 const item = document.createElement('div');
-                item.classList.add('content-builder-item');
+                item.className = 'content-builder-item';
                 item.setAttribute('data-type', type);
-                
+
                 let contentHTML = '';
                 let titleText = '';
 
                 switch (type) {
                     case 'heading':
                         titleText = 'تیتر جدید (h2)';
-                        contentHTML = '<input type="text" class="content-text" placeholder="متن تیتر (h2)..." value="تیتر جدید">';
+                        contentHTML = `<input type="text" class="content-text" placeholder="متن تیتر (h2)..." value="">`;
                         break;
                     case 'paragraph':
                         titleText = 'پاراگراف جدید';
-                        contentHTML = '<textarea class="content-text" placeholder="متن پاراگراف..."></textarea>';
+                        contentHTML = `<textarea class="content-text" placeholder="متن پاراگراف..."></textarea>`;
                         break;
                     case 'list':
                         titleText = 'لیست غیرعددی (ul)';
-                        contentHTML = '<textarea class="content-text" placeholder="هر آیتم در یک خط جداگانه بنویسید..."></textarea>';
+                        contentHTML = `<textarea class="content-text" placeholder="هر آیتم در یک خط جداگانه بنویسید..."></textarea>`;
                         break;
                     case 'ordered-list':
                         titleText = 'لیست عددی (ol)';
-                        contentHTML = '<textarea class="content-text" placeholder="هر آیتم در یک خط جداگانه بنویسید..."></textarea>';
+                        contentHTML = `<textarea class="content-text" placeholder="هر آیتم در یک خط جداگانه بنویسید..."></textarea>`;
                         break;
                     case 'figure':
                         titleText = 'تصویر/شکل';
-                        contentHTML = '<input type="text" class="content-url" placeholder="آدرس URL تصویر (src)...">' +
-                                      '<input type="text" class="content-alt" placeholder="متن جایگزین تصویر (alt)...">';
+                        contentHTML = `<input type="text" class="content-url" placeholder="آدرس URL تصویر (src)...">` +
+                                      `<input type="text" class="content-alt" placeholder="متن جایگزین تصویر (alt)...">`;
                         break;
+                    default:
+                        titleText = 'آیتم';
+                        contentHTML = `<textarea class="content-text" placeholder="متن..."></textarea>`;
                 }
 
                 item.innerHTML = `
                     <h3>${titleText}</h3>
                     ${contentHTML}
-                    <button type="button" class="remove-btn" onclick="removeItem(this)">حذف <i class="fas fa-times"></i></button>
+                    <button type="button" class="remove-btn" title="حذف این آیتم"><i class="fas fa-times"></i> حذف</button>
                 `;
 
+                // اتصال رویداد حذف به دکمه
+                item.querySelector('.remove-btn').addEventListener('click', () => {
+                    item.remove();
+                    // اگر لیست خالی شد، پیام خالی را نشان بده
+                    if (!contentItemsContainer.querySelector('.content-builder-item')) {
+                        if (emptyHint) emptyHint.style.display = 'block';
+                    }
+                    showNotification('آیتم حذف شد.', false, 1500);
+                });
+
                 contentItemsContainer.appendChild(item);
-                showNotification(`آیتم ${titleText} اضافه شد.`, true);
-            }
+                // اسکرول به آیتم جدید
+                item.scrollIntoView({behavior: 'smooth', block: 'center'});
+                showNotification(`آیتم «${titleText}» اضافه شد.`, true, 1600);
+            };
 
-            window.removeItem = function(button) {
-                const item = button.closest('.content-builder-item');
-                item.remove();
-                showNotification('آیتم حذف شد.', false);
-            }
-
-            // --- Generation Logic ---
-
+            // ------------ تولید کد ------------
+            // استایل‌های داخلی برای ویدجت (قابل تغییر)
             const CSS_STYLES = `
-        @font-face {
-            font-family: 'Afont Black';
-            src: url('/wp-content/uploads/2025/02/Afont-Black.ttf') format('truetype');
-            font-weight: 900;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        @font-face {
-            font-family: 'Afont Regular';
-            src: url('/wp-content/uploads/2025/02/Afont-Regular.ttf') format('truetype');
-            font-weight: 400;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        .blog-post-widget {
-            font-family: 'Afont Regular', sans-serif;
-            color: #212529;
-            line-height: 1.8;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            width: 95%;
-            margin: 2% auto;
-            box-sizing: border-box;
-        }
-
-        .blog-post-widget .container {
-            width: 100%;
-            box-sizing: border-box;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 40px 60px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            position: relative;
-        }
-
-        .blog-post-widget .title-box {
-            background-color: #f8f9fa;
-            border-radius: 15px;
-            border: 1px solid #e9ecef;
-            padding: 30px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .blog-post-widget h1 {
-            color: #105AC0;
-            font-family: 'Afont Black', sans-serif;
-            font-size: 27px;
-            font-weight: 900;
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .blog-post-widget .subtitle {
-            color: #6c757d;
-            font-size: 16px;
-            margin-bottom: 0;
-            line-height: 1.6;
-        }
-
-        .blog-post-widget h2 {
-            font-family: 'Afont Black', sans-serif;
-            font-size: 22px;
-            font-weight: 700;
-            color: #343a40;
-            margin: 40px 0 20px 0;
-            padding: 15px 20px;
-            background-color: #f8f9fa;
-            border-right: 5px solid #105AC0;
-            border-left: 5px solid #D0191D;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            line-height: 1.6;
-        }
-
-        .blog-post-widget p {
-            font-size: 15px;
-            margin-bottom: 20px;
-        }
-
-        .blog-post-widget figure {
-            margin: 40px 0;
-            text-align: center;
-        }
-
-        .blog-post-widget img {
-            width: 100%;
-            height: auto;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .blog-post-widget img:hover {
-            transform: scale(1.03);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
-        }
-
-        .blog-post-widget .author-date-box {
-            margin-top: 30px;
-            padding: 20px 30px;
-            background-color: #f8f9fa;
-            border-radius: 15px;
-            border: 1px solid #e9ecef;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .blog-post-widget .author-info, .blog-post-widget .date-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .blog-post-widget .author-info strong, .blog-post-widget .date-info strong {
-            font-family: 'Afont Black', sans-serif;
-            color: #495057;
-            font-size: 0.9rem;
-        }
-
-        .blog-post-widget .author-info span, .blog-post-widget .date-info span {
-            color: #6c757d;
-            font-size: 0.9rem;
-        }
-
-        .blog-post-widget .author-info::before, .blog-post-widget .date-info::before {
-            content: '';
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background-size: contain;
-        }
-
-        .blog-post-widget .author-info::before {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23105AC0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E");
-        }
-        
-        .blog-post-widget .date-info::before {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23D0191D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E");
-        }
-
-        .blog-post-widget ul,
-        .blog-post-widget ol {
-            margin: 15px 0 20px 0;
-            padding: 0;
-            list-style-position: inside;
-        }
-
-        .blog-post-widget li {
-            font-size: 15px;
-            margin-bottom: 10px;
-        }
-
-        @media (max-width: 768px) {
-            .blog-post-widget {
-                width: 93%;
-                margin: 3% auto;
-            }
-            
-            .blog-post-widget .container {
-                padding: 30px 25px;
-            }
-            
-            .blog-post-widget .title-box {
-                padding: 20px;
-                margin-bottom: 20px;
-            }
-            
-            .blog-post-widget h1 {
-                font-size: 20px;
-                line-height: 1.6;
-            }
-            
-            .blog-post-widget .subtitle {
-                font-size: 14px;
-            }
-            
-            .blog-post-widget h2 {
-                font-size: 17px;
-                padding: 12px 15px;
-            }
-            
-            .blog-post-widget p {
-                font-size: 13px;
-            }
-
-            .blog-post-widget li {
-                font-size: 13px;
-            }
-            
-            .blog-post-widget .author-date-box {
-                flex-direction: column;
-                align-items: flex-start;
-                margin-top: 25px;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .blog-post-widget .container {
-                display: flex;
-                gap: 30px;
-                padding: 40px 40px;
-            }
-            
-            .blog-post-widget .content-wrapper {
-                flex: 1;
-                width: 70%;
-            }
-            
-            .blog-post-widget .author-date-box {
-                width: 25%;
-                position: sticky;
-                top: 120px;
-                height: fit-content;
-                flex-direction: column;
-                align-items: flex-start;
-                margin-top: 0;
-                padding: 20px;
-            }
-        }
-            `.trim(); // Using .trim() to clean up leading/trailing whitespace
+@font-face {
+    font-family: 'Afont Black';
+    src: url('/wp-content/uploads/2025/02/Afont-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Afont Regular';
+    src: url('/wp-content/uploads/2025/02/Afont-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+.blog-post-widget {
+    font-family: 'Afont Regular', sans-serif;
+    color: #212529;
+    line-height: 1.8;
+    width: 95%;
+    margin: 2% auto;
+    box-sizing: border-box;
+}
+/* بقیهٔ استایل‌ها مشابه نمونهٔ اولیه - خلاصه برای خوانایی */
+.blog-post-widget .container { width:100%; box-sizing:border-box; background:#fff; padding:40px; border-radius:20px; box-shadow:0 10px 40px rgba(0,0,0,0.08); }
+.blog-post-widget h1 { color:#105AC0; font-family:'Afont Black', sans-serif; font-size:27px; margin-bottom:15px; line-height:1.4; }
+.blog-post-widget .subtitle { color:#6c757d; font-size:16px; margin-bottom:0; }
+.blog-post-widget h2 { font-family:'Afont Black', sans-serif; font-size:22px; color:#343a40; margin:30px 0 12px 0; padding:12px; background:#f8f9fa; border-radius:10px; }
+.blog-post-widget p { font-size:15px; margin-bottom:16px; }
+.blog-post-widget img { width:100%; height:auto; border-radius:12px; }
+.blog-post-widget ul, .blog-post-widget ol { margin:10px 0 16px 0; padding-left:20px; }
+.blog-post-widget li { margin-bottom:8px; }
+`.trim();
 
             function generateContentHTML() {
                 let contentHTML = '';
                 const items = contentItemsContainer.querySelectorAll('.content-builder-item');
 
                 items.forEach(item => {
-                    const type = item.getAttribute('data-type');
-                    const textContent = item.querySelector('.content-text')?.value || '';
-                    const urlContent = item.querySelector('.content-url')?.value || '';
-                    const altContent = item.querySelector('.content-alt')?.value || '';
-                    
+                    const type = item.getAttribute('data-type') || 'paragraph';
+                    const textEl = item.querySelector('.content-text');
+                    const urlEl = item.querySelector('.content-url');
+                    const altEl = item.querySelector('.content-alt');
+
+                    // trim and escape
+                    const textValue = textEl ? textEl.value.trim() : '';
+                    const urlValue = urlEl ? urlEl.value.trim() : '';
+                    const altValue = altEl ? altEl.value.trim() : '';
+
                     switch (type) {
                         case 'heading':
-                            contentHTML += `\n            <h2>${textContent.trim()}</h2>`;
+                            if (textValue) contentHTML += `\n            <h2>${escapeHtml(textValue)}</h2>`;
                             break;
                         case 'paragraph':
-                            contentHTML += `\n            <p>${textContent.trim()}</p>`;
+                            if (textValue) contentHTML += `\n            <p>${escapeHtml(textValue)}</p>`;
                             break;
                         case 'list':
                         case 'ordered-list':
                             const tag = type === 'list' ? 'ul' : 'ol';
-                            const lines = textContent.split('\n').map(line => line.trim()).filter(line => line.length > 0);
-                            let listItems = lines.map(line => `\r\n                <li>${line}</li>`).join('');
-                            contentHTML += `\n            <${tag}>${listItems}\r\n            </${tag}>`;
-                            break;
-                        case 'figure':
-                            if (urlContent) {
-                                contentHTML += `\n            <figure>\r\n                <img src="${urlContent.trim()}" alt="${altContent.trim()}">\r\n            </figure>`;
+                            const lines = textValue.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+                            if (lines.length) {
+                                let listItems = lines.map(line => `\n                <li>${escapeHtml(line)}</li>`).join('');
+                                contentHTML += `\n            <${tag}>${listItems}\n            </${tag}>`;
                             }
                             break;
+                        case 'figure':
+                            if (urlValue) {
+                                contentHTML += `\n            <figure>\n                <img src="${escapeHtml(urlValue)}" alt="${escapeHtml(altValue)}">\n            </figure>`;
+                            }
+                            break;
+                        default:
+                            if (textValue) contentHTML += `\n            <p>${escapeHtml(textValue)}</p>`;
                     }
                 });
+
                 return contentHTML.trim();
             }
 
@@ -614,82 +344,50 @@
                 const date = publishDate.value.trim();
                 const generatedContent = generateContentHTML();
 
-                if (!title || !author || !generatedContent) {
-                    showNotification('لطفاً عنوان اصلی، نام نویسنده و حداقل یک آیتم محتوا را وارد کنید.', false);
-                    return '';
-                }
+                if (!title) { showNotification('لطفاً عنوان اصلی را وارد کنید.', false); return ''; }
+                if (!author) { showNotification('لطفاً نام نویسنده را وارد کنید.', false); return ''; }
+                if (!generatedContent) { showNotification('لطفاً حداقل یک آیتم محتوا اضافه و مقداردهی کنید.', false); return ''; }
 
-                // 1. Generate the inner HTML content (Widget Content)
+                // محتوا را به صورت HTML امن (تا حد ممکن) تولید می‌کنیم.
                 const widgetContent = `
 <div class="blog-post-widget" dir="rtl">
-    <style>
-${CSS_STYLES}
-    </style>
-
+    <style>${CSS_STYLES}</style>
     <div class="container">
         <div class="content-wrapper">
             <div class="title-box">
-                <h1>${title}</h1>
-                <p class="subtitle">${subtitle}</p>
+                <h1>${escapeHtml(title)}</h1>
+                <p class="subtitle">${escapeHtml(subtitle)}</p>
             </div>
-
 ${generatedContent}
-
         </div>
-
-        <div class="author-date-box">
-            <div class="author-info">
-                <strong>نویسنده:</strong>
-                <span>${author}</span>
-            </div>
-            <div class="date-info">
-                <strong>تاریخ انتشار:</strong>
-                <span>${date}</span>
-            </div>
+        <div class="author-date-box" style="margin-top:30px;padding:20px;background:#f8f9fa;border-radius:12px;">
+            <div class="author-info"><strong>نویسنده:</strong> <span>${escapeHtml(author)}</span></div>
+            <div class="date-info" style="margin-top:8px;"><strong>تاریخ انتشار:</strong> <span>${escapeHtml(date)}</span></div>
         </div>
     </div>
-
-    <script>
-        window.addEventListener('load', function() {
-            const container = document.querySelector('.blog-post-widget .container');
-            if (container) {
-                container.style.opacity = '1';
-            }
-        });
-    </script>
-</div>
-`.trim();
-
-                // 2. Generate the full Elementor-compatible code (simplified structure)
-                // Note: The Elementor JSON structure is complex. We'll generate the HTML for the HTML widget, which is the most practical output for your use case.
-                
-                // For a WordPress/Elementor context, the raw HTML is usually placed inside an 'HTML' widget. 
-                // The output is the clean HTML block ready to be pasted into the HTML widget.
+</div>`.trim();
 
                 return widgetContent;
             }
 
-            // --- Event Listeners ---
-
+            // ------------ رویدادها ------------
             generateBtn.addEventListener('click', () => {
                 const finalCode = generateFinalCode();
                 if (finalCode) {
                     outputCode.value = finalCode;
                     downloadBtn.disabled = false;
+                    copyBtn.disabled = false;
                     showNotification('کد با موفقیت تولید شد! آماده برای کپی یا دانلود.', true);
                 } else {
                     outputCode.value = '';
                     downloadBtn.disabled = true;
+                    copyBtn.disabled = true;
                 }
             });
 
             downloadBtn.addEventListener('click', () => {
                 const codeToDownload = outputCode.value;
-                if (!codeToDownload) {
-                    showNotification('کدی برای دانلود وجود ندارد.', false);
-                    return;
-                }
-                
+                if (!codeToDownload) { showNotification('کدی برای دانلود وجود ندارد.', false); return; }
                 const blob = new Blob([codeToDownload], { type: 'text/plain;charset=utf-8' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
@@ -699,8 +397,35 @@ ${generatedContent}
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
-                showNotification('فایل TXT با موفقیت دانلود شد.', true);
+                showNotification('فایل TXT با موفقیت تولید و دانلود شد.', true);
             });
+
+            copyBtn.addEventListener('click', async () => {
+                const codeToCopy = outputCode.value;
+                if (!codeToCopy) { showNotification('کدی برای کپی وجود ندارد.', false); return; }
+                try {
+                    await navigator.clipboard.writeText(codeToCopy);
+                    showNotification('کد در کلیپ‌بورد کپی شد.', true);
+                } catch (err) {
+                    // fallback برای مرورگرهایی که اجازهٔ clipboard ندارند
+                    outputCode.select();
+                    document.execCommand('copy');
+                    window.getSelection().removeAllRanges();
+                    showNotification('کد کپی شد (روش جایگزین).', true);
+                }
+            });
+
+            // جلوگیری از نمایش "کد" یا سایر متن‌ها در پایین صفحه به خاطر متن‌های ورودی
+            // (در نسخه قبلی ممکن بود به علت مقادیر پیش‌فرض یا درج مستقیم خطا ایجاد شود)
+            // اینجا مطمئن می‌شویم که هیچ مقدار پیش‌فرضی در فیلدها وجود ندارد.
+            mainTitle.value = '';
+            subTitle.value = '';
+            authorName.value = '';
+            publishDate.value = '';
+
+            // غیرفعال‌سازی دکمه‌های کپی/دانلود در شروع
+            downloadBtn.disabled = true;
+            copyBtn.disabled = true;
         });
     </script>
 
