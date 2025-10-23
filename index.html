@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ابزار تولید پست بلاگ | ووکالت بلوک‌گذاری</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /*
         *************************************************
@@ -153,7 +154,7 @@
         }
 
         .blog-post-widget .author-info::before {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23105AC0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 4 0 0-4-4H8a4 4 4 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23105AC0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0-4-4H8a4 4 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E");
         }
 
         .blog-post-widget .date-info::before {
@@ -201,197 +202,316 @@
         /* بخش ۲: استایل‌های ابزار تولید کننده محتوا */
         /* ------------------------------------------ */
         body {
-            background-color: #f0f2f5;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             margin: 0;
+            font-family: 'Afont Regular', Tahoma, sans-serif;
+            min-height: 100vh;
+            padding: 20px 0;
         }
 
         .content-builder-container {
-            font-family: 'Afont Regular', Tahoma, sans-serif;
-            color: #212529;
-            line-height: 1.8;
             width: 90%;
-            max-width: 1000px;
-            margin: 50px auto;
-            padding: 40px;
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0;
+            background: transparent;
+            box-shadow: none;
             direction: rtl;
             text-align: right;
-            border: 1px solid #e9ecef;
         }
 
-        .content-builder-container h1 {
+        .header-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #105AC0, #D0191D);
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+            opacity: 0.1;
+        }
+
+        .header-section h1 {
             font-family: 'Afont Black', sans-serif;
             color: #105AC0;
-            text-align: center;
-            font-size: 32px;
+            font-size: 36px;
             margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
         }
 
         .description-text {
-            text-align: center;
             color: #6c757d;
-            margin-bottom: 30px;
-            border-bottom: 2px dashed #e9ecef;
-            padding-bottom: 15px;
+            margin-bottom: 0;
             font-size: 16px;
+            position: relative;
+            z-index: 1;
         }
 
         .input-section {
-            background-color: #f8f9fa;
-            padding: 25px;
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
             margin-bottom: 30px;
-            border: 1px solid #e9ecef;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .input-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #105AC0, #D0191D);
+            border-radius: 0 0 0 100%;
+            opacity: 0.1;
         }
 
         .input-section h2 {
             font-family: 'Afont Black', sans-serif;
             color: #D0191D;
-            font-size: 22px;
+            font-size: 24px;
             margin-top: 0;
-            padding-bottom: 10px;
+            padding-bottom: 15px;
             border-bottom: 2px solid #D0191D;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-section h2 i {
+            margin-left: 10px;
+            font-size: 20px;
         }
 
         label {
             display: block;
             font-weight: bold;
             margin-top: 15px;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             color: #343a40;
             font-size: 15px;
+            position: relative;
+            z-index: 1;
         }
 
         input[type="text"], textarea {
             width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
             border: 1px solid #ced4da;
-            border-radius: 8px;
+            border-radius: 10px;
             box-sizing: border-box;
             font-size: 16px;
             font-family: 'Afont Regular', Tahoma, sans-serif;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
             resize: vertical;
+            background: rgba(255, 255, 255, 0.9);
         }
 
         input[type="text"]:focus, textarea:focus {
             border-color: #105AC0;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(16, 90, 192, 0.2);
+            box-shadow: 0 0 0 4px rgba(16, 90, 192, 0.2);
+            transform: translateY(-2px);
         }
 
         /* استایل بلوک‌های محتوا */
         #content-blocks-area {
             border: 2px dashed #ced4da;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            background-color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.7);
+            min-height: 100px;
+            position: relative;
+            z-index: 1;
         }
 
         .content-block {
-            background-color: #fefefe;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
             border-right: 5px solid #105AC0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .content-block:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
         }
 
         .content-block strong {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             color: #105AC0;
             font-family: 'Afont Black', sans-serif;
+            font-size: 16px;
         }
 
         .remove-block-btn {
             position: absolute;
-            left: 10px;
-            top: 10px;
+            left: 15px;
+            top: 15px;
             background-color: #D0191D;
             color: white;
             border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
+            padding: 8px 12px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 12px;
-            transition: background-color 0.3s;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+
+        .remove-block-btn i {
+            margin-left: 5px;
+        }
+
         .remove-block-btn:hover {
             background-color: #a81417;
+            transform: scale(1.05);
         }
 
         .add-block-buttons {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             flex-wrap: wrap;
             justify-content: flex-start;
+            position: relative;
+            z-index: 1;
         }
 
         .add-block-btn {
-            background-color: #495057;
+            background: linear-gradient(45deg, #105AC0, #0d4a99);
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
+            padding: 12px 20px;
+            border-radius: 10px;
             cursor: pointer;
             font-family: 'Afont Regular', Tahoma, sans-serif;
-            transition: background-color 0.3s, transform 0.2s;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(16, 90, 192, 0.3);
+        }
+
+        .add-block-btn i {
+            margin-left: 8px;
         }
 
         .add-block-btn:hover {
-            background-color: #343a40;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(16, 90, 192, 0.4);
         }
 
         /* دکمه‌های اصلی تولید و پیش نمایش */
         #generate-btn, #preview-btn {
             display: block;
             width: 100%;
-            padding: 15px;
+            padding: 18px;
             font-family: 'Afont Black', sans-serif;
             font-size: 20px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             margin-top: 30px;
             margin-bottom: 20px;
-            transition: background-color 0.3s, box-shadow 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
         
         #generate-btn {
-            background-color: #28a745; /* سبز */
+            background: linear-gradient(45deg, #28a745, #218838);
             color: white;
+            box-shadow: 0 5px 20px rgba(40, 167, 69, 0.3);
         }
         
         #preview-btn {
-            background-color: #105AC0; /* آبی */
+            background: linear-gradient(45deg, #105AC0, #0d4a99);
             color: white;
             margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(16, 90, 192, 0.3);
         }
 
         #generate-btn:hover {
-            background-color: #218838;
-            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
         }
         
         #preview-btn:hover {
-            background-color: #0d4a99;
-            box-shadow: 0 5px 15px rgba(16, 90, 192, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(16, 90, 192, 0.4);
         }
 
         /* ناحیه خروجی */
         .output-section {
             margin-top: 40px;
-            border-top: 2px dashed #105AC0;
-            padding-top: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .output-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #105AC0, #D0191D);
+            border-radius: 0 0 100% 0;
+            opacity: 0.1;
+        }
+
+        .output-section h2 {
+            font-family: 'Afont Black', sans-serif;
+            color: #105AC0;
+            font-size: 24px;
+            margin-top: 0;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #105AC0;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .output-section h2 i {
+            margin-left: 10px;
+            font-size: 20px;
         }
 
         #output-html {
@@ -402,24 +522,37 @@
             font-size: 14px;
             white-space: pre-wrap;
             word-wrap: break-word;
-            margin-bottom: 15px;
-            padding: 15px;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #ced4da;
+            position: relative;
+            z-index: 1;
         }
 
         #copy-btn {
             float: left;
-            background-color: #D0191D;
+            background: linear-gradient(45deg, #D0191D, #a81417);
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
+            padding: 12px 20px;
+            border-radius: 10px;
             cursor: pointer;
             font-family: 'Afont Regular', Tahoma, sans-serif;
-            transition: background-color 0.3s;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(208, 25, 29, 0.3);
+        }
+
+        #copy-btn i {
+            margin-left: 8px;
         }
 
         #copy-btn:hover {
-            background-color: #a81417;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(208, 25, 29, 0.4);
         }
         
         /* استایل باکس پیش نمایش */
@@ -427,10 +560,12 @@
             min-height: 200px;
             padding: 20px;
             border: 2px solid #105AC0;
-            border-radius: 10px;
+            border-radius: 15px;
             background-color: #fff;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            overflow: hidden; /* جلوگیری از شکستن طرح‌بندی */
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
         }
         
         #preview-box .blog-post-widget {
@@ -438,27 +573,68 @@
             width: 100%;
             max-height: 600px; 
             overflow: auto;
-            /* استایل‌های خود container را در پیش نمایش حذف می‌کنیم تا دوبل نشود */
             box-shadow: none;
             border: none;
             padding: 0;
         }
+        
         #preview-box .blog-post-widget .container {
              box-shadow: none;
              padding: 20px;
              border: 1px solid #e9ecef;
         }
 
+        /* انیمیشن‌های اضافی */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-block {
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* بهبود ریسپانسیو */
+        @media (max-width: 768px) {
+            .content-builder-container {
+                width: 95%;
+            }
+            
+            .header-section h1 {
+                font-size: 28px;
+            }
+            
+            .input-section h2, .output-section h2 {
+                font-size: 20px;
+            }
+            
+            .add-block-btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+
+        /* استایل برای حالت خالی بودن ناحیه بلوک‌ها */
+        #content-blocks-area:empty::after {
+            content: "برای شروع، بلوک‌های محتوا را با استفاده از دکمه‌های زیر اضافه کنید";
+            display: block;
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
 
 <div class="content-builder-container" dir="rtl">
-    <h1>ابزار تولید پست بلاگ | ووکالت بلوک‌گذاری 📝</h1>
-    <p class="description-text">فیلدهای زیر را پر کنید و بلوک‌های محتوا را اضافه نمایید تا کد HTML نهایی پست بلاگ شما تولید شود.</p>
+    <div class="header-section">
+        <h1><i class="fas fa-blog"></i> ابزار تولید پست بلاگ | ووکالت بلوک‌گذاری 📝</h1>
+        <p class="description-text">فیلدهای زیر را پر کنید و بلوک‌های محتوا را اضافه نمایید تا کد HTML نهایی پست بلاگ شما تولید شود.</p>
+    </div>
 
     <div class="input-section main-info-box">
-        <h2>اطلاعات اصلی پست</h2>
+        <h2><i class="fas fa-info-circle"></i> اطلاعات اصلی پست</h2>
         <label for="post-title">عنوان اصلی (H1):</label>
         <input type="text" id="post-title" placeholder="عنوان اصلی پست">
 
@@ -476,34 +652,34 @@
     </div>
 
     <div class="input-section content-blocks-box">
-        <h2>محتوای پست (بلوک‌ها)</h2>
+        <h2><i class="fas fa-cubes"></i> محتوای پست (بلوک‌ها)</h2>
         <div id="content-blocks-area">
             </div>
         
         <div class="add-block-buttons">
-            <button class="add-block-btn" data-type="paragraph">➕ پاراگراف</button>
-            <button class="add-block-btn" data-type="heading">➕ عنوان (H2)</button>
-            <button class="add-block-btn" data-type="ul">➕ لیست عادی (UL)</button>
-            <button class="add-block-btn" data-type="ol">➕ لیست عددی (OL)</button>
-            <button class="add-block-btn" data-type="figure">➕ تصویر</button>
+            <button class="add-block-btn" data-type="paragraph"><i class="fas fa-paragraph"></i> پاراگراف</button>
+            <button class="add-block-btn" data-type="heading"><i class="fas fa-heading"></i> عنوان (H2)</button>
+            <button class="add-block-btn" data-type="ul"><i class="fas fa-list-ul"></i> لیست عادی (UL)</button>
+            <button class="add-block-btn" data-type="ol"><i class="fas fa-list-ol"></i> لیست عددی (OL)</button>
+            <button class="add-block-btn" data-type="figure"><i class="fas fa-image"></i> تصویر</button>
         </div>
     </div>
     
-    <button id="preview-btn">مشاهده پیش‌نمایش زنده 👁️</button>
+    <button id="preview-btn"><i class="fas fa-eye"></i> مشاهده پیش‌نمایش زنده 👁️</button>
 
     <div class="output-section">
-        <h2>پیش‌نمایش زنده پست بلاگ</h2>
+        <h2><i class="fas fa-eye"></i> پیش‌نمایش زنده پست بلاگ</h2>
         <div id="preview-box">
             <p style="text-align: center; color: #6c757d; margin: 0;">برای مشاهده پیش‌نمایش، دکمه بالا را بزنید.</p>
         </div>
     </div>
     
-    <button id="generate-btn">تولید کد HTML قابل کپی 💾</button>
+    <button id="generate-btn"><i class="fas fa-code"></i> تولید کد HTML قابل کپی 💾</button>
 
     <div class="output-section">
-        <h2>خروجی HTML (کد قابل کپی)</h2>
+        <h2><i class="fas fa-code"></i> خروجی HTML (کد قابل کپی)</h2>
         <textarea id="output-html" readonly placeholder="کد HTML نهایی شما اینجا ظاهر می‌شود..."></textarea>
-        <button id="copy-btn">کپی کردن کد</button>
+        <button id="copy-btn"><i class="fas fa-copy"></i> کپی کردن کد</button>
         <div style="clear: both;"></div>
     </div>
 </div>
@@ -582,7 +758,7 @@
 
             const removeBtn = document.createElement('button');
             removeBtn.className = 'remove-block-btn';
-            removeBtn.textContent = 'حذف';
+            removeBtn.innerHTML = '<i class="fas fa-trash"></i> حذف';
             removeBtn.onclick = () => {
                 block.remove();
             };
@@ -715,20 +891,20 @@
             try {
                 const successful = document.execCommand('copy');
                 if (successful) {
-                    copyBtn.textContent = 'کپی شد! ✅';
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> کپی شد! ✅';
                 } else {
                     throw new Error('Fallback failed');
                 }
             } catch (err) {
                 navigator.clipboard.writeText(outputHtml.value).then(() => {
-                    copyBtn.textContent = 'کپی شد! ✅';
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> کپی شد! ✅';
                 }).catch(() => {
-                    copyBtn.textContent = 'خطا در کپی! ❌';
+                    copyBtn.innerHTML = '<i class="fas fa-times"></i> خطا در کپی! ❌';
                 });
             }
 
             setTimeout(() => {
-                copyBtn.textContent = 'کپی کردن کد';
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i> کپی کردن کد';
             }, 2000);
         });
     });
