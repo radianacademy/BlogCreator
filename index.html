@@ -3,610 +3,366 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تولیدکننده کد بلاگ</title>
+    <title>تولیدکننده کد بلاگ Elementor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Base Styles for the Generator Tool */
         :root {
-            --primary: #105AC0;
-            --secondary: #D0191D;
-            --light: #f8f9fa;
-            --dark: #343a40;
-            --gray: #6c757d;
-            --white: #ffffff;
-            --shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
+            --primary-color: #105AC0;
+            --secondary-color: #D0191D;
+            --background-color: #f4f7f6;
+            --card-background: #ffffff;
+            --border-color: #e9ecef;
+            --text-color: #212529;
+            --heading-color: #343a40;
+            --font-family-regular: 'Afont Regular', Tahoma, sans-serif;
+            --font-family-black: 'Afont Black', Tahoma, sans-serif;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Tahoma, sans-serif;
+        /* Simplified Font-Face for display (Assuming a suitable fallback) */
+        @font-face {
+            font-family: 'Afont Regular';
+            src: local('Tahoma'), local('Arial'), sans-serif;
+            font-weight: 400;
+        }
+
+        @font-face {
+            font-family: 'Afont Black';
+            src: local('Tahoma Bold'), local('Arial Bold'), sans-serif;
+            font-weight: 900;
         }
 
         body {
-            background-color: #f5f7fa;
-            color: #212529;
+            font-family: var(--font-family-regular);
+            background-color: var(--background-color);
+            color: var(--text-color);
             line-height: 1.6;
+            margin: 0;
             padding: 20px;
-            transition: var(--transition);
-        }
-
-        body.dark-mode {
-            background-color: #1a1d23;
-            color: #e9ecef;
+            direction: rtl;
+            text-align: right;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: var(--white);
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-        }
-
-        body.dark-mode header {
-            background: #2d3239;
+            background: var(--card-background);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
         }
 
         h1 {
-            color: var(--primary);
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-
-        .subtitle {
-            color: var(--gray);
-            font-size: 16px;
-        }
-
-        body.dark-mode .subtitle {
-            color: #adb5bd;
-        }
-
-        .app-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        @media (max-width: 992px) {
-            .app-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .form-container, .preview-container {
-            background: var(--white);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: var(--shadow);
-        }
-
-        body.dark-mode .form-container,
-        body.dark-mode .preview-container {
-            background: #2d3239;
-        }
-
-        .section-title {
-            font-size: 20px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--primary);
-            color: var(--dark);
-        }
-
-        body.dark-mode .section-title {
-            color: #e9ecef;
-        }
-
-        .form-group {
+            font-family: var(--font-family-black);
+            color: var(--primary-color);
+            text-align: center;
             margin-bottom: 20px;
         }
 
-        label {
+        .input-group, .meta-input, .controls, .content-builder, .output-section {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background-color: #f8f9fa;
+        }
+
+        .input-group label, .meta-input label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: var(--dark);
+            color: var(--heading-color);
         }
 
-        body.dark-mode label {
-            color: #e9ecef;
-        }
-
-        input, textarea, select {
+        input[type="text"], textarea, select {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ced4da;
+            padding: 10px;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            font-size: 16px;
-            transition: var(--transition);
-            background: var(--white);
-            color: var(--dark);
-        }
-
-        body.dark-mode input,
-        body.dark-mode textarea,
-        body.dark-mode select {
-            background: #3a4048;
-            border-color: #495057;
-            color: #e9ecef;
-        }
-
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(16, 90, 192, 0.1);
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            font-family: var(--font-family-regular);
+            font-size: 15px;
+            direction: rtl;
         }
 
         textarea {
-            min-height: 120px;
+            min-height: 100px;
             resize: vertical;
         }
 
-        .section-container {
-            border: 1px solid #e9ecef;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            background: var(--light);
-        }
-
-        body.dark-mode .section-container {
-            background: #343a40;
-            border-color: #495057;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .section-title-input {
-            flex-grow: 1;
-            margin-right: 15px;
-        }
-
-        .btn {
+        .controls button, .content-builder button, #generateBtn {
             padding: 10px 20px;
+            margin: 5px;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
             cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            font-weight: bold;
+            transition: background-color 0.3s;
         }
 
-        .btn-primary {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        .btn-primary:hover {
-            background: #0d4ba8;
-        }
-
-        .btn-danger {
-            background: var(--secondary);
-            color: var(--white);
-        }
-
-        .btn-danger:hover {
-            background: #b71519;
-        }
-
-        .btn-success {
-            background: #28a745;
-            color: var(--white);
-        }
-
-        .btn-success:hover {
-            background: #218838;
-        }
-
-        .btn-secondary {
-            background: var(--gray);
-            color: var(--white);
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-
-        .actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .actions .btn {
-            flex: 1;
-        }
-
-        .preview {
-            border: 1px solid #e9ecef;
-            border-radius: 10px;
-            padding: 20px;
-            max-height: 600px;
-            overflow-y: auto;
-            background: var(--white);
-        }
-
-        body.dark-mode .preview {
-            background: #343a40;
-            border-color: #495057;
-        }
-
-        .output-container {
-            margin-top: 30px;
-        }
-
-        .output-code {
+        #generateBtn {
+            background-color: var(--primary-color);
+            color: white;
             width: 100%;
-            min-height: 300px;
-            font-family: monospace;
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 15px;
-            white-space: pre-wrap;
-            word-break: break-all;
-            color: var(--dark);
+            font-size: 18px;
         }
 
-        body.dark-mode .output-code {
-            background: #1e2227;
-            border-color: #495057;
-            color: #e9ecef;
+        #generateBtn:hover {
+            background-color: #0c4a93;
         }
 
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: var(--white);
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
+        .controls button {
+            background-color: #6c757d;
+            color: white;
+        }
+        .controls button:hover {
+            background-color: #5a6268;
+        }
+
+        /* Content Builder Styles */
+        .content-builder-item {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            background-color: var(--card-background);
+            position: relative;
+        }
+
+        .content-builder-item h3 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--primary-color);
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .content-builder-item .remove-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
             cursor: pointer;
-            box-shadow: var(--shadow);
-            z-index: 100;
-            transition: var(--transition);
+            font-size: 12px;
+            line-height: 1;
+        }
+        .content-builder-item .remove-btn:hover {
+            background-color: #a01316;
         }
 
-        body.dark-mode .theme-toggle {
-            background: #2d3239;
-            color: #f8f9fa;
+        /* Output Styling */
+        #output-code {
+            width: 100%;
+            height: 300px;
+            padding: 15px;
+            border: 1px solid var(--primary-color);
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            font-family: monospace;
+            white-space: pre-wrap;
+            direction: ltr; /* HTML code is LTR */
+            text-align: left;
         }
 
+        #downloadBtn {
+            background-color: var(--secondary-color);
+            color: white;
+            margin-top: 10px;
+        }
+        #downloadBtn:hover {
+            background-color: #a01316;
+        }
+        
         .notification {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: linear-gradient(to right, #10b981, #059669);
-            color: white;
             padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateY(20px);
+            z-index: 1000;
             display: flex;
             align-items: center;
             gap: 10px;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: var(--transition);
-            z-index: 100;
         }
 
         .notification.show {
-            transform: translateY(0);
             opacity: 1;
+            transform: translateY(0);
         }
 
-        .notification.error {
-            background: linear-gradient(to right, #ef4444, #dc2626);
-        }
-
+        /* Media Queries for Responsiveness */
         @media (max-width: 768px) {
-            .app-container {
-                gap: 20px;
+            .container {
+                padding: 15px;
             }
-            
-            .form-container, .preview-container {
-                padding: 20px;
-            }
-            
-            .actions {
-                flex-direction: column;
-            }
-            
-            .theme-toggle {
-                top: 10px;
-                left: 10px;
-                width: 40px;
-                height: 40px;
+            .content-builder-item .remove-btn {
+                position: static;
+                margin-top: 10px;
             }
         }
     </style>
 </head>
 <body>
-    <button class="theme-toggle" id="themeToggle">
-        <i class="fas fa-moon"></i>
-    </button>
 
     <div class="container">
-        <header>
-            <h1>تولیدکننده کد HTML بلاگ</h1>
-            <p class="subtitle">ایجاد کد HTML برای پست‌های بلاگ با قالب Elementor</p>
-        </header>
+        <h1>ابزار تولیدکننده کد بلاگ</h1>
+        <p>با وارد کردن اطلاعات زیر، کد HTML نهایی پست بلاگ شما تولید می‌شود.</p>
 
-        <div class="app-container">
-            <div class="form-container">
-                <h2 class="section-title">اطلاعات بلاگ</h2>
-                
-                <div class="form-group">
-                    <label for="blogTitle">عنوان اصلی</label>
-                    <input type="text" id="blogTitle" placeholder="عنوان اصلی بلاگ را وارد کنید">
-                </div>
-                
-                <div class="form-group">
-                    <label for="blogSubtitle">زیرعنوان</label>
-                    <input type="text" id="blogSubtitle" placeholder="زیرعنوان بلاگ را وارد کنید">
-                </div>
-                
-                <div class="form-group">
-                    <label for="blogAuthor">نویسنده</label>
-                    <input type="text" id="blogAuthor" placeholder="نام نویسنده را وارد کنید">
-                </div>
-                
-                <div class="form-group">
-                    <label for="blogDate">تاریخ انتشار</label>
-                    <input type="text" id="blogDate" placeholder="تاریخ انتشار را وارد کنید">
-                </div>
-                
-                <h2 class="section-title">بخش‌های محتوا</h2>
-                
-                <div id="sectionsContainer">
-                    <!-- بخش‌ها به صورت پویا اضافه خواهند شد -->
-                </div>
-                
-                <button class="btn btn-primary" id="addSection">
-                    <i class="fas fa-plus"></i> افزودن بخش جدید
-                </button>
-                
-                <div class="actions">
-                    <button class="btn btn-success" id="generateCode">
-                        <i class="fas fa-code"></i> تولید کد
-                    </button>
-                    <button class="btn btn-secondary" id="resetForm">
-                        <i class="fas fa-redo"></i> بازنشانی فرم
-                    </button>
+        <div class="input-group">
+            <label for="mainTitle">عنوان اصلی بلاگ:</label>
+            <input type="text" id="mainTitle" value="روش مطالعه درس علوم و فنون ادبی رشته انسانی" placeholder="مثلاً: روش مطالعه درس ...">
+
+            <label for="subTitle">زیرعنوان (Subtitle):</label>
+            <input type="text" id="subTitle" value="چگونه علوم و فنون را اصولی، ماندگار و مفهومی یاد بگیریم" placeholder="مثلاً: نکات کلیدی یادگیری">
+        </div>
+
+        <div class="meta-input">
+            <label for="authorName">نام نویسنده:</label>
+            <input type="text" id="authorName" value="امیرمهدی ترکمانی" placeholder="مثلاً: علی احمدی">
+            
+            <label for="publishDate">تاریخ انتشار:</label>
+            <input type="text" id="publishDate" value="۱ آبان ۱۴۰۴" placeholder="مثلاً: ۲۹ شهریور ۱۴۰۲">
+        </div>
+
+        <div class="content-builder">
+            <h2><i class="fas fa-list-alt"></i> ساختار محتوا</h2>
+            <div id="contentItems">
+                <div class="content-builder-item" data-type="paragraph">
+                    <h3>پاراگراف اولیه (مثال)</h3>
+                    <textarea class="content-text" placeholder="متن پاراگراف...">درس علوم و فنون ادبی یکی از مهم‌ترین و پایه‌ای‌ترین دروس رشته انسانی است که نقش قابل‌توجهی در موفقیت تحصیلی و به‌ویژه در کنکور دارد. بسیاری از دانش‌آموزان تصور می‌کنند علوم و فنون درس دشواری است، اما واقعیت این است که اگر روش مطالعه آن را بدانید، می‌توانید این درس را به یکی از نمره‌آورترین و جذاب‌ترین دروس خود تبدیل کنید.</textarea>
+                    <button type="button" class="remove-btn" onclick="removeItem(this)">حذف <i class="fas fa-times"></i></button>
                 </div>
             </div>
             
-            <div class="preview-container">
-                <h2 class="section-title">پیش‌نمایش</h2>
-                
-                <div class="preview" id="preview">
-                    <p>پیش‌نمایش در اینجا نمایش داده خواهد شد</p>
-                </div>
-                
-                <div class="output-container">
-                    <h2 class="section-title">کد تولید شده</h2>
-                    
-                    <textarea class="output-code" id="outputCode" readonly placeholder="کد HTML تولید شده در اینجا نمایش داده می‌شود"></textarea>
-                    
-                    <div class="actions">
-                        <button class="btn btn-primary" id="copyCode">
-                            <i class="fas fa-copy"></i> کپی کد
-                        </button>
-                        <button class="btn btn-success" id="downloadCode">
-                            <i class="fas fa-download"></i> دانلود فایل
-                        </button>
-                    </div>
-                </div>
+            <div class="controls">
+                <label>افزودن آیتم جدید:</label>
+                <button type="button" onclick="addItem('heading')"><i class="fas fa-heading"></i> تیتر (h2)</button>
+                <button type="button" onclick="addItem('paragraph')"><i class="fas fa-paragraph"></i> پاراگراف</button>
+                <button type="button" onclick="addItem('list')"><i class="fas fa-ul"></i> لیست غیرعددی (ul)</button>
+                <button type="button" onclick="addItem('ordered-list')"><i class="fas fa-list-ol"></i> لیست عددی (ol)</button>
+                <button type="button" onclick="addItem('figure')"><i class="fas fa-image"></i> تصویر/شکل (Figure)</button>
             </div>
         </div>
-    </div>
-    
-    <div class="notification" id="notification">
-        <i class="fas fa-check-circle"></i>
-        <span>پیام اطلاع‌رسانی</span>
+
+        <button id="generateBtn" type="button"><i class="fas fa-cogs"></i> تولید کد Elementor (HTML/CSS)</button>
+
+        <div class="output-section">
+            <h2><i class="fas fa-code"></i> خروجی کد نهایی</h2>
+            <textarea id="output-code" readonly placeholder="کد HTML/CSS تولید شده در این قسمت نمایش داده خواهد شد..."></textarea>
+            <button id="downloadBtn" type="button" disabled><i class="fas fa-download"></i> دانلود خروجی (TXT)</button>
+        </div>
     </div>
 
+    <div id="notification" class="notification"></div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // عناصر DOM
-            const themeToggle = document.getElementById('themeToggle');
-            const body = document.body;
-            const blogTitle = document.getElementById('blogTitle');
-            const blogSubtitle = document.getElementById('blogSubtitle');
-            const blogAuthor = document.getElementById('blogAuthor');
-            const blogDate = document.getElementById('blogDate');
-            const sectionsContainer = document.getElementById('sectionsContainer');
-            const addSectionBtn = document.getElementById('addSection');
-            const generateCodeBtn = document.getElementById('generateCode');
-            const resetFormBtn = document.getElementById('resetForm');
-            const preview = document.getElementById('preview');
-            const outputCode = document.getElementById('outputCode');
-            const copyCodeBtn = document.getElementById('copyCode');
-            const downloadCodeBtn = document.getElementById('downloadCode');
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainTitle = document.getElementById('mainTitle');
+            const subTitle = document.getElementById('subTitle');
+            const authorName = document.getElementById('authorName');
+            const publishDate = document.getElementById('publishDate');
+            const contentItemsContainer = document.getElementById('contentItems');
+            const generateBtn = document.getElementById('generateBtn');
+            const outputCode = document.getElementById('output-code');
+            const downloadBtn = document.getElementById('downloadBtn');
             const notification = document.getElementById('notification');
-            
-            // مدیریت حالت تاریک/روشن
-            const darkMode = localStorage.getItem('darkMode');
-            if (darkMode === 'enabled') {
-                body.classList.add('dark-mode');
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+
+            // --- Helper Functions ---
+            function showNotification(message, isSuccess) {
+                notification.innerHTML = `<i class="fas ${isSuccess ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> <span>${message}</span>`;
+                notification.style.background = isSuccess
+                    ? 'linear-gradient(to right, #10b981, #059669)'
+                    : 'linear-gradient(to right, #ef4444, #dc2626)';
+                
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
             }
-            
-            themeToggle.addEventListener('click', function() {
-                body.classList.toggle('dark-mode');
+
+            window.addItem = function(type) {
+                const item = document.createElement('div');
+                item.classList.add('content-builder-item');
+                item.setAttribute('data-type', type);
                 
-                if (body.classList.contains('dark-mode')) {
-                    localStorage.setItem('darkMode', 'enabled');
-                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                } else {
-                    localStorage.setItem('darkMode', 'disabled');
-                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                let contentHTML = '';
+                let titleText = '';
+
+                switch (type) {
+                    case 'heading':
+                        titleText = 'تیتر جدید (h2)';
+                        contentHTML = '<input type="text" class="content-text" placeholder="متن تیتر (h2)..." value="تیتر جدید">';
+                        break;
+                    case 'paragraph':
+                        titleText = 'پاراگراف جدید';
+                        contentHTML = '<textarea class="content-text" placeholder="متن پاراگراف..."></textarea>';
+                        break;
+                    case 'list':
+                        titleText = 'لیست غیرعددی (ul)';
+                        contentHTML = '<textarea class="content-text" placeholder="هر آیتم در یک خط جداگانه بنویسید..."></textarea>';
+                        break;
+                    case 'ordered-list':
+                        titleText = 'لیست عددی (ol)';
+                        contentHTML = '<textarea class="content-text" placeholder="هر آیتم در یک خط جداگانه بنویسید..."></textarea>';
+                        break;
+                    case 'figure':
+                        titleText = 'تصویر/شکل';
+                        contentHTML = '<input type="text" class="content-url" placeholder="آدرس URL تصویر (src)...">' +
+                                      '<input type="text" class="content-alt" placeholder="متن جایگزین تصویر (alt)...">';
+                        break;
                 }
-            });
-            
-            // افزودن بخش اولیه
-            addSection();
-            
-            // افزودن بخش جدید
-            addSectionBtn.addEventListener('click', addSection);
-            
-            // بازنشانی فرم
-            resetFormBtn.addEventListener('click', function() {
-                blogTitle.value = '';
-                blogSubtitle.value = '';
-                blogAuthor.value = '';
-                blogDate.value = '';
-                sectionsContainer.innerHTML = '';
-                preview.innerHTML = '<p>پیش‌نمایش در اینجا نمایش داده خواهد شد</p>';
-                outputCode.value = '';
-                addSection();
-                showNotification('فرم بازنشانی شد', true);
-            });
-            
-            // تولید کد
-            generateCodeBtn.addEventListener('click', generateCode);
-            
-            // کپی کردن کد
-            copyCodeBtn.addEventListener('click', function() {
-                if (!outputCode.value) {
-                    showNotification('کدی برای کپی کردن وجود ندارد!', false);
-                    return;
-                }
-                
-                outputCode.select();
-                document.execCommand('copy');
-                showNotification('کد با موفقیت کپی شد!', true);
-            });
-            
-            // دانلود کد
-            downloadCodeBtn.addEventListener('click', function() {
-                if (!outputCode.value) {
-                    showNotification('کدی برای دانلود وجود ندارد!', false);
-                    return;
-                }
-                
-                const blob = new Blob([outputCode.value], { type: 'text/html' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'blog-post.html';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                showNotification('فایل با موفقیت دانلود شد!', true);
-            });
-            
-            // تابع افزودن بخش جدید
-            function addSection() {
-                const sectionId = Date.now();
-                const sectionHTML = `
-                    <div class="section-container" data-id="${sectionId}">
-                        <div class="section-header">
-                            <input type="text" class="section-title-input" placeholder="عنوان بخش">
-                            <button class="btn btn-danger remove-section" data-id="${sectionId}">
-                                <i class="fas fa-trash"></i> حذف
-                            </button>
-                        </div>
-                        <div class="form-group">
-                            <label>محتوا</label>
-                            <textarea class="section-content" placeholder="محتوای بخش را وارد کنید"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>آدرس تصویر (اختیاری)</label>
-                            <input type="text" class="section-image" placeholder="آدرس تصویر را وارد کنید">
-                        </div>
-                    </div>
+
+                item.innerHTML = `
+                    <h3>${titleText}</h3>
+                    ${contentHTML}
+                    <button type="button" class="remove-btn" onclick="removeItem(this)">حذف <i class="fas fa-times"></i></button>
                 `;
-                
-                sectionsContainer.insertAdjacentHTML('beforeend', sectionHTML);
-                
-                // اضافه کردن event listener برای دکمه حذف
-                const removeBtn = document.querySelector(`.remove-section[data-id="${sectionId}"]`);
-                removeBtn.addEventListener('click', function() {
-                    const section = document.querySelector(`.section-container[data-id="${sectionId}"]`);
-                    section.remove();
-                    showNotification('بخش حذف شد', true);
-                });
+
+                contentItemsContainer.appendChild(item);
+                showNotification(`آیتم ${titleText} اضافه شد.`, true);
             }
-            
-            // تابع تولید کد
-            function generateCode() {
-                const title = blogTitle.value.trim();
-                const subtitle = blogSubtitle.value.trim();
-                const author = blogAuthor.value.trim();
-                const date = blogDate.value.trim();
-                
-                if (!title) {
-                    showNotification('لطفاً عنوان اصلی را وارد کنید', false);
-                    return;
-                }
-                
-                // جمع‌آوری بخش‌ها
-                const sections = [];
-                const sectionElements = document.querySelectorAll('.section-container');
-                
-                sectionElements.forEach(section => {
-                    const sectionTitle = section.querySelector('.section-title-input').value.trim();
-                    const sectionContent = section.querySelector('.section-content').value.trim();
-                    const sectionImage = section.querySelector('.section-image').value.trim();
-                    
-                    if (sectionTitle || sectionContent) {
-                        sections.push({
-                            title: sectionTitle,
-                            content: sectionContent,
-                            image: sectionImage
-                        });
-                    }
-                });
-                
-                if (sections.length === 0) {
-                    showNotification('لطفاً حداقل یک بخش با محتوا اضافه کنید', false);
-                    return;
-                }
-                
-                // تولید کد HTML
-                const htmlCode = generateHTMLCode(title, subtitle, author, date, sections);
-                
-                // نمایش کد در خروجی
-                outputCode.value = htmlCode;
-                
-                // نمایش پیش‌نمایش
-                preview.innerHTML = htmlCode;
-                
-                showNotification('کد با موفقیت تولید شد!', true);
+
+            window.removeItem = function(button) {
+                const item = button.closest('.content-builder-item');
+                item.remove();
+                showNotification('آیتم حذف شد.', false);
             }
-            
-            // تابع تولید کد HTML
-            function generateHTMLCode(title, subtitle, author, date, sections) {
-                return `
-<div class="blog-post-widget" dir="rtl">
-    <style>
+
+            // --- Generation Logic ---
+
+            const CSS_STYLES = `
+        @font-face {
+            font-family: 'Afont Black';
+            src: url('/wp-content/uploads/2025/02/Afont-Black.ttf') format('truetype');
+            font-weight: 900;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Afont Regular';
+            src: url('/wp-content/uploads/2025/02/Afont-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
         .blog-post-widget {
-            font-family: Tahoma, sans-serif;
+            font-family: 'Afont Regular', sans-serif;
             color: #212529;
             line-height: 1.8;
             -webkit-font-smoothing: antialiased;
@@ -638,7 +394,7 @@
 
         .blog-post-widget h1 {
             color: #105AC0;
-            font-family: Tahoma, sans-serif;
+            font-family: 'Afont Black', sans-serif;
             font-size: 27px;
             font-weight: 900;
             margin-bottom: 15px;
@@ -653,7 +409,7 @@
         }
 
         .blog-post-widget h2 {
-            font-family: Tahoma, sans-serif;
+            font-family: 'Afont Black', sans-serif;
             font-size: 22px;
             font-weight: 700;
             color: #343a40;
@@ -710,7 +466,7 @@
         }
 
         .blog-post-widget .author-info strong, .blog-post-widget .date-info strong {
-            font-family: Tahoma, sans-serif;
+            font-family: 'Afont Black', sans-serif;
             color: #495057;
             font-size: 0.9rem;
         }
@@ -815,6 +571,59 @@
                 padding: 20px;
             }
         }
+            `.trim(); // Using .trim() to clean up leading/trailing whitespace
+
+            function generateContentHTML() {
+                let contentHTML = '';
+                const items = contentItemsContainer.querySelectorAll('.content-builder-item');
+
+                items.forEach(item => {
+                    const type = item.getAttribute('data-type');
+                    const textContent = item.querySelector('.content-text')?.value || '';
+                    const urlContent = item.querySelector('.content-url')?.value || '';
+                    const altContent = item.querySelector('.content-alt')?.value || '';
+                    
+                    switch (type) {
+                        case 'heading':
+                            contentHTML += `\n            <h2>${textContent.trim()}</h2>`;
+                            break;
+                        case 'paragraph':
+                            contentHTML += `\n            <p>${textContent.trim()}</p>`;
+                            break;
+                        case 'list':
+                        case 'ordered-list':
+                            const tag = type === 'list' ? 'ul' : 'ol';
+                            const lines = textContent.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+                            let listItems = lines.map(line => `\r\n                <li>${line}</li>`).join('');
+                            contentHTML += `\n            <${tag}>${listItems}\r\n            </${tag}>`;
+                            break;
+                        case 'figure':
+                            if (urlContent) {
+                                contentHTML += `\n            <figure>\r\n                <img src="${urlContent.trim()}" alt="${altContent.trim()}">\r\n            </figure>`;
+                            }
+                            break;
+                    }
+                });
+                return contentHTML.trim();
+            }
+
+            function generateFinalCode() {
+                const title = mainTitle.value.trim();
+                const subtitle = subTitle.value.trim();
+                const author = authorName.value.trim();
+                const date = publishDate.value.trim();
+                const generatedContent = generateContentHTML();
+
+                if (!title || !author || !generatedContent) {
+                    showNotification('لطفاً عنوان اصلی، نام نویسنده و حداقل یک آیتم محتوا را وارد کنید.', false);
+                    return '';
+                }
+
+                // 1. Generate the inner HTML content (Widget Content)
+                const widgetContent = `
+<div class="blog-post-widget" dir="rtl">
+    <style>
+${CSS_STYLES}
     </style>
 
     <div class="container">
@@ -824,11 +633,8 @@
                 <p class="subtitle">${subtitle}</p>
             </div>
 
-            ${sections.map(section => `
-                ${section.title ? `<h2>${section.title}</h2>` : ''}
-                ${section.content ? `<p>${section.content.replace(/\n/g, '</p><p>')}</p>` : ''}
-                ${section.image ? `<figure><img src="${section.image}" alt="${section.title || 'تصویر'}"></figure>` : ''}
-            `).join('')}
+${generatedContent}
+
         </div>
 
         <div class="author-date-box">
@@ -850,35 +656,53 @@
                 container.style.opacity = '1';
             }
         });
-    <\/script>
+    </script>
 </div>
-                `;
+`.trim();
+
+                // 2. Generate the full Elementor-compatible code (simplified structure)
+                // Note: The Elementor JSON structure is complex. We'll generate the HTML for the HTML widget, which is the most practical output for your use case.
+                
+                // For a WordPress/Elementor context, the raw HTML is usually placed inside an 'HTML' widget. 
+                // The output is the clean HTML block ready to be pasted into the HTML widget.
+
+                return widgetContent;
             }
-            
-            // تابع نمایش نوتیفیکیشن
-            function showNotification(message, isSuccess) {
-                notification.innerHTML = `
-                    <i class="fas ${isSuccess ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
-                    <span>${message}</span>
-                `;
-                
-                notification.style.background = isSuccess
-                    ? 'linear-gradient(to right, #10b981, #059669)'
-                    : 'linear-gradient(to right, #ef4444, #dc2626)';
-                
-                if (!isSuccess) {
-                    notification.classList.add('error');
+
+            // --- Event Listeners ---
+
+            generateBtn.addEventListener('click', () => {
+                const finalCode = generateFinalCode();
+                if (finalCode) {
+                    outputCode.value = finalCode;
+                    downloadBtn.disabled = false;
+                    showNotification('کد با موفقیت تولید شد! آماده برای کپی یا دانلود.', true);
                 } else {
-                    notification.classList.remove('error');
+                    outputCode.value = '';
+                    downloadBtn.disabled = true;
+                }
+            });
+
+            downloadBtn.addEventListener('click', () => {
+                const codeToDownload = outputCode.value;
+                if (!codeToDownload) {
+                    showNotification('کدی برای دانلود وجود ندارد.', false);
+                    return;
                 }
                 
-                notification.classList.add('show');
-                
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 3000);
-            }
+                const blob = new Blob([codeToDownload], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'blog_post_code.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showNotification('فایل TXT با موفقیت دانلود شد.', true);
+            });
         });
     </script>
+
 </body>
 </html>
