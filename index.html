@@ -1,571 +1,436 @@
-
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ابزار تولید کد HTML برای پست‌های وبلاگ</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>تولید کننده کد بلاگ المنتور</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* CSS برای تمیز و کاربردی بودن ابزار */
         :root {
             --primary-color: #105AC0;
             --secondary-color: #D0191D;
-            --light-bg: #f8f9fa;
-            --dark-bg: #343a40;
-            --text-color: #212529;
-            --border-radius: 15px;
-            --box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            --background-light: #f4f6f8;
+            --surface-light: #ffffff;
+            --text-dark: #212529;
+            --border-color: #e9ecef;
+            --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: #f5f7fa;
+            font-family: Tahoma, 'Afont Regular', sans-serif; /* Afont is assumed to be local or included in the final widget */
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            direction: rtl;
             padding: 20px;
-            transition: all 0.3s ease;
+            margin: 0;
+            line-height: 1.6;
         }
 
-        body.dark-mode {
-            background-color: #1a1a1a;
-            color: #e0e0e0;
-        }
-
-        .container {
-            max-width: 1200px;
+        .tool-container {
+            max-width: 900px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .form-container, .preview-container {
-            background: #ffffff;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
+            background-color: var(--surface-light);
             padding: 30px;
-        }
-
-        .dark-mode .form-container,
-        .dark-mode .preview-container {
-            background: #2d2d2d;
-            color: #e0e0e0;
+            border-radius: 15px;
+            box-shadow: var(--shadow-subtle);
         }
 
         h1 {
-            text-align: center;
             color: var(--primary-color);
-            margin-bottom: 30px;
-            font-size: 28px;
-        }
-
-        .dark-mode h1 {
-            color: #6ba8ff;
-        }
-
-        h2 {
-            color: var(--dark-bg);
+            text-align: center;
             margin-bottom: 20px;
+            border-bottom: 3px solid var(--secondary-color);
             padding-bottom: 10px;
-            border-bottom: 2px solid var(--light-bg);
+            font-size: 24px;
         }
 
-        .dark-mode h2 {
-            color: #cccccc;
-            border-bottom-color: #444;
+        /* --- Form Styling --- */
+        .form-section {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
         }
 
-        .form-group {
-            margin-bottom: 20px;
+        .form-section h2 {
+            color: var(--secondary-color);
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed var(--border-color);
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #495057;
         }
 
-        input, textarea, select {
+        input[type="text"],
+        textarea {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ddd;
+            margin-bottom: 15px;
+            border: 1px solid #ced4da;
             border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        .dark-mode input,
-        .dark-mode textarea,
-        .dark-mode select {
-            background: #3a3a3a;
-            border-color: #555;
-            color: #e0e0e0;
-        }
-
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(16, 90, 192, 0.1);
+            box-sizing: border-box;
+            font-size: 14px;
+            resize: vertical;
+            direction: rtl;
         }
 
         textarea {
-            min-height: 120px;
-            resize: vertical;
+            min-height: 150px;
         }
 
-        .section {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: var(--light-bg);
-            border-radius: var(--border-radius);
-        }
-
-        .dark-mode .section {
-            background: #3a3a3a;
-        }
-
-        .btn {
-            display: inline-block;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 24px;
+        /* --- Dynamic Content/List Styling --- */
+        .content-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #dee2e6;
             border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s;
-            text-align: center;
+            background-color: #ffffff;
+            position: relative;
         }
 
-        .btn:hover {
-            background: #0d4ba8;
+        .content-item input,
+        .content-item textarea {
+            margin-bottom: 10px;
+        }
+        
+        .content-fields {
+            flex-grow: 1;
+        }
+
+        .remove-btn, .add-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+
+        .remove-btn {
+            background-color: #e85d04;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .remove-btn:hover {
+            background-color: #c94c03;
+        }
+
+        .add-btn {
+            background-color: var(--primary-color);
+            color: white;
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .add-btn:hover {
+            background-color: #0d4a94;
+        }
+
+        .main-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            justify-content: center;
+        }
+
+        #generateBtn, #downloadBtn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        #generateBtn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        #generateBtn:hover {
+            background-color: #0d4a94;
             transform: translateY(-2px);
         }
 
-        .btn-secondary {
-            background: var(--secondary-color);
+        #downloadBtn {
+            background-color: var(--secondary-color);
+            color: white;
+            display: none; /* Hidden by default */
+        }
+        
+        #downloadBtn.show {
+            display: block;
         }
 
-        .btn-secondary:hover {
-            background: #b31519;
+        #downloadBtn:hover {
+            background-color: #b81519;
+            transform: translateY(-2px);
         }
 
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .preview {
-            background: white;
-            border-radius: var(--border-radius);
+        /* --- Result Area --- */
+        #resultContainer {
+            margin-top: 30px;
             padding: 20px;
-            max-height: 600px;
-            overflow-y: auto;
-            border: 1px solid #eee;
-        }
-
-        .dark-mode .preview {
-            background: #2d2d2d;
-            border-color: #444;
-        }
-
-        .code-output {
-            background: #1e1e1e;
-            color: #d4d4d4;
-            padding: 20px;
-            border-radius: var(--border-radius);
-            font-family: 'Courier New', monospace;
-            white-space: pre-wrap;
-            max-height: 600px;
-            overflow-y: auto;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            background: linear-gradient(to right, #10b981, #059669);
-            color: white;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 1000;
-            transform: translateX(150%);
-            transition: transform 0.3s ease;
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification.error {
-            background: linear-gradient(to right, #ef4444, #dc2626);
-        }
-
-        .header-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .theme-toggle {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--primary-color);
-            transition: all 0.3s;
-        }
-
-        .dark-mode .theme-toggle {
-            color: #ffcc00;
-        }
-
-        .section-controls {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-
-        .add-section-btn {
-            background: #10b981;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .remove-section-btn {
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .image-preview {
-            max-width: 100%;
-            margin-top: 10px;
+            background-color: #e9f0f9;
+            border: 2px dashed var(--primary-color);
             border-radius: 10px;
-            display: none;
+        }
+
+        #resultPre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            background-color: #f0f4f9;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #dcdcdc;
+            max-height: 400px;
+            overflow-y: auto;
+            direction: ltr; /* HTML code is LTR */
+        }
+        
+        .result-placeholder {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            padding: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="header-controls">
-        <h1>ابزار تولید کد HTML برای پست‌های وبلاگ</h1>
-        <button class="theme-toggle" id="themeToggle">
-            <i class="fas fa-moon"></i>
-        </button>
-    </div>
 
-    <div class="container">
-        <div class="form-container">
-            <h2>اطلاعات پست</h2>
+<div class="tool-container">
+    <h1><i class="fas fa-file-code"></i> تولید کننده کد HTML بلاگ</h1>
+    <p style="text-align: center; color: #6c757d;">اطلاعات مورد نیاز پست بلاگ را وارد کنید. خروجی نهایی یک کد HTML آماده برای استفاده در ابزارک (Widget) HTML سفارشی المنتور خواهد بود.</p>
+
+    <form id="blogForm">
+        <div class="form-section">
+            <h2><i class="fas fa-heading"></i> اطلاعات اصلی</h2>
+            <label for="mainTitle">عنوان اصلی (h1):</label>
+            <input type="text" id="mainTitle" value="روش مطالعه درس علوم و فنون ادبی رشته انسانی" required>
+
+            <label for="subTitle">زیرنویس/شعار (Subtitle):</label>
+            <input type="text" id="subTitle" value="چگونه علوم و فنون را اصولی، ماندگار و مفهومی یاد بگیریم" required>
+
+            <label for="authorName">نام نویسنده:</label>
+            <input type="text" id="authorName" value="امیرمهدی ترکمانی" required>
+
+            <label for="publishDate">تاریخ انتشار:</label>
+            <input type="text" id="publishDate" value="۱ آبان ۱۴۰۴" required>
             
-            <div class="form-group">
-                <label for="postTitle">عنوان پست</label>
-                <input type="text" id="postTitle" placeholder="عنوان پست را وارد کنید">
-            </div>
-            
-            <div class="form-group">
-                <label for="postSubtitle">زیرعنوان</label>
-                <input type="text" id="postSubtitle" placeholder="زیرعنوان پست را وارد کنید">
-            </div>
-            
-            <div class="form-group">
-                <label for="authorName">نام نویسنده</label>
-                <input type="text" id="authorName" placeholder="نام نویسنده را وارد کنید">
-            </div>
-            
-            <div class="form-group">
-                <label for="publishDate">تاریخ انتشار</label>
-                <input type="text" id="publishDate" placeholder="تاریخ انتشار را وارد کنید">
-            </div>
-            
-            <h2>محتوا</h2>
-            
-            <div id="contentSections">
-                <div class="section" data-section="1">
-                    <div class="section-controls">
-                        <h3>بخش ۱</h3>
-                        <button class="remove-section-btn" onclick="removeSection(1)">
-                            <i class="fas fa-trash"></i> حذف بخش
-                        </button>
+            <label for="mainImage">لینک تصویر اصلی (Figure 1):</label>
+            <input type="text" id="mainImage" value="https://radianlearn.ir/image/farsi7867sdf7sdf76s67fsh434.jpg">
+            <label for="mainImageAlt">متن جایگزین تصویر اصلی (Alt):</label>
+            <input type="text" id="mainImageAlt" value="مطالعه علوم و فنون ادبی">
+
+            <label for="introText">متن مقدمه (Introduction):</label>
+            <textarea id="introText" required>درس علوم و فنون ادبی یکی از مهم‌ترین و پایه‌ای‌ترین دروس رشته انسانی است که نقش قابل‌توجهی در موفقیت تحصیلی و به‌ویژه در کنکور دارد. بسیاری از دانش‌آموزان تصور می‌کنند علوم و فنون درس دشواری است، اما واقعیت این است که اگر روش مطالعه آن را بدانید، می‌توانید این درس را به یکی از نمره‌آورترین و جذاب‌ترین دروس خود تبدیل کنید.
+در این مطلب، با ساختار درس علوم و فنون آشنا می‌شوید و یاد می‌گیرید چگونه هر بخش را اصولی و ماندگار مطالعه کنید.</textarea>
+        </div>
+
+        <div class="form-section">
+            <h2><i class="fas fa-list-alt"></i> محتوای متنی و تصویری (Dynamic Content)</h2>
+            <div id="dynamicContentArea">
+                <div class="content-item" data-type="text">
+                    <div class="content-fields">
+                        <label>نوع محتوا:</label>
+                        <select onchange="updateContentItemFields(this)">
+                            <option value="paragraph" selected>پاراگراف (Paragraph)</option>
+                            <option value="h2">عنوان سطح ۲ (H2)</option>
+                            <option value="ul">لیست (Unordered List - ul)</option>
+                            <option value="ol">لیست عددی (Ordered List - ol)</option>
+                            <option value="figure">تصویر (Figure/Image)</option>
+                        </select>
+                        <textarea name="content-text" placeholder="متن محتوا را وارد کنید... (در صورت لیست، هر خط یک آیتم)"></textarea>
+                        <div class="image-fields" style="display: none;">
+                            <input type="text" name="content-image-src" placeholder="لینک تصویر">
+                            <input type="text" name="content-image-alt" placeholder="متن جایگزین (Alt)">
+                        </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="sectionTitle1">عنوان بخش</label>
-                        <input type="text" id="sectionTitle1" placeholder="عنوان بخش را وارد کنید">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="sectionContent1">محتوا</label>
-                        <textarea id="sectionContent1" placeholder="محتوا را وارد کنید"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="sectionImage1">آدرس تصویر (اختیاری)</label>
-                        <input type="text" id="sectionImage1" placeholder="آدرس تصویر را وارد کنید">
-                        <img id="imagePreview1" class="image-preview" alt="پیش‌نمایش تصویر">
-                    </div>
+                    <button type="button" class="remove-btn" onclick="removeContentItem(this)"><i class="fas fa-trash"></i> حذف</button>
                 </div>
             </div>
             
-            <button class="add-section-btn" id="addSectionBtn">
-                <i class="fas fa-plus"></i> افزودن بخش جدید
-            </button>
-            
-            <div class="btn-group">
-                <button class="btn" id="generateBtn">تولید کد HTML</button>
-                <button class="btn btn-secondary" id="downloadBtn">دانلود فایل TXT</button>
-            </div>
+            <button type="button" class="add-btn" onclick="addContentItem('paragraph')"><i class="fas fa-plus-circle"></i> افزودن محتوای جدید</button>
         </div>
-        
-        <div class="preview-container">
-            <h2>پیش‌نمایش</h2>
-            <div class="preview" id="preview">
-                <p>پیش‌نمایش پست در اینجا نمایش داده خواهد شد.</p>
-            </div>
-            
-            <h2>کد HTML تولید شده</h2>
-            <div class="code-output" id="codeOutput">
-                <p>کد HTML در اینجا نمایش داده خواهد شد.</p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="notification" id="notification">
-        <i class="fas fa-check-circle"></i>
-        <span>پیام اطلاع‌رسانی</span>
-    </div>
 
-    <script>
-        // متغیرهای سراسری
-        let sectionCount = 1;
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
+        <div class="form-section">
+            <h2><i class="fas fa-check-circle"></i> جمع‌بندی نهایی</h2>
+            <label for="conclusionText">متن جمع‌بندی:</label>
+            <textarea id="conclusionText" required>درس علوم و فنون ادبی مجموعه‌ای از دانش تاریخی، تحلیلی و زیبایی‌شناسی زبان فارسی است. با درک مفهومی و تمرین مداوم، می‌توانید به تسلط بالا برسید.  
+اگر سبک‌شناسی را با فهم بخوانید، در عروض تمرین کنید و در آرایه‌ها مثال بزنید، این درس برایتان لذت‌بخش و نمره‌آور خواهد بود.  
+یادگیری علوم و فنون یعنی شناخت روح زبان فارسی و درک اندیشه شاعران بزرگ.</textarea>
+        </div>
+
+        <div class="main-actions">
+            <button type="button" id="generateBtn"><i class="fas fa-cogs"></i> تولید کد HTML</button>
+            <button type="button" id="downloadBtn"><i class="fas fa-download"></i> دانلود فایل TXT</button>
+        </div>
+    </form>
+
+    <div id="resultContainer">
+        <p class="result-placeholder">پس از تولید، کد HTML نهایی اینجا نمایش داده خواهد شد.</p>
+        <pre id="resultPre" style="display: none;"></pre>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const blogForm = document.getElementById('blogForm');
+        const dynamicContentArea = document.getElementById('dynamicContentArea');
         const generateBtn = document.getElementById('generateBtn');
         const downloadBtn = document.getElementById('downloadBtn');
-        const addSectionBtn = document.getElementById('addSectionBtn');
-        const preview = document.getElementById('preview');
-        const codeOutput = document.getElementById('codeOutput');
-        const notification = document.getElementById('notification');
-        
-        // بررسی حالت تاریک در localStorage
-        if (localStorage.getItem('darkMode') === 'enabled') {
-            body.classList.add('dark-mode');
-            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-        }
-        
-        // تغییر حالت تاریک/روشن
-        themeToggle.addEventListener('click', function() {
-            body.classList.toggle('dark-mode');
+        const resultContainer = document.getElementById('resultContainer');
+        const resultPre = document.getElementById('resultPre');
+
+        // --- Core Functions for Dynamic Content ---
+
+        function createContentItem(type = 'paragraph', content = '', imgSrc = '', imgAlt = '') {
+            const item = document.createElement('div');
+            item.className = 'content-item';
+            item.setAttribute('data-type', type);
+
+            const isImage = (type === 'figure');
             
-            if (body.classList.contains('dark-mode')) {
-                localStorage.setItem('darkMode', 'enabled');
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            } else {
-                localStorage.setItem('darkMode', 'disabled');
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-            }
-        });
-        
-        // افزودن بخش جدید
-        addSectionBtn.addEventListener('click', function() {
-            sectionCount++;
-            const newSection = document.createElement('div');
-            newSection.className = 'section';
-            newSection.setAttribute('data-section', sectionCount);
-            
-            newSection.innerHTML = `
-                <div class="section-controls">
-                    <h3>بخش ${sectionCount}</h3>
-                    <button class="remove-section-btn" onclick="removeSection(${sectionCount})">
-                        <i class="fas fa-trash"></i> حذف بخش
-                    </button>
+            item.innerHTML = `
+                <div class="content-fields">
+                    <label>نوع محتوا:</label>
+                    <select onchange="updateContentItemFields(this)">
+                        <option value="paragraph" ${type === 'paragraph' ? 'selected' : ''}>پاراگراف (Paragraph)</option>
+                        <option value="h2" ${type === 'h2' ? 'selected' : ''}>عنوان سطح ۲ (H2)</option>
+                        <option value="ul" ${type === 'ul' ? 'selected' : ''}>لیست (Unordered List - ul)</option>
+                        <option value="ol" ${type === 'ol' ? 'selected' : ''}>لیست عددی (Ordered List - ol)</option>
+                        <option value="figure" ${type === 'figure' ? 'selected' : ''}>تصویر (Figure/Image)</option>
+                    </select>
+                    <textarea name="content-text" placeholder="متن محتوا را وارد کنید... (در صورت لیست، هر خط یک آیتم)" style="display: ${isImage ? 'none' : 'block'};">${content}</textarea>
+                    
+                    <div class="image-fields" style="display: ${isImage ? 'block' : 'none'};">
+                        <input type="text" name="content-image-src" placeholder="لینک تصویر" value="${imgSrc}">
+                        <input type="text" name="content-image-alt" placeholder="متن جایگزین (Alt)" value="${imgAlt}">
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="sectionTitle${sectionCount}">عنوان بخش</label>
-                    <input type="text" id="sectionTitle${sectionCount}" placeholder="عنوان بخش را وارد کنید">
-                </div>
-                
-                <div class="form-group">
-                    <label for="sectionContent${sectionCount}">محتوا</label>
-                    <textarea id="sectionContent${sectionCount}" placeholder="محتوا را وارد کنید"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="sectionImage${sectionCount}">آدرس تصویر (اختیاری)</label>
-                    <input type="text" id="sectionImage${sectionCount}" placeholder="آدرس تصویر را وارد کنید">
-                    <img id="imagePreview${sectionCount}" class="image-preview" alt="پیش‌نمایش تصویر">
-                </div>
+                <button type="button" class="remove-btn" onclick="removeContentItem(this)"><i class="fas fa-trash"></i> حذف</button>
             `;
-            
-            document.getElementById('contentSections').appendChild(newSection);
-            
-            // اضافه کردن event listener برای پیش‌نمایش تصویر
-            document.getElementById(`sectionImage${sectionCount}`).addEventListener('input', function() {
-                updateImagePreview(sectionCount);
-            });
-            
-            showNotification('بخش جدید اضافه شد', true);
-        });
-        
-        // حذف بخش
-        function removeSection(sectionNum) {
-            if (sectionCount <= 1) {
-                showNotification('حداقل باید یک بخش وجود داشته باشد', false);
-                return;
-            }
-            
-            const sectionToRemove = document.querySelector(`[data-section="${sectionNum}"]`);
-            if (sectionToRemove) {
-                sectionToRemove.remove();
-                
-                // به روزرسانی شماره بخش‌ها
-                const sections = document.querySelectorAll('.section');
-                sectionCount = sections.length;
-                
-                sections.forEach((section, index) => {
-                    const sectionNum = index + 1;
-                    section.setAttribute('data-section', sectionNum);
-                    section.querySelector('h3').textContent = `بخش ${sectionNum}`;
-                    
-                    // به روزرسانی idهای ورودی
-                    const titleInput = section.querySelector('input[type="text"]');
-                    const contentTextarea = section.querySelector('textarea');
-                    const imageInput = section.querySelectorAll('input[type="text"]')[1];
-                    
-                    if (titleInput) {
-                        titleInput.id = `sectionTitle${sectionNum}`;
-                        titleInput.previousElementSibling.setAttribute('for', `sectionTitle${sectionNum}`);
-                    }
-                    
-                    if (contentTextarea) {
-                        contentTextarea.id = `sectionContent${sectionNum}`;
-                        contentTextarea.previousElementSibling.setAttribute('for', `sectionContent${sectionNum}`);
-                    }
-                    
-                    if (imageInput) {
-                        imageInput.id = `sectionImage${sectionNum}`;
-                        imageInput.previousElementSibling.setAttribute('for', `sectionImage${sectionNum}`);
-                        
-                        // به روزرسانی پیش‌نمایش تصویر
-                        const imagePreview = section.querySelector('.image-preview');
-                        if (imagePreview) {
-                            imagePreview.id = `imagePreview${sectionNum}`;
-                        }
-                    }
-                    
-                    // به روزرسانی event listener برای پیش‌نمایش تصویر
-                    imageInput.removeEventListener('input', updateImagePreview);
-                    imageInput.addEventListener('input', function() {
-                        updateImagePreview(sectionNum);
-                    });
-                    
-                    // به روزرسانی event listener برای دکمه حذف
-                    const removeBtn = section.querySelector('.remove-section-btn');
-                    removeBtn.setAttribute('onclick', `removeSection(${sectionNum})`);
-                });
-                
-                showNotification('بخش حذف شد', true);
-            }
+            return item;
         }
-        
-        // به روزرسانی پیش‌نمایش تصویر
-        function updateImagePreview(sectionNum) {
-            const imageUrl = document.getElementById(`sectionImage${sectionNum}`).value;
-            const imagePreview = document.getElementById(`imagePreview${sectionNum}`);
-            
-            if (imageUrl) {
-                imagePreview.src = imageUrl;
-                imagePreview.style.display = 'block';
+
+        // Expose functions to the global scope for event handlers in HTML
+        window.addContentItem = function(type) {
+            dynamicContentArea.appendChild(createContentItem(type));
+        }
+
+        window.removeContentItem = function(btn) {
+            btn.closest('.content-item').remove();
+        }
+
+        window.updateContentItemFields = function(select) {
+            const item = select.closest('.content-item');
+            const type = select.value;
+            const textarea = item.querySelector('textarea[name="content-text"]');
+            const imageFields = item.querySelector('.image-fields');
+
+            item.setAttribute('data-type', type);
+
+            if (type === 'figure') {
+                textarea.style.display = 'none';
+                imageFields.style.display = 'block';
             } else {
-                imagePreview.style.display = 'none';
+                textarea.style.display = 'block';
+                imageFields.style.display = 'none';
+            }
+            
+            if (type === 'h2') {
+                textarea.placeholder = 'متن عنوان H2 را وارد کنید.';
+            } else if (type === 'ul' || type === 'ol') {
+                 textarea.placeholder = 'متن آیتم‌های لیست را وارد کنید (هر آیتم در یک خط).';
+            } else {
+                textarea.placeholder = 'متن محتوا را وارد کنید...';
             }
         }
         
-        // تولید کد HTML
-        generateBtn.addEventListener('click', function() {
-            const postTitle = document.getElementById('postTitle').value.trim();
-            const postSubtitle = document.getElementById('postSubtitle').value.trim();
+        // Add one initial item on load
+        dynamicContentArea.innerHTML = '';
+        addContentItem('h2');
+        addContentItem('paragraph');
+        addContentItem('ul');
+        addContentItem('figure');
+
+
+        // --- HTML Generator Logic ---
+
+        function generateContentHTML() {
+            let html = '';
+            const items = dynamicContentArea.querySelectorAll('.content-item');
+
+            items.forEach(item => {
+                const type = item.getAttribute('data-type');
+                const textarea = item.querySelector('textarea[name="content-text"]');
+                const imageSrcInput = item.querySelector('input[name="content-image-src"]');
+                const imageAltInput = item.querySelector('input[name="content-image-alt"]');
+
+                if (type === 'h2') {
+                    const text = textarea.value.trim();
+                    if (text) {
+                        html += `<h2>${text}</h2>\n`;
+                    }
+                } else if (type === 'paragraph') {
+                    const text = textarea.value.trim().split('\n').filter(p => p.trim() !== '');
+                    text.forEach(p => {
+                        html += `<p>${p.trim()}</p>\n`;
+                    });
+                } else if (type === 'ul' || type === 'ol') {
+                    const listItems = textarea.value.trim().split('\n').filter(li => li.trim() !== '');
+                    if (listItems.length > 0) {
+                        const tag = type;
+                        let listHtml = `<${tag}>\n`;
+                        listItems.forEach(li => {
+                            listHtml += `                <li>${li.trim()}</li>\n`;
+                        });
+                        listHtml += `            </${tag}>\n`;
+                        html += listHtml;
+                    }
+                } else if (type === 'figure') {
+                    const src = imageSrcInput.value.trim();
+                    const alt = imageAltInput.value.trim() || 'تصویر بلاگ';
+                    if (src) {
+                        html += `<figure>\n                <img src="${src}" alt="${alt}">\n            </figure>\n`;
+                    }
+                }
+            });
+            return html;
+        }
+
+        function generateFinalHTML() {
+            const mainTitle = document.getElementById('mainTitle').value.trim();
+            const subTitle = document.getElementById('subTitle').value.trim();
             const authorName = document.getElementById('authorName').value.trim();
             const publishDate = document.getElementById('publishDate').value.trim();
+            const mainImage = document.getElementById('mainImage').value.trim();
+            const mainImageAlt = document.getElementById('mainImageAlt').value.trim() || 'تصویر اصلی بلاگ';
+            const introText = document.getElementById('introText').value.trim().split('\n').filter(p => p.trim() !== '').map(p => `<p>${p.trim()}</p>`).join('\n\n            ');
+            const conclusionText = document.getElementById('conclusionText').value.trim().split('\n').filter(p => p.trim() !== '').map(p => `<p>${p.trim()}</p>`).join('\n\n            ');
             
-            if (!postTitle) {
-                showNotification('لطفاً عنوان پست را وارد کنید', false);
-                return;
-            }
-            
-            // جمع‌آوری اطلاعات بخش‌ها
-            const sections = [];
-            for (let i = 1; i <= sectionCount; i++) {
-                const sectionTitle = document.getElementById(`sectionTitle${i}`)?.value.trim() || '';
-                const sectionContent = document.getElementById(`sectionContent${i}`)?.value.trim() || '';
-                const sectionImage = document.getElementById(`sectionImage${i}`)?.value.trim() || '';
-                
-                if (sectionTitle || sectionContent) {
-                    sections.push({
-                        title: sectionTitle,
-                        content: sectionContent,
-                        image: sectionImage
-                    });
-                }
-            }
-            
-            if (sections.length === 0) {
-                showNotification('لطفاً حداقل یک بخش با محتوا اضافه کنید', false);
-                return;
-            }
-            
-            // تولید کد HTML
-            let htmlCode = generateHTMLCode(postTitle, postSubtitle, authorName, publishDate, sections);
-            
-            // نمایش کد
-            codeOutput.textContent = htmlCode;
-            codeOutput.style.display = 'block';
-            
-            // نمایش پیش‌نمایش
-            preview.innerHTML = htmlCode;
-            
-            showNotification('کد HTML با موفقیت تولید شد', true);
-        });
-        
-        // تولید کد HTML
-        function generateHTMLCode(title, subtitle, author, date, sections) {
-            let html = `<div class="blog-post-widget" dir="rtl">
+            const dynamicContentHtml = generateContentHTML();
+
+            // The template uses the original CSS and structure provided by the user
+            const finalHtml = `
+<div class="blog-post-widget" dir="rtl">
     <style>
         @font-face {
             font-family: 'Afont Black';
@@ -798,46 +663,37 @@
     <div class="container">
         <div class="content-wrapper">
             <div class="title-box">
-                <h1>${title}</h1>
-                <p class="subtitle">${subtitle}</p>
-            </div>`;
+                <h1>${mainTitle}</h1>
+                <p class="subtitle">${subTitle}</p>
+            </div>
 
-            // افزودن بخش‌ها
-            sections.forEach(section => {
-                if (section.title) {
-                    html += `
-            <h2>${section.title}</h2>`;
-                }
-                
-                if (section.content) {
-                    html += `
-            <p>${section.content.replace(/\n/g, '</p><p>')}</p>`;
-                }
-                
-                if (section.image) {
-                    html += `
+            ${introText}
+
             <figure>
-                <img src="${section.image}" alt="${section.title}">
-            </figure>`;
-                }
-            });
+                <img src="${mainImage}" alt="${mainImageAlt}">
+            </figure>
 
-            html += `
+            ${dynamicContentHtml}
+
+            <h2>جمع‌بندی نهایی</h2>
+            ${conclusionText}
         </div>
 
         <div class="author-date-box">
             <div class="author-info">
                 <strong>نویسنده:</strong>
-                <span>${author}</span>
+                <span>${authorName}</span>
             </div>
             <div class="date-info">
                 <strong>تاریخ انتشار:</strong>
-                <span>${date}</span>
+                <span>${publishDate}</span>
             </div>
         </div>
     </div>
 
     <script>
+        // Note: The original JS had a window.addEventListener('load') for fade-in effect.
+        // It's included here for completeness, though it might not be necessary in Elementor.
         window.addEventListener('load', function() {
             const container = document.querySelector('.blog-post-widget .container');
             if (container) {
@@ -845,61 +701,41 @@
             }
         });
     </script>
-</div>`;
-
-            return html;
+</div>
+`;
+            return finalHtml.trim();
         }
-        
-        // دانلود فایل TXT
+
+        generateBtn.addEventListener('click', function() {
+            const finalCode = generateFinalHTML();
+
+            // Display the result
+            resultContainer.querySelector('.result-placeholder')?.remove();
+            resultPre.style.display = 'block';
+            resultPre.textContent = finalCode;
+            downloadBtn.classList.add('show');
+        });
+
         downloadBtn.addEventListener('click', function() {
-            const code = codeOutput.textContent;
-            
-            if (!code || code === 'کد HTML در اینجا نمایش داده خواهد شد.') {
-                showNotification('ابتدا کد HTML را تولید کنید', false);
+            const codeToDownload = resultPre.textContent;
+            if (!codeToDownload) {
+                alert('ابتدا کد را تولید کنید.');
                 return;
             }
-            
-            const blob = new Blob([code], { type: 'text/plain' });
+
+            const blob = new Blob([codeToDownload], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'blog-post-code.txt';
+            a.download = 'elementor_blog_widget_code.txt';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
             
-            showNotification('فایل با موفقیت دانلود شد', true);
+            alert('فایل با موفقیت دانلود شد.');
         });
-        
-        // نمایش اطلاع‌رسانی
-        function showNotification(message, isSuccess) {
-            notification.innerHTML = `
-                <i class="fas ${isSuccess ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
-                <span>${message}</span>
-            `;
-            
-            notification.style.background = isSuccess
-                ? 'linear-gradient(to right, #10b981, #059669)'
-                : 'linear-gradient(to right, #ef4444, #dc2626)';
-            
-            if (!isSuccess) {
-                notification.classList.add('error');
-            } else {
-                notification.classList.remove('error');
-            }
-            
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-        
-        // اضافه کردن event listener برای پیش‌نمایش تصویر در بخش اول
-        document.getElementById('sectionImage1').addEventListener('input', function() {
-            updateImagePreview(1);
-        });
-    </script>
+    });
+</script>
 </body>
 </html>
