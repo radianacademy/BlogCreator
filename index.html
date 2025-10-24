@@ -298,10 +298,10 @@
             color: #1a365d;
         }
 
-        /* رفع مشکل سفید شدن صفحه: بازگشت به انیمیشن اصلی با سرعت بالا */
+        /* حذف انیمیشن برای جابجایی آنی */
         .tab-content {
             display: none;
-            animation: fadeIn 0.1s ease; /* کاهش زمان انیمیشن برای رفع سفیدی لحظه‌ای */
+            animation: fadeIn 0s ease; /* صفر شدن زمان انیمیشن */
             max-width: 1400px;
             margin-left: auto;
             margin-right: auto;
@@ -311,11 +311,12 @@
             display: block;
         }
 
+        /* با توجه به صفر شدن زمان انیمیشن، این کی‌فریم عملاً بی‌استفاده است اما برای تکمیل کار صفر باقی می‌ماند */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* پایان رفع مشکل سفید شدن صفحه */
+        /* پایان حذف انیمیشن */
 
         .input-section {
             background: #f7fafc;
@@ -749,7 +750,7 @@
                 <input type="text" id="post-subtitle" placeholder="زیرعنوان یا توضیح کوتاه پست">
                 
                 <label for="post-introduction">مقدمه (پاراگراف اول):</label>
-                <textarea id="post-introduction" placeholder="اولین پاراگراف پست را بنویسید. شکست خط (Enter) در خروجی حفظ می‌شود." rows="4"></textarea>
+                <textarea id="post-introduction" placeholder="اولین پاراگراف پست را اینجا بنویسید. شکست خط (Enter) در خروجی حفظ می‌شود." rows="4"></textarea>
 
                 <label for="author-name">نام نویسنده:</label>
                 <input type="text" id="author-name" placeholder="نام نویسنده">
@@ -967,7 +968,7 @@
             });
         });
         
-        // اصلاح منطق جابجایی تب
+        // منطق جابجایی تب
         function switchTab(targetTab) {
             tabButtons.forEach(btn => btn.classList.remove('active'));
             tabContents.forEach(content => content.classList.remove('active'));
