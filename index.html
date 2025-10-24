@@ -6,7 +6,7 @@
     <title>ابزار تولید پست بلاگ | ووکالت بلوک‌گذاری</title>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
     
     <style>
         /*
@@ -538,28 +538,26 @@
             background-size: contain;
         }
 
-        /* *** اصلاح مورد ۲: تغییر استایل output-html برای هایلایت کد ***
-        */
-
+        /* اصلاح مورد ۲: استایل نهایی برای کانتینر کد */
         #output-html {
             /* این ناحیه فقط برای نگه داشتن متن ساده و کپی کردن است */
-            height: 0; /* ارتفاع صفر شود */
+            height: 0; 
             padding: 0;
             margin: 0;
             border: none;
             overflow: hidden;
             resize: none;
-            display: block; /* برای اینکه بتواند در JS انتخاب شود */
+            display: block;
         }
         
         .code-container {
             height: 350px;
-            background-color: #f7fafc; /* رنگ خاکستری/سفید اپلیکیشن */
+            background-color: #f7fafc; /* پس‌زمینه خاکستری روشن اپلیکیشن */
             border-radius: 10px;
             border: 1px solid #e2e8f0;
-            direction: ltr; /* کد باید چپ به راست باشد */
+            direction: ltr; 
             text-align: left;
-            overflow: auto; /* برای اسکرول عمودی و افقی */
+            overflow: auto; 
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             margin-bottom: 15px;
         }
@@ -568,8 +566,14 @@
         .code-container pre {
             margin: 0;
             padding: 20px;
-            /* استایل هایلایتینگ Highlight.js بر اساس تم github-dark-dimmed.min.css اعمال می‌شود */
-            background-color: transparent !important; /* برای استفاده از پس زمینه کانتینر */
+            /* اطمینان از استفاده از پس‌زمینه کانتینر اصلی و نه تم هایلایتینگ */
+            background-color: transparent !important; 
+            border: none;
+        }
+        
+        /* اطمینان از رنگ متن برای تم روشن */
+        .code-container pre code {
+            color: #2d3748 !important; /* رنگ متن کلی اپلیکیشن */
         }
 
         .output-buttons {
@@ -699,9 +703,14 @@
                 padding: 20px 15px;
             }
             
-            /* اصلاح مورد ۱: تب‌ها در موبایل همچنان زیر هم باشند تا فضا کم نیاید */
+            /* اصلاح مورد ۱: حذف فلکس دایرکشن ستونی تا تب‌ها همیشه در عرض هم باشند */
             .tabs-container {
-                flex-direction: column;
+                flex-direction: row; 
+                flex-wrap: wrap; /* در صورت کوچک بودن زیاد، شکسته شود */
+            }
+            
+            .tab-button {
+                flex: 1 1 auto; /* اجازه شکسته شدن بده */
             }
             
             .action-buttons {
