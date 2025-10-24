@@ -11,7 +11,7 @@
     <style>
         /*
         *************************************************
-        بخش ۱: استایل‌های خروجی نهایی (بدون تغییر)
+        بخش ۱: استایل‌های خروجی نهایی
         *************************************************
         */
         @font-face {
@@ -298,45 +298,24 @@
             color: #1a365d;
         }
 
-        /* اصلاح ۱: رفع مشکل سفیدی صفحه هنگام جابجایی تب‌ها */
+        /* رفع مشکل سفید شدن صفحه: بازگشت به انیمیشن اصلی با سرعت بالا */
         .tab-content {
             display: none;
-            opacity: 0;
-            position: relative; /* برای حفظ جریان محتوا */
-            animation: fadeIn 0.5s ease forwards; /* forwards برای حفظ opacity: 1 در انتها */
+            animation: fadeIn 0.1s ease; /* کاهش زمان انیمیشن برای رفع سفیدی لحظه‌ای */
             max-width: 1400px;
             margin-left: auto;
             margin-right: auto;
         }
-        
-        /* کلاس active برای نمایش tab-content جدید و اجرای انیمیشن */
+
         .tab-content.active {
             display: block;
-            opacity: 1; /* انیمیشن از 0 به 1 */
         }
-        
-        /* کلاس inactive برای پنهان کردن سریع tab-content قدیمی */
-        .tab-content.inactive {
-            display: block; /* حفظ نمایش موقت */
-            position: absolute; /* خارج کردن از جریان محتوا */
-            width: 100%;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            pointer-events: none; /* غیرفعال کردن کلیک */
-            animation: fadeOut 0.1s forwards; /* انیمیشن سریع ناپدید شدن */
-        }
-
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; display: none; }
-        }
+        /* پایان رفع مشکل سفید شدن صفحه */
 
         .input-section {
             background: #f7fafc;
@@ -402,7 +381,7 @@
             resize: vertical;
         }
         
-        /* اصلاح ۲: بهبود اسکرول در textarea ها */
+        /* بهبود اسکرول در textarea ها */
         textarea {
             overflow: auto !important; 
         }
@@ -988,32 +967,18 @@
             });
         });
         
+        // اصلاح منطق جابجایی تب
+        function switchTab(targetTab) {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            document.querySelector(`[data-tab="${targetTab}"]`).classList.add('active');
+            document.getElementById(`${targetTab}-tab`).classList.add('active');
+        }
+
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
-                const targetTab = button.getAttribute('data-tab');
-                
-                // پنهان کردن تب فعلی با انیمیشن fadeOut
-                tabContents.forEach(content => {
-                    if (content.classList.contains('active')) {
-                        content.classList.remove('active');
-                        content.classList.add('inactive'); // برای پنهان شدن سریع بدون سفیدی
-                        // حذف کامل پس از اتمام انیمیشن
-                        setTimeout(() => {
-                            content.classList.remove('inactive');
-                            content.style.display = 'none';
-                        }, 100); 
-                    }
-                });
-                
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                
-                // نمایش تب جدید
-                const targetContent = document.getElementById(`${targetTab}-tab`);
-                if (targetContent) {
-                    targetContent.style.display = 'block';
-                    targetContent.classList.add('active'); 
-                }
+                switchTab(button.getAttribute('data-tab'));
             });
         });
 
@@ -1286,22 +1251,7 @@
                 
                 showNotification('کد HTML با موفقیت تولید و هایلایت شد!');
                 
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                tabContents.forEach(content => {
-                    content.classList.remove('active');
-                    content.classList.add('inactive');
-                    setTimeout(() => {
-                        content.classList.remove('inactive');
-                        content.style.display = 'none';
-                    }, 100); 
-                });
-                
-                const targetContent = document.getElementById('output-tab');
-                if (targetContent) {
-                    document.querySelector('[data-tab="output"]').classList.add('active');
-                    targetContent.style.display = 'block';
-                    targetContent.classList.add('active');
-                }
+                switchTab('output');
             }, 500);
         });
         
@@ -1319,22 +1269,7 @@
                 
                 showNotification('پیش‌نمایش با موفقیت ایجاد شد!');
                 
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                tabContents.forEach(content => {
-                    content.classList.remove('active');
-                    content.classList.add('inactive');
-                    setTimeout(() => {
-                        content.classList.remove('inactive');
-                        content.style.display = 'none';
-                    }, 100); 
-                });
-                
-                const targetContent = document.getElementById('preview-tab');
-                if (targetContent) {
-                    document.querySelector('[data-tab="preview"]').classList.add('active');
-                    targetContent.style.display = 'block';
-                    targetContent.classList.add('active');
-                }
+                switchTab('preview');
             }, 500);
         });
 
