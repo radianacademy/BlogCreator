@@ -176,6 +176,12 @@
             font-size: 15px;
             margin-bottom: 10px;
         }
+        
+        /* برای پاراگراف‌هایی که از <br> استفاده می‌کنند، نیاز به line-height مناسب داریم */
+        .blog-post-widget p {
+            white-space: pre-wrap; /* برای پیش‌نمایش، هرچند که در خروجی نهایی <br> داریم */
+        }
+
 
         @media (min-width: 769px) {
             .blog-post-widget .container {
@@ -254,7 +260,7 @@
         }
 
         .tabs-container {
-            display: flex; /* حفظ فلکس برای قرارگیری کنار هم */
+            display: flex; 
             margin-bottom: 30px;
             border-bottom: 2px solid #e2e8f0;
             max-width: 1400px;
@@ -538,16 +544,18 @@
             background-size: contain;
         }
 
-        /* اصلاح مورد ۲: استایل نهایی برای کانتینر کد */
+        /* اصلاح مورد ۱: تنظیم درست textarea پنهان برای کپی */
         #output-html {
-            /* این ناحیه فقط برای نگه داشتن متن ساده و کپی کردن است */
-            height: 0; 
+            height: 1px; /* بسیار کوچک برای انتخاب */
             padding: 0;
             margin: 0;
             border: none;
             overflow: hidden;
             resize: none;
-            display: block;
+            display: block; 
+            position: absolute; /* بیرون از دید کاربر */
+            top: -9999px;
+            left: -9999px;
         }
         
         .code-container {
@@ -566,12 +574,10 @@
         .code-container pre {
             margin: 0;
             padding: 20px;
-            /* اطمینان از استفاده از پس‌زمینه کانتینر اصلی و نه تم هایلایتینگ */
             background-color: transparent !important; 
             border: none;
         }
         
-        /* اطمینان از رنگ متن برای تم روشن */
         .code-container pre code {
             color: #2d3748 !important; /* رنگ متن کلی اپلیکیشن */
         }
@@ -703,14 +709,13 @@
                 padding: 20px 15px;
             }
             
-            /* اصلاح مورد ۱: حذف فلکس دایرکشن ستونی تا تب‌ها همیشه در عرض هم باشند */
             .tabs-container {
                 flex-direction: row; 
-                flex-wrap: wrap; /* در صورت کوچک بودن زیاد، شکسته شود */
+                flex-wrap: wrap; 
             }
             
             .tab-button {
-                flex: 1 1 auto; /* اجازه شکسته شدن بده */
+                flex: 1 1 auto; 
             }
             
             .action-buttons {
@@ -751,7 +756,7 @@
                 <label for="post-subtitle">زیرعنوان (Subtitle):</label>
                 <input type="text" id="post-subtitle" placeholder="زیرعنوان یا توضیح کوتاه پست">
                 
-                <label for="post-introduction">مقدمه (پاراگراف اول):</label>
+                <label for="post-introduction">مقدمه (پاراگراف اول) - <span style="color:red;font-size:12px;">شکست خط با Enter حفظ می‌شود.</span>:</label>
                 <textarea id="post-introduction" placeholder="اولین پاراگراف پست که معمولاً چکیده‌ای از محتوا است را بنویسید..." rows="4"></textarea>
 
                 <label for="author-name">نام نویسنده:</label>
@@ -818,7 +823,7 @@
         const generateBtn = document.getElementById('generate-btn');
         const previewBtn = document.getElementById('preview-btn');
         const outputHtml = document.getElementById('output-html');
-        const highlightedOutput = document.getElementById('highlighted-output'); // المان جدید برای نمایش کد
+        const highlightedOutput = document.getElementById('highlighted-output');
         const copyBtn = document.getElementById('copy-btn');
         const downloadBtn = document.getElementById('download-btn');
         const addBlockBtns = document.querySelectorAll('.add-block-btn');
@@ -827,7 +832,7 @@
         const tabContents = document.querySelectorAll('.tab-content');
         
         let blockCounter = 0; 
-
+        
         // تابع شماره‌گذاری مجدد بلوک‌ها
         function renumberBlocks() {
             const blocks = contentBlocksArea.querySelectorAll('.content-block');
@@ -850,7 +855,6 @@
 
         // تابع ساخت یک بلوک ورودی جدید
         function createBlock(type) {
-            // حذف پیام خالی بودن بلوک‌ها اگر وجود دارد
             const emptyMessage = contentBlocksArea.querySelector('.empty-blocks-message');
             if (emptyMessage) {
                 emptyMessage.remove();
@@ -866,9 +870,9 @@
             
             switch (type) {
                 case 'paragraph':
-                    innerHtml = `<strong>بلوک ${blockCounter}: پاراگراف</strong>`;
+                    innerHtml = `<strong>بلوک ${blockCounter}: پاراگراف</strong><p style="font-size:12px;color:#a0aec0; margin-top: -10px; margin-bottom: 10px;">شکست خط (Enter) به &lt;br&gt; تبدیل و حفظ می‌شود.</p>`;
                     inputField = document.createElement('textarea');
-                    inputField.placeholder = 'متن پاراگراف را اینجا بنویسید...';
+                    inputField.placeholder = 'متن پاراگراف را اینجا بنویسید...\nسطر جدید';
                     inputField.rows = 3;
                     break;
                 case 'heading':
@@ -880,7 +884,7 @@
                 case 'ul':
                 case 'ol':
                     const listType = type === 'ul' ? 'عادی' : 'عددی';
-                    innerHtml = `<strong>بلوک ${blockCounter}: لیست ${listType} (${type.toUpperCase()})</strong><p style="font-size:12px;color:#a0aec0; margin-top: -10px; margin-bottom: 10px;">هر آیتم را در یک خط جدید بنویسید (با دکمه Enter).</p>`;
+                    innerHtml = `<strong>بلوک ${blockCounter}: لیست ${listType} (${type.toUpperCase()})</strong><p style="font-size:12px;color:#a0aec0; margin-top: -10px; margin-bottom: 10px;">هر آیتم را در یک خط جدید (Enter) بنویسید.</p>`;
                     inputField = document.createElement('textarea');
                     inputField.placeholder = 'آیتم اول\nآیتم دوم\nآیتم سوم';
                     inputField.rows = 4;
@@ -948,7 +952,6 @@
 
             contentBlocksArea.appendChild(block);
             
-            // شماره‌گذاری مجدد بلوک‌ها پس از اضافه کردن
             setTimeout(() => renumberBlocks(), 10);
         }
         
@@ -989,11 +992,9 @@
             button.addEventListener('click', () => {
                 const targetTab = button.getAttribute('data-tab');
                 
-                // غیرفعال کردن همه تب‌ها و محتواها
                 tabButtons.forEach(btn => btn.classList.remove('active'));
                 tabContents.forEach(content => content.classList.remove('active'));
                 
-                // فعال کردن تب و محتوای مورد نظر
                 button.classList.add('active');
                 document.getElementById(`${targetTab}-tab`).classList.add('active');
             });
@@ -1003,7 +1004,10 @@
         function generateFinalHtml(includeStyles = true) {
             const title = document.getElementById('post-title').value || 'عنوان پست خالی';
             const subtitle = document.getElementById('post-subtitle').value || 'زیرعنوان پست خالی';
-            const introduction = document.getElementById('post-introduction').value.trim();
+            
+            // اصلاح مورد ۲: تبدیل شکست خط به <br> برای پاراگراف‌ها
+            const introduction = document.getElementById('post-introduction').value.trim().replace(/\n/g, '<br>');
+            
             const author = document.getElementById('author-name').value || 'ناشناس';
             const date = document.getElementById('publish-date').value || 'تاریخ نامشخص';
 
@@ -1036,13 +1040,16 @@
                 if (content) {
                     switch (type) {
                         case 'paragraph':
-                            contentHtml += `<p>${content}</p>\n\n`;
+                            // اصلاح مورد ۲: تبدیل شکست خط به <br>
+                            const paragraphContent = content.replace(/\n/g, '<br>');
+                            contentHtml += `<p>${paragraphContent}</p>\n\n`;
                             break;
                         case 'heading':
                             contentHtml += `<h2>${content}</h2>\n`;
                             break;
                         case 'ul':
                         case 'ol':
+                            // لیست‌ها باید خطوط شکسته را به <li> تبدیل کنند
                             const listItems = content.split('\n').filter(item => item.trim() !== '').map(item => `<li>${item.trim()}</li>`).join('\n');
                             const tag = type === 'ul' ? 'ul' : 'ol';
                             if (listItems) {
@@ -1055,7 +1062,7 @@
 
             let styleBlock = '';
             if (includeStyles) {
-                // استایل‌های ثابت برای خروجی
+                // استایل‌های ثابت برای خروجی (همان استایل‌های قبلی)
                 styleBlock = `    <style>
         .blog-post-widget {
             font-family: 'Afont Regular', Tahoma, sans-serif;
@@ -1253,14 +1260,12 @@
 
         // --- Handler های اصلی ---
 
-        // ۱. تولید کد HTML (با استایل‌ها برای کپی و نمایش هایلایت شده)
+        // ۱. تولید کد HTML
         generateBtn.addEventListener('click', () => {
-            // نمایش انیمیشن بارگذاری
             const originalText = generateBtn.innerHTML;
             generateBtn.innerHTML = '<span class="loading"></span> در حال تولید کد...';
             generateBtn.disabled = true;
             
-            // شبیه‌سازی پردازش
             setTimeout(() => {
                 const finalHtml = generateFinalHtml(true);
                 
@@ -1271,11 +1276,9 @@
                 highlightedOutput.textContent = finalHtml;
                 hljs.highlightElement(highlightedOutput);
                 
-                // بازگشت به حالت اولیه
                 generateBtn.innerHTML = originalText;
                 generateBtn.disabled = false;
                 
-                // نمایش پیام موفقیت
                 showNotification('کد HTML با موفقیت تولید و هایلایت شد!');
                 
                 // تغییر به تب خروجی
@@ -1283,27 +1286,22 @@
                 tabContents.forEach(content => content.classList.remove('active'));
                 document.querySelector('[data-tab="output"]').classList.add('active');
                 document.getElementById('output-tab').classList.add('active');
-            }, 1000);
+            }, 500);
         });
         
         // ۲. پیش‌نمایش زنده 
         previewBtn.addEventListener('click', () => {
-            // نمایش انیمیشن بارگذاری
             const originalText = previewBtn.innerHTML;
             previewBtn.innerHTML = '<span class="loading"></span> در حال ساخت پیش‌نمایش...';
             previewBtn.disabled = true;
             
-            // شبیه‌سازی پردازش
             setTimeout(() => {
-                // فقط محتوای پست را بدون استایل‌های کامل صفحه HTML تولید می‌کند
                 const previewContent = generateFinalHtml(false); 
                 previewBox.innerHTML = previewContent;
                 
-                // بازگشت به حالت اولیه
                 previewBtn.innerHTML = originalText;
                 previewBtn.disabled = false;
                 
-                // نمایش پیام موفقیت
                 showNotification('پیش‌نمایش با موفقیت ایجاد شد!');
                 
                 // تغییر به تب پیش‌نمایش
@@ -1311,7 +1309,7 @@
                 tabContents.forEach(content => content.classList.remove('active'));
                 document.querySelector('[data-tab="preview"]').classList.add('active');
                 document.getElementById('preview-tab').classList.add('active');
-            }, 1000);
+            }, 500);
         });
 
         // ۳. کپی کردن محتوا (از textarea پنهان)
@@ -1321,25 +1319,25 @@
                 return;
             }
             
+            // اصلاح مورد ۱: انتخاب و کپی از textarea پنهان
             outputHtml.select();
-            
+            outputHtml.setSelectionRange(0, 99999); // برای موبایل
+
             try {
-                // تلاش برای استفاده از execCommand
-                const successful = document.execCommand('copy');
-                if (!successful) {
-                    throw new Error('Fallback failed');
-                }
-                copyBtn.innerHTML = 'کپی شد! ✅';
-                showNotification('کد با موفقیت به کلیپ‌بورد کپی شد!');
-            } catch (err) {
-                // استفاده از Clipboard API برای مرورگرهای جدیدتر
                 navigator.clipboard.writeText(outputHtml.value).then(() => {
                     copyBtn.innerHTML = 'کپی شد! ✅';
                     showNotification('کد با موفقیت به کلیپ‌بورد کپی شد!');
-                }).catch(() => {
-                    copyBtn.innerHTML = 'خطا در کپی! ❌';
-                    showNotification('خطا در کپی کردن کد! لطفاً به صورت دستی کپی کنید.');
+                }).catch(err => {
+                    // Fallback قدیمی برای مرورگرهای قدیمی‌تر
+                    document.execCommand('copy'); 
+                    copyBtn.innerHTML = 'کپی شد! ✅';
+                    showNotification('کد با موفقیت به کلیپ‌بورد کپی شد!');
                 });
+            } catch (err) {
+                // اگر API کار نکرد، از execCommand استفاده می‌کند
+                document.execCommand('copy');
+                copyBtn.innerHTML = 'کپی شد! ✅';
+                showNotification('کد با موفقیت به کلیپ‌بورد کپی شد!');
             }
 
             setTimeout(() => {
@@ -1360,15 +1358,14 @@
             const blob = new Blob([BOM + content], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             
-            // ایجاد نام فایل با تاریخ فارسی
             const now = new Date();
-            const persianDate = now.toLocaleDateString('fa-IR');
+            // تغییر تاریخ میلادی به شمسی
+            const persianDate = now.toLocaleDateString('fa-IR'); 
             const fileName = `blog-post-${persianDate.replace(/\//g, '-')}.txt`;
             
             const a = document.createElement('a');
             a.href = url;
             a.download = fileName;
-            a.style.display = 'none';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -1384,21 +1381,17 @@
         
         // تابع نمایش نوتیفیکیشن
         function showNotification(message) {
-            // حذف نوتیفیکیشن‌های قبلی اگر وجود دارد
             const existingNotification = document.querySelector('.notification');
             if (existingNotification) {
                 existingNotification.remove();
             }
             
-            // ایجاد نوتیفیکیشن جدید
             const notification = document.createElement('div');
             notification.className = 'notification';
             notification.textContent = message;
             
-            // اضافه کردن به بالای صفحه
             document.querySelector('.app-body').prepend(notification);
             
-            // حذف پس از 3 ثانیه
             setTimeout(() => {
                 notification.style.opacity = '0';
                 setTimeout(() => {
@@ -1406,6 +1399,9 @@
                 }, 300);
             }, 3000);
         }
+        
+        // اجرای اولیه برای اطمینان از صحت شماره‌گذاری
+        checkEmptyBlocks();
     });
 </script>
 
