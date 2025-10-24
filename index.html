@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ابزار تولید پست بلاگ | ووکالت بلوک‌گذاری</title>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    
     <style>
         /*
         *************************************************
@@ -251,7 +254,7 @@
         }
 
         .tabs-container {
-            display: flex;
+            display: flex; /* حفظ فلکس برای قرارگیری کنار هم */
             margin-bottom: 30px;
             border-bottom: 2px solid #e2e8f0;
             max-width: 1400px;
@@ -535,23 +538,38 @@
             background-size: contain;
         }
 
+        /* *** اصلاح مورد ۲: تغییر استایل output-html برای هایلایت کد ***
+        */
+
         #output-html {
+            /* این ناحیه فقط برای نگه داشتن متن ساده و کپی کردن است */
+            height: 0; /* ارتفاع صفر شود */
+            padding: 0;
+            margin: 0;
+            border: none;
+            overflow: hidden;
+            resize: none;
+            display: block; /* برای اینکه بتواند در JS انتخاب شود */
+        }
+        
+        .code-container {
             height: 350px;
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-            color: #e2e8f0;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 14px;
-            white-space: pre;
-            overflow-y: auto;
-            overflow-x: hidden;
-            margin-bottom: 15px;
-            padding: 20px;
+            background-color: #f7fafc; /* رنگ خاکستری/سفید اپلیکیشن */
             border-radius: 10px;
-            border: 1px solid #475569;
-            direction: ltr;
+            border: 1px solid #e2e8f0;
+            direction: ltr; /* کد باید چپ به راست باشد */
             text-align: left;
-            line-height: 1.5;
-            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+            overflow: auto; /* برای اسکرول عمودی و افقی */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 15px;
+        }
+
+        /* استایل سفارشی برای Highlight.js داخل کانتینر */
+        .code-container pre {
+            margin: 0;
+            padding: 20px;
+            /* استایل هایلایتینگ Highlight.js بر اساس تم github-dark-dimmed.min.css اعمال می‌شود */
+            background-color: transparent !important; /* برای استفاده از پس زمینه کانتینر */
         }
 
         .output-buttons {
@@ -681,6 +699,7 @@
                 padding: 20px 15px;
             }
             
+            /* اصلاح مورد ۱: تب‌ها در موبایل همچنان زیر هم باشند تا فضا کم نیاید */
             .tabs-container {
                 flex-direction: column;
             }
@@ -763,7 +782,13 @@
         <div id="output-tab" class="tab-content">
             <div class="output-section">
                 <h2>خروجی HTML (کد قابل کپی)</h2>
-                <textarea id="output-html" readonly placeholder="کد HTML نهایی شما اینجا ظاهر می‌شود..."></textarea>
+                
+                <div class="code-container">
+                    <pre><code class="language-xml" id="highlighted-output">کد HTML نهایی شما اینجا ظاهر می‌شود...</code></pre>
+                </div>
+                
+                <textarea id="output-html" readonly></textarea>
+
                 <div class="output-buttons">
                     <button id="copy-btn">کپی کردن کد</button>
                     <button id="download-btn">دانلود فایل TXT</button>
@@ -773,6 +798,8 @@
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
 <script>
     // **********************************************
     // بخش ۳: کد جاوااسکریپت (منطق ساخت بلوک‌ها و تولید خروجی)
@@ -782,6 +809,7 @@
         const generateBtn = document.getElementById('generate-btn');
         const previewBtn = document.getElementById('preview-btn');
         const outputHtml = document.getElementById('output-html');
+        const highlightedOutput = document.getElementById('highlighted-output'); // المان جدید برای نمایش کد
         const copyBtn = document.getElementById('copy-btn');
         const downloadBtn = document.getElementById('download-btn');
         const addBlockBtns = document.querySelectorAll('.add-block-btn');
@@ -1019,176 +1047,171 @@
             let styleBlock = '';
             if (includeStyles) {
                 // استایل‌های ثابت برای خروجی
-                styleBlock = `<style>
-    .blog-post-widget {
-        font-family: 'Afont Regular', Tahoma, sans-serif;
-        color: #212529;
-        line-height: 1.8;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        width: 95%;
-        margin: 2% auto;
-        box-sizing: border-box;
-        direction: rtl; 
-    }
-
-    .blog-post-widget .container {
-        width: 100%;
-        box-sizing: border-box;
-        margin: 0 auto;
-        background: #ffffff;
-        padding: 40px 60px;
-        border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-        position: relative;
-    }
-
-    .blog-post-widget .title-box {
-        background-color: #f8f9fa;
-        border-radius: 15px;
-        border: 1px solid #e9ecef;
-        padding: 30px;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
-    .blog-post-widget h1 {
-        color: #105AC0;
-        font-family: 'Afont Black', sans-serif;
-        font-size: 27px;
-        font-weight: 900;
-        margin-bottom: 15px;
-        line-height: 1.6;
-    }
-
-    .blog-post-widget .subtitle {
-        color: #6c757d;
-        font-size: 16px;
-        margin-bottom: 0;
-        line-height: 1.6;
-    }
-
-    .blog-post-widget h2 {
-        font-family: 'Afont Black', sans-serif;
-        font-size: 22px;
-        font-weight: 700;
-        color: #343a40;
-        margin: 40px 0 20px 0;
-        padding: 15px 20px;
-        background-color: #f8f9fa;
-        border-right: 5px solid #105AC0;
-        border-left: 5px solid #D0191D;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        line-height: 1.6;
-    }
-
-    .blog-post-widget p {
-        font-size: 15px;
-        margin-bottom: 20px;
-    }
-
-    .blog-post-widget figure {
-        margin: 40px 0;
-        text-align: center;
-    }
-
-    .blog-post-widget img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 15px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .blog-post-widget img:hover {
-        transform: scale(1.01); 
-        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
-    }
-
-    .blog-post-widget .author-date-box {
-        margin-top: 30px;
-        padding: 20px 30px;
-        background-color: #f8f9fa;
-        border-radius: 15px;
-        border: 1px solid #e9ecef;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-
-    .blog-post-widget .author-info, .blog-post-widget .date-info {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .blog-post-widget .author-info strong, .blog-post-widget .date-info strong {
-        font-family: 'Afont Black', sans-serif;
-        color: #495057;
-        font-size: 0.9rem;
-    }
-
-    .blog-post-widget .author-info span, .blog-post-widget .date-info span {
-        color: #6c757d;
-        font-size: 0.9rem;
-    }
-
-    .blog-post-widget .author-info::before, .blog-post-widget .date-info::before {
-        content: '';
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        background-size: contain;
-    }
-
-    .blog-post-widget .author-info::before {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23105AC0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0-4-4H8a4 4 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E");
-    }
-
-    .blog-post-widget .date-info::before {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23D0191D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E");
-    }
-
-    .blog-post-widget ul,
-    .blog-post-widget ol {
-        margin: 15px 0 20px 0;
-        padding: 0;
-        list-style-position: inside;
-        padding-right: 20px;
-    }
-
-    .blog-post-widget li {
-        font-size: 15px;
-        margin-bottom: 10px;
-    }
-
-    @media (min-width: 769px) {
-        .blog-post-widget .container {
-            display: flex;
-            gap: 30px;
-            padding: 40px 40px;
+                styleBlock = `    <style>
+        .blog-post-widget {
+            font-family: 'Afont Regular', Tahoma, sans-serif;
+            color: #212529;
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            width: 95%;
+            margin: 2% auto;
+            box-sizing: border-box;
+            direction: rtl; 
         }
 
-        .blog-post-widget .content-wrapper {
-            flex: 1;
-            width: 70%;
+        .blog-post-widget .container {
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px 60px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        .blog-post-widget .title-box {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            border: 1px solid #e9ecef;
+            padding: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .blog-post-widget h1 {
+            color: #105AC0;
+            font-family: 'Afont Black', sans-serif;
+            font-size: 27px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .blog-post-widget .subtitle {
+            color: #6c757d;
+            font-size: 16px;
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+
+        .blog-post-widget h2 {
+            font-family: 'Afont Black', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #343a40;
+            margin: 40px 0 20px 0;
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            border-right: 5px solid #105AC0;
+            border-left: 5px solid #D0191D;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            line-height: 1.6;
+        }
+
+        .blog-post-widget p {
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .blog-post-widget figure {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .blog-post-widget img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .blog-post-widget .author-date-box {
-            width: 25%;
-            position: sticky;
-            top: 120px;
-            height: fit-content;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-top: 0;
-            padding: 20px;
+            margin-top: 30px;
+            padding: 20px 30px;
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            border: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
-    }
-</style>`;
+
+        .blog-post-widget .author-info, .blog-post-widget .date-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .blog-post-widget .author-info strong, .blog-post-widget .date-info strong {
+            font-family: 'Afont Black', sans-serif;
+            color: #495057;
+            font-size: 0.9rem;
+        }
+
+        .blog-post-widget .author-info span, .blog-post-widget .date-info span {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .blog-post-widget .author-info::before, .blog-post-widget .date-info::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-size: contain;
+        }
+
+        .blog-post-widget .author-info::before {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23105AC0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0-4-4H8a4 4 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E");
+        }
+
+        .blog-post-widget .date-info::before {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23D0191D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E");
+        }
+
+        .blog-post-widget ul,
+        .blog-post-widget ol {
+            margin: 15px 0 20px 0;
+            padding: 0;
+            list-style-position: inside;
+            padding-right: 20px;
+        }
+
+        .blog-post-widget li {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        @media (min-width: 769px) {
+            .blog-post-widget .container {
+                display: flex;
+                gap: 30px;
+                padding: 40px 40px;
+            }
+
+            .blog-post-widget .content-wrapper {
+                flex: 1;
+                width: 70%;
+            }
+
+            .blog-post-widget .author-date-box {
+                width: 25%;
+                position: sticky;
+                top: 120px;
+                height: fit-content;
+                flex-direction: column;
+                align-items: flex-start;
+                margin-top: 0;
+                padding: 20px;
+            }
+        }
+    </style>`;
             }
 
             // ساختار کامل HTML نهایی
@@ -1221,7 +1244,7 @@
 
         // --- Handler های اصلی ---
 
-        // ۱. تولید کد HTML (با استایل‌ها برای کپی)
+        // ۱. تولید کد HTML (با استایل‌ها برای کپی و نمایش هایلایت شده)
         generateBtn.addEventListener('click', () => {
             // نمایش انیمیشن بارگذاری
             const originalText = generateBtn.innerHTML;
@@ -1231,14 +1254,20 @@
             // شبیه‌سازی پردازش
             setTimeout(() => {
                 const finalHtml = generateFinalHtml(true);
-                outputHtml.value = finalHtml;
+                
+                // ۱. مقداردهی textarea پنهان برای کپی/دانلود
+                outputHtml.value = finalHtml; 
+                
+                // ۲. مقداردهی و هایلایت کد برای نمایش
+                highlightedOutput.textContent = finalHtml;
+                hljs.highlightElement(highlightedOutput);
                 
                 // بازگشت به حالت اولیه
                 generateBtn.innerHTML = originalText;
                 generateBtn.disabled = false;
                 
                 // نمایش پیام موفقیت
-                showNotification('کد HTML با موفقیت تولید شد!');
+                showNotification('کد HTML با موفقیت تولید و هایلایت شد!');
                 
                 // تغییر به تب خروجی
                 tabButtons.forEach(btn => btn.classList.remove('active'));
@@ -1257,6 +1286,7 @@
             
             // شبیه‌سازی پردازش
             setTimeout(() => {
+                // فقط محتوای پست را بدون استایل‌های کامل صفحه HTML تولید می‌کند
                 const previewContent = generateFinalHtml(false); 
                 previewBox.innerHTML = previewContent;
                 
@@ -1275,19 +1305,25 @@
             }, 1000);
         });
 
-        // ۳. کپی کردن محتوا
+        // ۳. کپی کردن محتوا (از textarea پنهان)
         copyBtn.addEventListener('click', () => {
+            if (!outputHtml.value) {
+                showNotification('ابتدا کد HTML را تولید کنید!');
+                return;
+            }
+            
             outputHtml.select();
             
             try {
+                // تلاش برای استفاده از execCommand
                 const successful = document.execCommand('copy');
-                if (successful) {
-                    copyBtn.innerHTML = 'کپی شد! ✅';
-                    showNotification('کد با موفقیت به کلیپ‌بورد کپی شد!');
-                } else {
+                if (!successful) {
                     throw new Error('Fallback failed');
                 }
+                copyBtn.innerHTML = 'کپی شد! ✅';
+                showNotification('کد با موفقیت به کلیپ‌بورد کپی شد!');
             } catch (err) {
+                // استفاده از Clipboard API برای مرورگرهای جدیدتر
                 navigator.clipboard.writeText(outputHtml.value).then(() => {
                     copyBtn.innerHTML = 'کپی شد! ✅';
                     showNotification('کد با موفقیت به کلیپ‌بورد کپی شد!');
