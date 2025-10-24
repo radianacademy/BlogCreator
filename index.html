@@ -9,13 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
     
     <style>
-        /*
-        *************************************************
-        بخش ۱: شبیه‌سازی فونت‌ها و استایل‌های اصلی پست (تم روشن)
-        *************************************************
-        */
-
-        /* شبیه‌سازی فونت‌ها - در محیط واقعی باید آدرس دهی شوند */
         @font-face {
             font-family: 'Afont Black';
             src: local('B Titr Bold');
@@ -28,9 +21,6 @@
             font-weight: 400;
         }
         
-        /* ------------------------------------------------ */
-        /* استایل‌های CSS خروجی نهایی (برای قالب اصلی بلاگ) */
-        /* ------------------------------------------------ */
         .blog-post-widget {
             font-family: 'Afont Regular', Tahoma, sans-serif;
             color: #212529;
@@ -87,8 +77,8 @@
             margin: 40px 0 20px 0;
             padding: 15px 20px;
             background-color: #f8f9fa;
-            border-right: 5px solid #105AC0; /* آبی */
-            border-left: 5px solid #D0191D; /* قرمز */
+            border-right: 5px solid #105AC0;
+            border-left: 5px solid #D0191D;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             line-height: 1.6;
@@ -147,7 +137,6 @@
             font-size: 0.9rem;
         }
 
-        /* آیکون‌ها (SVG Data URL) */
         .blog-post-widget .author-info::before, .blog-post-widget .date-info::before {
             content: '';
             display: inline-block;
@@ -177,9 +166,8 @@
             margin-bottom: 10px;
         }
         
-        /* برای پاراگراف‌هایی که از <br> استفاده می‌کنند، نیاز به line-height مناسب داریم */
         .blog-post-widget p {
-            white-space: pre-wrap; /* برای پیش‌نمایش، هرچند که در خروجی نهایی <br> داریم */
+            white-space: pre-wrap;
         }
 
 
@@ -207,9 +195,6 @@
             }
         }
 
-        /* ------------------------------------------ */
-        /* بخش ۲: استایل‌های ابزار تولید کننده محتوا (طراحی جدید) */
-        /* ------------------------------------------ */
         * {
             font-family: 'Vazirmatn', sans-serif;
         }
@@ -390,7 +375,6 @@
             box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
         }
 
-        /* استایل بلوک‌های محتوا */
         #content-blocks-area {
             border: 2px dashed #cbd5e0;
             padding: 15px;
@@ -520,7 +504,6 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
-        /* ناحیه خروجی */
         .output-section {
             margin-top: 30px;
         }
@@ -544,23 +527,22 @@
             background-size: contain;
         }
 
-        /* اصلاح مورد ۱: تنظیم درست textarea پنهان برای کپی */
         #output-html {
-            height: 1px; /* بسیار کوچک برای انتخاب */
+            height: 1px;
             padding: 0;
             margin: 0;
             border: none;
             overflow: hidden;
             resize: none;
             display: block; 
-            position: absolute; /* بیرون از دید کاربر */
+            position: absolute;
             top: -9999px;
             left: -9999px;
         }
         
         .code-container {
             height: 350px;
-            background-color: #f7fafc; /* پس‌زمینه خاکستری روشن اپلیکیشن */
+            background-color: #f7fafc;
             border-radius: 10px;
             border: 1px solid #e2e8f0;
             direction: ltr; 
@@ -570,7 +552,6 @@
             margin-bottom: 15px;
         }
 
-        /* استایل سفارشی برای Highlight.js داخل کانتینر */
         .code-container pre {
             margin: 0;
             padding: 20px;
@@ -579,7 +560,7 @@
         }
         
         .code-container pre code {
-            color: #2d3748 !important; /* رنگ متن کلی اپلیکیشن */
+            color: #2d3748 !important;
         }
 
         .output-buttons {
@@ -607,7 +588,6 @@
             box-shadow: 0 4px 12px rgba(26, 54, 93, 0.3);
         }
         
-        /* استایل باکس پیش نمایش */
         #preview-box {
             min-height: 400px;
             padding: 20px;
@@ -631,7 +611,6 @@
              border: 1px solid #e2e8f0;
         }
 
-        /* استایل برای حالت خالی بودن بلوک‌ها */
         .empty-blocks-message {
             text-align: center;
             color: #a0aec0;
@@ -639,7 +618,6 @@
             font-style: italic;
         }
 
-        /* استایل برای حالت موفقیت */
         .notification {
             background-color: #f0fff4;
             color: #22543d;
@@ -664,7 +642,6 @@
             }
         }
 
-        /* انیمیشن برای بلوک‌ها */
         @keyframes slideIn {
             from {
                 opacity: 0;
@@ -680,7 +657,6 @@
             animation: slideIn 0.3s ease;
         }
 
-        /* استایل برای حالت بارگذاری */
         .loading {
             display: inline-block;
             width: 20px;
@@ -695,7 +671,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* رسپانسیو */
         @media (max-width: 768px) {
             .app-header {
                 padding: 20px 15px;
@@ -750,14 +725,14 @@
         <div id="content-tab" class="tab-content active">
             <div class="input-section main-info-box">
                 <h2>اطلاعات اصلی پست</h2>
-                <label for="post-title">عنوان اصلی (H1):</label>
+                <label for="post-title">عنوان اصلی:</label>
                 <input type="text" id="post-title" placeholder="عنوان اصلی پست">
 
-                <label for="post-subtitle">زیرعنوان (Subtitle):</label>
+                <label for="post-subtitle">زیرعنوان:</label>
                 <input type="text" id="post-subtitle" placeholder="زیرعنوان یا توضیح کوتاه پست">
                 
-                <label for="post-introduction">مقدمه (پاراگراف اول) - <span style="color:red;font-size:12px;">شکست خط با Enter حفظ می‌شود.</span>:</label>
-                <textarea id="post-introduction" placeholder="اولین پاراگراف پست که معمولاً چکیده‌ای از محتوا است را بنویسید..." rows="4"></textarea>
+                <label for="post-introduction">مقدمه (پاراگراف اول):</label>
+                <textarea id="post-introduction" placeholder="اولین پاراگراف پست را بنویسید. شکست خط (Enter) در خروجی حفظ می‌شود." rows="4"></textarea>
 
                 <label for="author-name">نام نویسنده:</label>
                 <input type="text" id="author-name" placeholder="نام نویسنده">
@@ -774,7 +749,7 @@
                 
                 <div class="add-block-buttons">
                     <button class="add-block-btn" data-type="paragraph">پاراگراف</button>
-                    <button class="add-block-btn" data-type="heading">عنوان (H2)</button>
+                    <button class="add-block-btn" data-type="heading">عنوان فرعی</button>
                     <button class="add-block-btn" data-type="ul">لیست عادی</button>
                     <button class="add-block-btn" data-type="ol">لیست عددی</button>
                     <button class="add-block-btn" data-type="figure">تصویر</button>
@@ -815,9 +790,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
 <script>
-    // **********************************************
-    // بخش ۳: کد جاوااسکریپت (منطق ساخت بلوک‌ها و تولید خروجی)
-    // **********************************************
     document.addEventListener('DOMContentLoaded', () => {
         const contentBlocksArea = document.getElementById('content-blocks-area');
         const generateBtn = document.getElementById('generate-btn');
@@ -833,7 +805,6 @@
         
         let blockCounter = 0; 
         
-        // تابع شماره‌گذاری مجدد بلوک‌ها
         function renumberBlocks() {
             const blocks = contentBlocksArea.querySelectorAll('.content-block');
             blocks.forEach((block, index) => {
@@ -843,17 +814,16 @@
                     let typeName = '';
                     switch (type) {
                         case 'paragraph': typeName = 'پاراگراف'; break;
-                        case 'heading': typeName = 'عنوان (H2)'; break;
-                        case 'ul': typeName = 'لیست عادی (UL)'; break;
-                        case 'ol': typeName = 'لیست عددی (OL)'; break;
-                        case 'figure': typeName = 'تصویر (Figure)'; break;
+                        case 'heading': typeName = 'عنوان فرعی'; break;
+                        case 'ul': typeName = 'لیست عادی'; break;
+                        case 'ol': typeName = 'لیست عددی'; break;
+                        case 'figure': typeName = 'تصویر'; break;
                     }
                     strongElement.textContent = `بلوک ${index + 1}: ${typeName}`;
                 }
             });
         }
 
-        // تابع ساخت یک بلوک ورودی جدید
         function createBlock(type) {
             const emptyMessage = contentBlocksArea.querySelector('.empty-blocks-message');
             if (emptyMessage) {
@@ -870,37 +840,37 @@
             
             switch (type) {
                 case 'paragraph':
-                    innerHtml = `<strong>بلوک ${blockCounter}: پاراگراف</strong><p style="font-size:12px;color:#a0aec0; margin-top: -10px; margin-bottom: 10px;">شکست خط (Enter) به &lt;br&gt; تبدیل و حفظ می‌شود.</p>`;
+                    innerHtml = `<strong>بلوک ${blockCounter}: پاراگراف</strong>`;
                     inputField = document.createElement('textarea');
-                    inputField.placeholder = 'متن پاراگراف را اینجا بنویسید...\nسطر جدید';
-                    inputField.rows = 3;
+                    inputField.placeholder = 'متن پاراگراف را اینجا بنویسید. شکست خط (Enter) در خروجی حفظ می‌شود.';
+                    inputField.rows = 4;
                     break;
                 case 'heading':
-                    innerHtml = `<strong>بلوک ${blockCounter}: عنوان (H2)</strong>`;
+                    innerHtml = `<strong>بلوک ${blockCounter}: عنوان فرعی</strong>`;
                     inputField = document.createElement('input');
                     inputField.type = 'text';
-                    inputField.placeholder = 'متن عنوان H2 را اینجا بنویسید...';
+                    inputField.placeholder = 'متن عنوان فرعی را اینجا بنویسید...';
                     break;
                 case 'ul':
                 case 'ol':
                     const listType = type === 'ul' ? 'عادی' : 'عددی';
-                    innerHtml = `<strong>بلوک ${blockCounter}: لیست ${listType} (${type.toUpperCase()})</strong><p style="font-size:12px;color:#a0aec0; margin-top: -10px; margin-bottom: 10px;">هر آیتم را در یک خط جدید (Enter) بنویسید.</p>`;
+                    innerHtml = `<strong>بلوک ${blockCounter}: لیست ${listType}</strong><p style="font-size:12px;color:#a0aec0; margin-top: -10px; margin-bottom: 10px;">هر آیتم را در یک خط جدید (Enter) بنویسید.</p>`;
                     inputField = document.createElement('textarea');
                     inputField.placeholder = 'آیتم اول\nآیتم دوم\nآیتم سوم';
                     inputField.rows = 4;
                     break;
                 case 'figure':
-                    innerHtml = `<strong>بلوک ${blockCounter}: تصویر (Figure)</strong>`;
+                    innerHtml = `<strong>بلوک ${blockCounter}: تصویر</strong>`;
                     
                     const urlInput = document.createElement('input');
                     urlInput.type = 'text';
                     urlInput.className = 'block-content-input image-url-input';
-                    urlInput.placeholder = 'آدرس URL تصویر (src) - الزامی';
+                    urlInput.placeholder = 'آدرس URL تصویر (لینک تصویر)';
 
                     const altInput = document.createElement('input');
                     altInput.type = 'text';
                     altInput.className = 'block-content-input image-alt-input';
-                    altInput.placeholder = 'متن جایگزین تصویر (alt) - اختیاری';
+                    altInput.placeholder = 'متن جایگزین تصویر (اختیاری)';
 
                     block.innerHTML = innerHtml;
                     block.appendChild(urlInput);
@@ -916,25 +886,21 @@
                 block.appendChild(inputField);
             }
 
-            // اضافه کردن دکمه‌های کنترل بلوک
             const blockControls = document.createElement('div');
             blockControls.className = 'block-controls';
             
-            // دکمه جابجایی به بالا
             const moveUpBtn = document.createElement('button');
             moveUpBtn.className = 'block-control-btn move-up';
             moveUpBtn.innerHTML = '↑';
             moveUpBtn.title = 'جابجایی به بالا';
             moveUpBtn.onclick = () => moveBlock(block, 'up');
             
-            // دکمه جابجایی به پایین
             const moveDownBtn = document.createElement('button');
             moveDownBtn.className = 'block-control-btn move-down';
             moveDownBtn.innerHTML = '↓';
             moveDownBtn.title = 'جابجایی به پایین';
             moveDownBtn.onclick = () => moveBlock(block, 'down');
             
-            // دکمه حذف
             const removeBtn = document.createElement('button');
             removeBtn.className = 'block-control-btn remove';
             removeBtn.innerHTML = '×';
@@ -955,7 +921,6 @@
             setTimeout(() => renumberBlocks(), 10);
         }
         
-        // تابع جابجایی بلوک‌ها
         function moveBlock(block, direction) {
             const blocks = Array.from(contentBlocksArea.querySelectorAll('.content-block'));
             const currentIndex = blocks.indexOf(block);
@@ -971,7 +936,6 @@
             }
         }
         
-        // تابع بررسی خالی بودن بلوک‌ها
         function checkEmptyBlocks() {
             const blocks = contentBlocksArea.querySelectorAll('.content-block');
             if (blocks.length === 0) {
@@ -980,14 +944,12 @@
             }
         }
 
-        // Handler برای دکمه‌های افزودن بلوک
         addBlockBtns.forEach(button => {
             button.addEventListener('click', () => {
                 createBlock(button.getAttribute('data-type'));
             });
         });
         
-        // Handler برای تب‌ها
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const targetTab = button.getAttribute('data-tab');
@@ -1000,12 +962,10 @@
             });
         });
 
-        // تابع اصلی تولید HTML نهایی (شامل CSS)
         function generateFinalHtml(includeStyles = true) {
             const title = document.getElementById('post-title').value || 'عنوان پست خالی';
             const subtitle = document.getElementById('post-subtitle').value || 'زیرعنوان پست خالی';
             
-            // اصلاح مورد ۲: تبدیل شکست خط به <br> برای پاراگراف‌ها
             const introduction = document.getElementById('post-introduction').value.trim().replace(/\n/g, '<br>');
             
             const author = document.getElementById('author-name').value || 'ناشناس';
@@ -1013,7 +973,6 @@
 
             let contentHtml = '';
             
-            // اضافه کردن مقدمه
             if (introduction) {
                 contentHtml += `<p>${introduction}</p>\n\n`;
             }
@@ -1040,7 +999,6 @@
                 if (content) {
                     switch (type) {
                         case 'paragraph':
-                            // اصلاح مورد ۲: تبدیل شکست خط به <br>
                             const paragraphContent = content.replace(/\n/g, '<br>');
                             contentHtml += `<p>${paragraphContent}</p>\n\n`;
                             break;
@@ -1049,7 +1007,6 @@
                             break;
                         case 'ul':
                         case 'ol':
-                            // لیست‌ها باید خطوط شکسته را به <li> تبدیل کنند
                             const listItems = content.split('\n').filter(item => item.trim() !== '').map(item => `<li>${item.trim()}</li>`).join('\n');
                             const tag = type === 'ul' ? 'ul' : 'ol';
                             if (listItems) {
@@ -1062,7 +1019,6 @@
 
             let styleBlock = '';
             if (includeStyles) {
-                // استایل‌های ثابت برای خروجی (همان استایل‌های قبلی)
                 styleBlock = `    <style>
         .blog-post-widget {
             font-family: 'Afont Regular', Tahoma, sans-serif;
@@ -1230,7 +1186,6 @@
     </style>`;
             }
 
-            // ساختار کامل HTML نهایی
             return `<div class="blog-post-widget" dir="rtl">
     ${includeStyles ? styleBlock : ''}
 
@@ -1258,9 +1213,6 @@
 </div>`;
         }
 
-        // --- Handler های اصلی ---
-
-        // ۱. تولید کد HTML
         generateBtn.addEventListener('click', () => {
             const originalText = generateBtn.innerHTML;
             generateBtn.innerHTML = '<span class="loading"></span> در حال تولید کد...';
@@ -1269,10 +1221,8 @@
             setTimeout(() => {
                 const finalHtml = generateFinalHtml(true);
                 
-                // ۱. مقداردهی textarea پنهان برای کپی/دانلود
                 outputHtml.value = finalHtml; 
                 
-                // ۲. مقداردهی و هایلایت کد برای نمایش
                 highlightedOutput.textContent = finalHtml;
                 hljs.highlightElement(highlightedOutput);
                 
@@ -1281,7 +1231,6 @@
                 
                 showNotification('کد HTML با موفقیت تولید و هایلایت شد!');
                 
-                // تغییر به تب خروجی
                 tabButtons.forEach(btn => btn.classList.remove('active'));
                 tabContents.forEach(content => content.classList.remove('active'));
                 document.querySelector('[data-tab="output"]').classList.add('active');
@@ -1289,7 +1238,6 @@
             }, 500);
         });
         
-        // ۲. پیش‌نمایش زنده 
         previewBtn.addEventListener('click', () => {
             const originalText = previewBtn.innerHTML;
             previewBtn.innerHTML = '<span class="loading"></span> در حال ساخت پیش‌نمایش...';
@@ -1304,7 +1252,6 @@
                 
                 showNotification('پیش‌نمایش با موفقیت ایجاد شد!');
                 
-                // تغییر به تب پیش‌نمایش
                 tabButtons.forEach(btn => btn.classList.remove('active'));
                 tabContents.forEach(content => content.classList.remove('active'));
                 document.querySelector('[data-tab="preview"]').classList.add('active');
@@ -1312,29 +1259,25 @@
             }, 500);
         });
 
-        // ۳. کپی کردن محتوا (از textarea پنهان)
         copyBtn.addEventListener('click', () => {
             if (!outputHtml.value) {
                 showNotification('ابتدا کد HTML را تولید کنید!');
                 return;
             }
             
-            // اصلاح مورد ۱: انتخاب و کپی از textarea پنهان
             outputHtml.select();
-            outputHtml.setSelectionRange(0, 99999); // برای موبایل
+            outputHtml.setSelectionRange(0, 99999);
 
             try {
                 navigator.clipboard.writeText(outputHtml.value).then(() => {
                     copyBtn.innerHTML = 'کپی شد! ✅';
                     showNotification('کد با موفقیت به کلیپ‌بورد کپی شد!');
                 }).catch(err => {
-                    // Fallback قدیمی برای مرورگرهای قدیمی‌تر
                     document.execCommand('copy'); 
                     copyBtn.innerHTML = 'کپی شد! ✅';
                     showNotification('کد با موفقیت به کلیپ‌بورد کپی شد!');
                 });
             } catch (err) {
-                // اگر API کار نکرد، از execCommand استفاده می‌کند
                 document.execCommand('copy');
                 copyBtn.innerHTML = 'کپی شد! ✅';
                 showNotification('کد با موفقیت به کلیپ‌بورد کپی شد!');
@@ -1345,7 +1288,6 @@
             }, 2000);
         });
         
-        // ۴. دانلود فایل TXT
         downloadBtn.addEventListener('click', () => {
             const content = outputHtml.value;
             if (!content) {
@@ -1353,13 +1295,11 @@
                 return;
             }
             
-            // ایجاد BOM برای پشتیبانی از UTF-8 در ویندوز
             const BOM = '\uFEFF';
             const blob = new Blob([BOM + content], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             
             const now = new Date();
-            // تغییر تاریخ میلادی به شمسی
             const persianDate = now.toLocaleDateString('fa-IR'); 
             const fileName = `blog-post-${persianDate.replace(/\//g, '-')}.txt`;
             
@@ -1379,7 +1319,6 @@
             }, 2000);
         });
         
-        // تابع نمایش نوتیفیکیشن
         function showNotification(message) {
             const existingNotification = document.querySelector('.notification');
             if (existingNotification) {
@@ -1400,7 +1339,6 @@
             }, 3000);
         }
         
-        // اجرای اولیه برای اطمینان از صحت شماره‌گذاری
         checkEmptyBlocks();
     });
 </script>
