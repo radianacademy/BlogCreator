@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ابزار تولید پست بلاگ | ووکالت بلوک‌گذاری</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
         /*
         *************************************************
@@ -199,488 +199,572 @@
         }
 
         /* ------------------------------------------ */
-        /* بخش ۲: استایل‌های ابزار تولید کننده محتوا */
+        /* بخش ۲: استایل‌های ابزار تولید کننده محتوا (طراحی جدید) */
         /* ------------------------------------------ */
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
         body {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            background: #f8fafc;
             margin: 0;
-            font-family: 'Afont Regular', Tahoma, sans-serif;
+            color: #2d3748;
+            line-height: 1.8;
             min-height: 100vh;
-            padding: 20px 0;
+            padding: 0;
         }
 
         .content-builder-container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0;
-            background: transparent;
-            box-shadow: none;
+            width: 100%;
+            max-width: none;
+            margin: 0;
             direction: rtl;
             text-align: right;
         }
 
-        .header-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        .app-header {
+            background: #1a365d;
+            padding: 30px 20px;
+            color: white;
             text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
         }
 
-        .header-section::before {
+        .app-header h1 {
+            font-size: 32px;
+            margin: 0;
+            font-weight: 700;
+            color: white;
+        }
+
+        .app-header .description-text {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            color: #cbd5e0;
+        }
+
+        .app-body {
+            padding: 30px 20px;
+            background: #ffffff;
+        }
+
+        .tabs-container {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e2e8f0;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 15px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #718096;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            color: #1a365d;
+        }
+
+        .tab-button.active::after {
             content: '';
             position: absolute;
-            top: 0;
+            bottom: -2px;
             right: 0;
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(45deg, #105AC0, #D0191D);
-            border-radius: 50%;
-            transform: translate(50%, -50%);
-            opacity: 0.1;
+            width: 100%;
+            height: 3px;
+            background: #1a365d;
+            border-radius: 3px 3px 0 0;
         }
 
-        .header-section h1 {
-            font-family: 'Afont Black', sans-serif;
-            color: #105AC0;
-            font-size: 36px;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
+        .tab-button:hover {
+            color: #1a365d;
         }
 
-        .description-text {
-            color: #6c757d;
-            margin-bottom: 0;
-            font-size: 16px;
-            position: relative;
-            z-index: 1;
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .input-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
+            background: #f7fafc;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
         }
 
-        .input-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(45deg, #105AC0, #D0191D);
-            border-radius: 0 0 0 100%;
-            opacity: 0.1;
+        .input-section:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         .input-section h2 {
-            font-family: 'Afont Black', sans-serif;
-            color: #D0191D;
-            font-size: 24px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a365d;
             margin-top: 0;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #D0191D;
-            margin-bottom: 25px;
-            position: relative;
-            z-index: 1;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1a365d;
             display: flex;
             align-items: center;
         }
 
-        .input-section h2 i {
+        .input-section h2::before {
+            content: '';
+            display: inline-block;
+            width: 24px;
+            height: 24px;
             margin-left: 10px;
-            font-size: 20px;
+            background-size: contain;
+        }
+
+        .main-info-box h2::before {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%231a365d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14 2 14 8 20 8'/%3E%3Cline x1='16' y1='13' x2='8' y2='13'/%3E%3Cline x1='16' y1='17' x2='8' y2='17'/%3E%3Cpolyline points='10 9 9 9 8 9'/%3E%3C/svg%3E");
+        }
+
+        .content-blocks-box h2::before {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%231a365d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='9' y1='9' x2='15' y2='9'/%3E%3Cline x1='9' y1='15' x2='15' y2='15'/%3E%3C/svg%3E");
         }
 
         label {
             display: block;
-            font-weight: bold;
+            font-weight: 500;
             margin-top: 15px;
-            margin-bottom: 8px;
-            color: #343a40;
-            font-size: 15px;
-            position: relative;
-            z-index: 1;
+            margin-bottom: 5px;
+            color: #4a5568;
+            font-size: 14px;
         }
 
         input[type="text"], textarea {
             width: 100%;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid #ced4da;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 1px solid #e2e8f0;
             border-radius: 10px;
             box-sizing: border-box;
-            font-size: 16px;
-            font-family: 'Afont Regular', Tahoma, sans-serif;
+            font-size: 15px;
             transition: all 0.3s ease;
             resize: vertical;
-            background: rgba(255, 255, 255, 0.9);
         }
 
         input[type="text"]:focus, textarea:focus {
-            border-color: #105AC0;
+            border-color: #1a365d;
             outline: none;
-            box-shadow: 0 0 0 4px rgba(16, 90, 192, 0.2);
-            transform: translateY(-2px);
+            box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
         }
 
         /* استایل بلوک‌های محتوا */
         #content-blocks-area {
-            border: 2px dashed #ced4da;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            background: rgba(255, 255, 255, 0.7);
+            border: 2px dashed #cbd5e0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            background-color: #f7fafc;
             min-height: 100px;
             position: relative;
-            z-index: 1;
         }
 
         .content-block {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
-            border-radius: 12px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
             margin-bottom: 15px;
-            border-right: 5px solid #105AC0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-right: 4px solid #1a365d;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             position: relative;
             transition: all 0.3s ease;
         }
 
         .content-block:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
         }
 
         .content-block strong {
             display: block;
-            margin-bottom: 15px;
-            color: #105AC0;
-            font-family: 'Afont Black', sans-serif;
-            font-size: 16px;
+            margin-bottom: 10px;
+            color: #1a365d;
+            font-weight: 700;
         }
 
-        .remove-block-btn {
+        .block-controls {
             position: absolute;
-            left: 15px;
-            top: 15px;
-            background-color: #D0191D;
-            color: white;
+            left: 10px;
+            top: 10px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .block-control-btn {
+            background-color: #f7fafc;
+            color: #4a5568;
             border: none;
-            padding: 8px 12px;
-            border-radius: 8px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
             cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 14px;
         }
 
-        .remove-block-btn i {
-            margin-left: 5px;
-        }
-
-        .remove-block-btn:hover {
-            background-color: #a81417;
-            transform: scale(1.05);
+        .block-control-btn:hover {
+            background-color: #1a365d;
+            color: white;
+            transform: scale(1.1);
         }
 
         .add-block-buttons {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             flex-wrap: wrap;
             justify-content: flex-start;
-            position: relative;
-            z-index: 1;
+            margin-top: 20px;
         }
 
         .add-block-btn {
-            background: linear-gradient(45deg, #105AC0, #0d4a99);
+            background: #1a365d;
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
+            padding: 10px 15px;
+            border-radius: 50px;
             cursor: pointer;
-            font-family: 'Afont Regular', Tahoma, sans-serif;
-            font-size: 15px;
+            font-size: 14px;
+            font-weight: 500;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(16, 90, 192, 0.3);
-        }
-
-        .add-block-btn i {
-            margin-left: 8px;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(26, 54, 93, 0.2);
         }
 
         .add-block-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(16, 90, 192, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 54, 93, 0.3);
         }
 
-        /* دکمه‌های اصلی تولید و پیش نمایش */
-        #generate-btn, #preview-btn {
-            display: block;
-            width: 100%;
-            padding: 18px;
-            font-family: 'Afont Black', sans-serif;
-            font-size: 20px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
+        .action-buttons {
+            display: flex;
+            gap: 15px;
             margin-top: 30px;
-            margin-bottom: 20px;
+        }
+
+        #generate-btn, #preview-btn {
+            flex: 1;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
         #generate-btn {
-            background: linear-gradient(45deg, #28a745, #218838);
+            background: #2c5282;
             color: white;
-            box-shadow: 0 5px 20px rgba(40, 167, 69, 0.3);
+            box-shadow: 0 2px 8px rgba(44, 82, 130, 0.2);
         }
         
         #preview-btn {
-            background: linear-gradient(45deg, #105AC0, #0d4a99);
+            background: #1a365d;
             color: white;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 20px rgba(16, 90, 192, 0.3);
+            box-shadow: 0 2px 8px rgba(26, 54, 93, 0.2);
         }
 
-        #generate-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
-        }
-        
-        #preview-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(16, 90, 192, 0.4);
+        #generate-btn:hover, #preview-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         /* ناحیه خروجی */
         .output-section {
-            margin-top: 40px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .output-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(45deg, #105AC0, #D0191D);
-            border-radius: 0 0 100% 0;
-            opacity: 0.1;
+            margin-top: 30px;
         }
 
         .output-section h2 {
-            font-family: 'Afont Black', sans-serif;
-            color: #105AC0;
-            font-size: 24px;
-            margin-top: 0;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #105AC0;
-            margin-bottom: 25px;
-            position: relative;
-            z-index: 1;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a365d;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
         }
 
-        .output-section h2 i {
+        .output-section h2::before {
+            content: '';
+            display: inline-block;
+            width: 24px;
+            height: 24px;
             margin-left: 10px;
-            font-size: 20px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%231a365d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='16 18 22 12 16 6'/%3E%3Cpolyline points='8 6 2 12 8 18'/%3E%3C/svg%3E");
+            background-size: contain;
         }
 
         #output-html {
             height: 350px;
-            background-color: #e9ecef;
-            color: #212529;
-            font-family: monospace;
+            background-color: #f7fafc;
+            color: #2d3748;
+            font-family: 'Courier New', monospace;
             font-size: 14px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            margin-bottom: 20px;
-            padding: 20px;
+            white-space: pre;
+            word-wrap: normal;
+            overflow-wrap: normal;
+            margin-bottom: 15px;
+            padding: 15px;
             border-radius: 10px;
-            border: 1px solid #ced4da;
-            position: relative;
-            z-index: 1;
+            border: 1px solid #e2e8f0;
+            direction: ltr;
+            text-align: left;
+            line-height: 1.5;
         }
 
-        #copy-btn {
-            float: left;
-            background: linear-gradient(45deg, #D0191D, #a81417);
+        .output-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        #copy-btn, #download-btn {
+            background: #1a365d;
             color: white;
             border: none;
             padding: 12px 20px;
-            border-radius: 10px;
+            border-radius: 50px;
             cursor: pointer;
-            font-family: 'Afont Regular', Tahoma, sans-serif;
-            font-size: 15px;
+            font-weight: 500;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(208, 25, 29, 0.3);
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(26, 54, 93, 0.2);
         }
 
-        #copy-btn i {
-            margin-left: 8px;
-        }
-
-        #copy-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(208, 25, 29, 0.4);
+        #copy-btn:hover, #download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 54, 93, 0.3);
         }
         
         /* استایل باکس پیش نمایش */
         #preview-box {
-            min-height: 200px;
+            min-height: 400px;
             padding: 20px;
-            border: 2px solid #105AC0;
-            border-radius: 15px;
-            background-color: #fff;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            position: relative;
-            z-index: 1;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background-color: #f7fafc;
+            overflow: auto;
         }
         
         #preview-box .blog-post-widget {
             margin: 0;
             width: 100%;
-            max-height: 600px; 
-            overflow: auto;
             box-shadow: none;
             border: none;
             padding: 0;
         }
         
         #preview-box .blog-post-widget .container {
-             box-shadow: none;
+             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
              padding: 20px;
-             border: 1px solid #e9ecef;
+             border: 1px solid #e2e8f0;
         }
 
-        /* انیمیشن‌های اضافی */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* استایل برای حالت خالی بودن بلوک‌ها */
+        .empty-blocks-message {
+            text-align: center;
+            color: #a0aec0;
+            padding: 30px;
+            font-style: italic;
+        }
+
+        /* استایل برای حالت موفقیت */
+        .notification {
+            background-color: #f0fff4;
+            color: #22543d;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #9ae6b4;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* انیمیشن برای بلوک‌ها */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .content-block {
-            animation: fadeIn 0.5s ease;
+            animation: slideIn 0.3s ease;
         }
 
-        /* بهبود ریسپانسیو */
+        /* استایل برای حالت بارگذاری */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* رسپانسیو */
         @media (max-width: 768px) {
-            .content-builder-container {
-                width: 95%;
+            .app-header {
+                padding: 20px 15px;
             }
             
-            .header-section h1 {
-                font-size: 28px;
+            .app-header h1 {
+                font-size: 24px;
             }
             
-            .input-section h2, .output-section h2 {
-                font-size: 20px;
+            .app-body {
+                padding: 20px 15px;
             }
             
-            .add-block-btn {
-                padding: 10px 15px;
-                font-size: 14px;
+            .tabs-container {
+                overflow-x: auto;
             }
-        }
-
-        /* استایل برای حالت خالی بودن ناحیه بلوک‌ها */
-        #content-blocks-area:empty::after {
-            content: "برای شروع، بلوک‌های محتوا را با استفاده از دکمه‌های زیر اضافه کنید";
-            display: block;
-            text-align: center;
-            color: #6c757d;
-            font-style: italic;
-            padding: 20px;
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .add-block-buttons {
+                justify-content: center;
+            }
+            
+            .output-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="content-builder-container" dir="rtl">
-    <div class="header-section">
-        <h1><i class="fas fa-blog"></i> ابزار تولید پست بلاگ | ووکالت بلوک‌گذاری 📝</h1>
+    <div class="app-header">
+        <h1>ابزار تولید پست بلاگ | ووکالت بلوک‌گذاری 📝</h1>
         <p class="description-text">فیلدهای زیر را پر کنید و بلوک‌های محتوا را اضافه نمایید تا کد HTML نهایی پست بلاگ شما تولید شود.</p>
     </div>
-
-    <div class="input-section main-info-box">
-        <h2><i class="fas fa-info-circle"></i> اطلاعات اصلی پست</h2>
-        <label for="post-title">عنوان اصلی (H1):</label>
-        <input type="text" id="post-title" placeholder="عنوان اصلی پست">
-
-        <label for="post-subtitle">زیرعنوان (Subtitle):</label>
-        <input type="text" id="post-subtitle" placeholder="زیرعنوان یا توضیح کوتاه پست">
+    
+    <div class="app-body">
+        <div class="tabs-container">
+            <button class="tab-button active" data-tab="content">محتوا</button>
+            <button class="tab-button" data-tab="preview">پیش‌نمایش</button>
+            <button class="tab-button" data-tab="output">خروجی</button>
+        </div>
         
-        <label for="post-introduction">مقدمه (پاراگراف اول):</label>
-        <textarea id="post-introduction" placeholder="اولین پاراگراف پست که معمولاً چکیده‌ای از محتوا است را بنویسید..." rows="4"></textarea>
+        <div id="content-tab" class="tab-content active">
+            <div class="input-section main-info-box">
+                <h2>اطلاعات اصلی پست</h2>
+                <label for="post-title">عنوان اصلی (H1):</label>
+                <input type="text" id="post-title" placeholder="عنوان اصلی پست">
 
-        <label for="author-name">نام نویسنده:</label>
-        <input type="text" id="author-name" placeholder="نام نویسنده">
+                <label for="post-subtitle">زیرعنوان (Subtitle):</label>
+                <input type="text" id="post-subtitle" placeholder="زیرعنوان یا توضیح کوتاه پست">
+                
+                <label for="post-introduction">مقدمه (پاراگراف اول):</label>
+                <textarea id="post-introduction" placeholder="اولین پاراگراف پست که معمولاً چکیده‌ای از محتوا است را بنویسید..." rows="4"></textarea>
 
-        <label for="publish-date">تاریخ انتشار:</label>
-        <input type="text" id="publish-date" placeholder="مثال: ۱ آبان ۱۴۰۴">
-    </div>
+                <label for="author-name">نام نویسنده:</label>
+                <input type="text" id="author-name" placeholder="نام نویسنده">
 
-    <div class="input-section content-blocks-box">
-        <h2><i class="fas fa-cubes"></i> محتوای پست (بلوک‌ها)</h2>
-        <div id="content-blocks-area">
+                <label for="publish-date">تاریخ انتشار:</label>
+                <input type="text" id="publish-date" placeholder="مثال: ۱ آبان ۱۴۰۴">
             </div>
+
+            <div class="input-section content-blocks-box">
+                <h2>محتوای پست (بلوک‌ها)</h2>
+                <div id="content-blocks-area">
+                    <div class="empty-blocks-message">هنوز بلوکی اضافه نشده است. با استفاده از دکمه‌های زیر بلوک جدید اضافه کنید.</div>
+                </div>
+                
+                <div class="add-block-buttons">
+                    <button class="add-block-btn" data-type="paragraph">پاراگراف</button>
+                    <button class="add-block-btn" data-type="heading">عنوان (H2)</button>
+                    <button class="add-block-btn" data-type="ul">لیست عادی</button>
+                    <button class="add-block-btn" data-type="ol">لیست عددی</button>
+                    <button class="add-block-btn" data-type="figure">تصویر</button>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="preview-btn">مشاهده پیش‌نمایش زنده</button>
+                <button id="generate-btn">تولید کد HTML</button>
+            </div>
+        </div>
         
-        <div class="add-block-buttons">
-            <button class="add-block-btn" data-type="paragraph"><i class="fas fa-paragraph"></i> پاراگراف</button>
-            <button class="add-block-btn" data-type="heading"><i class="fas fa-heading"></i> عنوان (H2)</button>
-            <button class="add-block-btn" data-type="ul"><i class="fas fa-list-ul"></i> لیست عادی (UL)</button>
-            <button class="add-block-btn" data-type="ol"><i class="fas fa-list-ol"></i> لیست عددی (OL)</button>
-            <button class="add-block-btn" data-type="figure"><i class="fas fa-image"></i> تصویر</button>
+        <div id="preview-tab" class="tab-content">
+            <div id="preview-box">
+                <p style="text-align: center; color: #a0aec0; margin: 0;">برای مشاهده پیش‌نمایش، ابتدا محتوای خود را ایجاد کنید و سپس دکمه "مشاهده پیش‌نمایش زنده" را بزنید.</p>
+            </div>
         </div>
-    </div>
-    
-    <button id="preview-btn"><i class="fas fa-eye"></i> مشاهده پیش‌نمایش زنده 👁️</button>
-
-    <div class="output-section">
-        <h2><i class="fas fa-eye"></i> پیش‌نمایش زنده پست بلاگ</h2>
-        <div id="preview-box">
-            <p style="text-align: center; color: #6c757d; margin: 0;">برای مشاهده پیش‌نمایش، دکمه بالا را بزنید.</p>
+        
+        <div id="output-tab" class="tab-content">
+            <div class="output-section">
+                <h2>خروجی HTML (کد قابل کپی)</h2>
+                <textarea id="output-html" readonly placeholder="کد HTML نهایی شما اینجا ظاهر می‌شود..."></textarea>
+                <div class="output-buttons">
+                    <button id="copy-btn">کپی کردن کد</button>
+                    <button id="download-btn">دانلود فایل TXT</button>
+                </div>
+            </div>
         </div>
-    </div>
-    
-    <button id="generate-btn"><i class="fas fa-code"></i> تولید کد HTML قابل کپی 💾</button>
-
-    <div class="output-section">
-        <h2><i class="fas fa-code"></i> خروجی HTML (کد قابل کپی)</h2>
-        <textarea id="output-html" readonly placeholder="کد HTML نهایی شما اینجا ظاهر می‌شود..."></textarea>
-        <button id="copy-btn"><i class="fas fa-copy"></i> کپی کردن کد</button>
-        <div style="clear: both;"></div>
     </div>
 </div>
 
@@ -694,12 +778,42 @@
         const previewBtn = document.getElementById('preview-btn');
         const outputHtml = document.getElementById('output-html');
         const copyBtn = document.getElementById('copy-btn');
+        const downloadBtn = document.getElementById('download-btn');
         const addBlockBtns = document.querySelectorAll('.add-block-btn');
         const previewBox = document.getElementById('preview-box');
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
         let blockCounter = 0; 
+
+        // تابع شماره‌گذاری مجدد بلوک‌ها
+        function renumberBlocks() {
+            const blocks = contentBlocksArea.querySelectorAll('.content-block');
+            blocks.forEach((block, index) => {
+                const strongElement = block.querySelector('strong');
+                if (strongElement) {
+                    const type = block.getAttribute('data-type');
+                    let typeName = '';
+                    switch (type) {
+                        case 'paragraph': typeName = 'پاراگراف'; break;
+                        case 'heading': typeName = 'عنوان (H2)'; break;
+                        case 'ul': typeName = 'لیست عادی (UL)'; break;
+                        case 'ol': typeName = 'لیست عددی (OL)'; break;
+                        case 'figure': typeName = 'تصویر (Figure)'; break;
+                    }
+                    strongElement.textContent = `بلوک ${index + 1}: ${typeName}`;
+                }
+            });
+        }
 
         // تابع ساخت یک بلوک ورودی جدید
         function createBlock(type) {
+            // حذف پیام خالی بودن بلوک‌ها اگر وجود دارد
+            const emptyMessage = contentBlocksArea.querySelector('.empty-blocks-message');
+            if (emptyMessage) {
+                emptyMessage.remove();
+            }
+            
             blockCounter++;
             const block = document.createElement('div');
             block.className = `content-block ${type}-block`;
@@ -724,7 +838,7 @@
                 case 'ul':
                 case 'ol':
                     const listType = type === 'ul' ? 'عادی' : 'عددی';
-                    innerHtml = `<strong>بلوک ${blockCounter}: لیست ${listType} (${type.toUpperCase()})</strong><p style="font-size:12px;color:#777; margin-top: -10px; margin-bottom: 10px;">هر آیتم را در یک خط جدید بنویسید (با دکمه Enter).</p>`;
+                    innerHtml = `<strong>بلوک ${blockCounter}: لیست ${listType} (${type.toUpperCase()})</strong><p style="font-size:12px;color:#a0aec0; margin-top: -10px; margin-bottom: 10px;">هر آیتم را در یک خط جدید بنویسید (با دکمه Enter).</p>`;
                     inputField = document.createElement('textarea');
                     inputField.placeholder = 'آیتم اول\nآیتم دوم\nآیتم سوم';
                     inputField.rows = 4;
@@ -756,21 +870,90 @@
                 block.appendChild(inputField);
             }
 
+            // اضافه کردن دکمه‌های کنترل بلوک
+            const blockControls = document.createElement('div');
+            blockControls.className = 'block-controls';
+            
+            // دکمه جابجایی به بالا
+            const moveUpBtn = document.createElement('button');
+            moveUpBtn.className = 'block-control-btn move-up';
+            moveUpBtn.innerHTML = '↑';
+            moveUpBtn.title = 'جابجایی به بالا';
+            moveUpBtn.onclick = () => moveBlock(block, 'up');
+            
+            // دکمه جابجایی به پایین
+            const moveDownBtn = document.createElement('button');
+            moveDownBtn.className = 'block-control-btn move-down';
+            moveDownBtn.innerHTML = '↓';
+            moveDownBtn.title = 'جابجایی به پایین';
+            moveDownBtn.onclick = () => moveBlock(block, 'down');
+            
+            // دکمه حذف
             const removeBtn = document.createElement('button');
-            removeBtn.className = 'remove-block-btn';
-            removeBtn.innerHTML = '<i class="fas fa-trash"></i> حذف';
+            removeBtn.className = 'block-control-btn remove';
+            removeBtn.innerHTML = '×';
+            removeBtn.title = 'حذف بلوک';
             removeBtn.onclick = () => {
                 block.remove();
+                checkEmptyBlocks();
+                renumberBlocks();
             };
-            block.appendChild(removeBtn);
+            
+            blockControls.appendChild(moveUpBtn);
+            blockControls.appendChild(moveDownBtn);
+            blockControls.appendChild(removeBtn);
+            block.appendChild(blockControls);
 
             contentBlocksArea.appendChild(block);
+            
+            // شماره‌گذاری مجدد بلوک‌ها پس از اضافه کردن
+            setTimeout(() => renumberBlocks(), 10);
+        }
+        
+        // تابع جابجایی بلوک‌ها
+        function moveBlock(block, direction) {
+            const blocks = Array.from(contentBlocksArea.querySelectorAll('.content-block'));
+            const currentIndex = blocks.indexOf(block);
+            
+            if (direction === 'up' && currentIndex > 0) {
+                const prevBlock = blocks[currentIndex - 1];
+                contentBlocksArea.insertBefore(block, prevBlock);
+                renumberBlocks();
+            } else if (direction === 'down' && currentIndex < blocks.length - 1) {
+                const nextBlock = blocks[currentIndex + 1];
+                contentBlocksArea.insertBefore(nextBlock, block);
+                renumberBlocks();
+            }
+        }
+        
+        // تابع بررسی خالی بودن بلوک‌ها
+        function checkEmptyBlocks() {
+            const blocks = contentBlocksArea.querySelectorAll('.content-block');
+            if (blocks.length === 0) {
+                contentBlocksArea.innerHTML = '<div class="empty-blocks-message">هنوز بلوکی اضافه نشده است. با استفاده از دکمه‌های زیر بلوک جدید اضافه کنید.</div>';
+                blockCounter = 0;
+            }
         }
 
         // Handler برای دکمه‌های افزودن بلوک
         addBlockBtns.forEach(button => {
             button.addEventListener('click', () => {
                 createBlock(button.getAttribute('data-type'));
+            });
+        });
+        
+        // Handler برای تب‌ها
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetTab = button.getAttribute('data-tab');
+                
+                // غیرفعال کردن همه تب‌ها و محتواها
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // فعال کردن تب و محتوای مورد نظر
+                button.classList.add('active');
+                document.getElementById(`${targetTab}-tab`).classList.add('active');
             });
         });
 
@@ -830,19 +1013,181 @@
 
             let styleBlock = '';
             if (includeStyles) {
-                // دریافت CSS پست بلاگ (بخش ۱)
-                const cssStyles = document.querySelector('style').textContent;
-                // فیلتر کردن CSS برای فقط استایل‌های بلاگ
-                const postStylesMatch = cssStyles.match(/\/\*\s*------------------------------------------------\s*\*\/\s*[\s\S]*?\/\*\s*------------------------------------------------\s*\*\/\s*[\s\S]*?(?=\n\s*\/\*\s*------------------------------------------\s*\/\*)/m);
+                // استایل‌های ثابت برای خروجی
+                styleBlock = `<style>
+    .blog-post-widget {
+        font-family: 'Afont Regular', Tahoma, sans-serif;
+        color: #212529;
+        line-height: 1.8;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        width: 95%;
+        margin: 2% auto;
+        box-sizing: border-box;
+        direction: rtl; 
+    }
 
-                if (postStylesMatch) {
-                    styleBlock = `<style>\n${postStylesMatch[0].replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '').trim()}\n    </style>`;
-                }
+    .blog-post-widget .container {
+        width: 100%;
+        box-sizing: border-box;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 40px 60px;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        position: relative;
+    }
+
+    .blog-post-widget .title-box {
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        border: 1px solid #e9ecef;
+        padding: 30px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .blog-post-widget h1 {
+        color: #105AC0;
+        font-family: 'Afont Black', sans-serif;
+        font-size: 27px;
+        font-weight: 900;
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+
+    .blog-post-widget .subtitle {
+        color: #6c757d;
+        font-size: 16px;
+        margin-bottom: 0;
+        line-height: 1.6;
+    }
+
+    .blog-post-widget h2 {
+        font-family: 'Afont Black', sans-serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: #343a40;
+        margin: 40px 0 20px 0;
+        padding: 15px 20px;
+        background-color: #f8f9fa;
+        border-right: 5px solid #105AC0;
+        border-left: 5px solid #D0191D;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        line-height: 1.6;
+    }
+
+    .blog-post-widget p {
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+
+    .blog-post-widget figure {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    .blog-post-widget img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .blog-post-widget img:hover {
+        transform: scale(1.01); 
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    .blog-post-widget .author-date-box {
+        margin-top: 30px;
+        padding: 20px 30px;
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        border: 1px solid #e9ecef;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .blog-post-widget .author-info, .blog-post-widget .date-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .blog-post-widget .author-info strong, .blog-post-widget .date-info strong {
+        font-family: 'Afont Black', sans-serif;
+        color: #495057;
+        font-size: 0.9rem;
+    }
+
+    .blog-post-widget .author-info span, .blog-post-widget .date-info span {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    .blog-post-widget .author-info::before, .blog-post-widget .date-info::before {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-size: contain;
+    }
+
+    .blog-post-widget .author-info::before {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23105AC0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0-4-4H8a4 4 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E");
+    }
+
+    .blog-post-widget .date-info::before {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23D0191D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E");
+    }
+
+    .blog-post-widget ul,
+    .blog-post-widget ol {
+        margin: 15px 0 20px 0;
+        padding: 0;
+        list-style-position: inside;
+        padding-right: 20px;
+    }
+
+    .blog-post-widget li {
+        font-size: 15px;
+        margin-bottom: 10px;
+    }
+
+    @media (min-width: 769px) {
+        .blog-post-widget .container {
+            display: flex;
+            gap: 30px;
+            padding: 40px 40px;
+        }
+
+        .blog-post-widget .content-wrapper {
+            flex: 1;
+            width: 70%;
+        }
+
+        .blog-post-widget .author-date-box {
+            width: 25%;
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 0;
+            padding: 20px;
+        }
+    }
+</style>`;
             }
 
             // ساختار کامل HTML نهایی
-            return `
-<div class="blog-post-widget" dir="rtl">
+            return `<div class="blog-post-widget" dir="rtl">
     ${includeStyles ? styleBlock : ''}
 
     <div class="container">
@@ -866,22 +1211,63 @@
             </div>
         </div>
     </div>
-</div>
-            `.trim();
+</div>`;
         }
 
         // --- Handler های اصلی ---
 
         // ۱. تولید کد HTML (با استایل‌ها برای کپی)
         generateBtn.addEventListener('click', () => {
-            const finalHtml = generateFinalHtml(true);
-            outputHtml.value = finalHtml;
+            // نمایش انیمیشن بارگذاری
+            const originalText = generateBtn.innerHTML;
+            generateBtn.innerHTML = '<span class="loading"></span> در حال تولید کد...';
+            generateBtn.disabled = true;
+            
+            // شبیه‌سازی پردازش
+            setTimeout(() => {
+                const finalHtml = generateFinalHtml(true);
+                outputHtml.value = finalHtml;
+                
+                // بازگشت به حالت اولیه
+                generateBtn.innerHTML = originalText;
+                generateBtn.disabled = false;
+                
+                // نمایش پیام موفقیت
+                showNotification('کد HTML با موفقیت تولید شد!');
+                
+                // تغییر به تب خروجی
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                document.querySelector('[data-tab="output"]').classList.add('active');
+                document.getElementById('output-tab').classList.add('active');
+            }, 1000);
         });
         
         // ۲. پیش‌نمایش زنده 
         previewBtn.addEventListener('click', () => {
-            const previewContent = generateFinalHtml(false); 
-            previewBox.innerHTML = previewContent;
+            // نمایش انیمیشن بارگذاری
+            const originalText = previewBtn.innerHTML;
+            previewBtn.innerHTML = '<span class="loading"></span> در حال ساخت پیش‌نمایش...';
+            previewBtn.disabled = true;
+            
+            // شبیه‌سازی پردازش
+            setTimeout(() => {
+                const previewContent = generateFinalHtml(false); 
+                previewBox.innerHTML = previewContent;
+                
+                // بازگشت به حالت اولیه
+                previewBtn.innerHTML = originalText;
+                previewBtn.disabled = false;
+                
+                // نمایش پیام موفقیت
+                showNotification('پیش‌نمایش با موفقیت ایجاد شد!');
+                
+                // تغییر به تب پیش‌نمایش
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                document.querySelector('[data-tab="preview"]').classList.add('active');
+                document.getElementById('preview-tab').classList.add('active');
+            }, 1000);
         });
 
         // ۳. کپی کردن محتوا
@@ -891,22 +1277,85 @@
             try {
                 const successful = document.execCommand('copy');
                 if (successful) {
-                    copyBtn.innerHTML = '<i class="fas fa-check"></i> کپی شد! ✅';
+                    copyBtn.innerHTML = 'کپی شد! ✅';
+                    showNotification('کد با موفقیت به کلیپ‌بورد کپی شد!');
                 } else {
                     throw new Error('Fallback failed');
                 }
             } catch (err) {
                 navigator.clipboard.writeText(outputHtml.value).then(() => {
-                    copyBtn.innerHTML = '<i class="fas fa-check"></i> کپی شد! ✅';
+                    copyBtn.innerHTML = 'کپی شد! ✅';
+                    showNotification('کد با موفقیت به کلیپ‌بورد کپی شد!');
                 }).catch(() => {
-                    copyBtn.innerHTML = '<i class="fas fa-times"></i> خطا در کپی! ❌';
+                    copyBtn.innerHTML = 'خطا در کپی! ❌';
+                    showNotification('خطا در کپی کردن کد! لطفاً به صورت دستی کپی کنید.');
                 });
             }
 
             setTimeout(() => {
-                copyBtn.innerHTML = '<i class="fas fa-copy"></i> کپی کردن کد';
+                copyBtn.innerHTML = 'کپی کردن کد';
             }, 2000);
         });
+        
+        // ۴. دانلود فایل TXT
+        downloadBtn.addEventListener('click', () => {
+            const content = outputHtml.value;
+            if (!content) {
+                showNotification('ابتدا کد HTML را تولید کنید!');
+                return;
+            }
+            
+            // ایجاد BOM برای پشتیبانی از UTF-8 در ویندوز
+            const BOM = '\uFEFF';
+            const blob = new Blob([BOM + content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            
+            // ایجاد نام فایل با تاریخ فارسی
+            const now = new Date();
+            const persianDate = now.toLocaleDateString('fa-IR');
+            const fileName = `blog-post-${persianDate.replace(/\//g, '-')}.txt`;
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            downloadBtn.innerHTML = 'دانلود شد! ✅';
+            showNotification('فایل با موفقیت دانلود شد!');
+            
+            setTimeout(() => {
+                downloadBtn.innerHTML = 'دانلود فایل TXT';
+            }, 2000);
+        });
+        
+        // تابع نمایش نوتیفیکیشن
+        function showNotification(message) {
+            // حذف نوتیفیکیشن‌های قبلی اگر وجود دارد
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            // ایجاد نوتیفیکیشن جدید
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            
+            // اضافه کردن به بالای صفحه
+            document.querySelector('.app-body').prepend(notification);
+            
+            // حذف پس از 3 ثانیه
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
     });
 </script>
 
